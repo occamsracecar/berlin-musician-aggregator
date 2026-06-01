@@ -82,18 +82,25 @@ async function runScrape() {
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     locale: "de-DE",
   });
-  const page = await context.newPage();
   const failures = [];
 
   try {
     const scrapedEntries = [];
 
     for (const board of boards) {
+      const boardPage = await context.newPage();
       const scrapeOptions = {
         incremental,
         knownUrls: knownUrlsByBoard.get(board.id) ?? new Set(),
       };
-      scrapedEntries.push(...(await scrapeBoard(page, board, scrapeOptions, failures)));
+
+      try {
+        scrapedEntries.push(
+          ...(await scrapeBoard(boardPage, board, scrapeOptions, failures)),
+        );
+      } finally {
+        await boardPage.close();
+      }
     }
 
     if (!scrapedEntries.length) {

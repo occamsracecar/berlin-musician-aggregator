@@ -48,6 +48,8 @@
 | `scripts/boards/noisy-rooms.js` | `scrapeNoisyRooms()` | Scrapes noisy-rooms.com community |
 | `scripts/boards/backstagepro.js` | `buildListingUrl()` | Builds paginated Backstage PRO Berlin URL |
 | `scripts/boards/backstagepro.js` | `parseRubrikHint()` | Maps Backstage rubrik to listing type hint |
+| `scripts/boards/backstagepro.js` | `loadBackstageproPage()` | Loads index pages with retries until listings appear |
+| `scripts/boards/backstagepro.js` | `loadBackstageproDetailPage()` | Loads detail pages with retries for enrichment |
 | `scripts/boards/backstagepro.js` | `extractBackstageproDetailText()` | Parses Details and Werdegang from detail pages |
 | `scripts/boards/backstagepro.js` | `enrichBackstageproDetail()` | Fetches full text from backstagepro detail pages |
 | `scripts/boards/backstagepro.js` | `scrapeBackstagepro()` | Scrapes Berlin listings from backstagepro.de |

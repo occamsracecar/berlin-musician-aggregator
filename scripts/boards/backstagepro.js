@@ -6,6 +6,61 @@ const BOARD_NAME = "backstagepro.de";
 const BASE_URL =
   "https://www.backstagepro.de/musikersuche/region/berlin-berlin-de";
 const ORIGIN = "https://www.backstagepro.de";
+const LISTING_SELECTOR = ".media-object-section.pbody";
+const INDEX_WAIT_MS = 30000;
+const NAVIGATION_TIMEOUT_MS = 90000;
+
+/**
+ * Loads a Backstage PRO page and waits for listing blocks to appear.
+ */
+async function loadBackstageproPage(page, url, attempt = 1) {
+  const maxAttempts = 3;
+
+  try {
+    await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: NAVIGATION_TIMEOUT_MS,
+    });
+    await page.waitForSelector(LISTING_SELECTOR, {
+      timeout: INDEX_WAIT_MS,
+    });
+  } catch (error) {
+    if (attempt >= maxAttempts) {
+      throw error;
+    }
+
+    console.warn(
+      `[${BOARD_NAME}] page load retry ${attempt}/${maxAttempts - 1}: ${url}`,
+    );
+    await page.waitForTimeout(2000 * attempt);
+    return loadBackstageproPage(page, url, attempt + 1);
+  }
+}
+
+/**
+ * Loads a Backstage PRO detail page and waits for profile content.
+ */
+async function loadBackstageproDetailPage(page, url, attempt = 1) {
+  const maxAttempts = 3;
+
+  try {
+    await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: NAVIGATION_TIMEOUT_MS,
+    });
+    await page.waitForSelector("h3", { timeout: INDEX_WAIT_MS });
+  } catch (error) {
+    if (attempt >= maxAttempts) {
+      throw error;
+    }
+
+    console.warn(
+      `[${BOARD_NAME}] detail retry ${attempt}/${maxAttempts - 1}: ${url}`,
+    );
+    await page.waitForTimeout(2000 * attempt);
+    return loadBackstageproDetailPage(page, url, attempt + 1);
+  }
+}
 
 /**
  * Builds a paginated Backstage PRO Berlin listing URL.
@@ -113,10 +168,7 @@ function extractBackstageproDetailText() {
  * Fetches full listing text from a Backstage PRO detail page.
  */
 async function enrichBackstageproDetail(page, entry) {
-  await page.goto(entry.original_url, {
-    waitUntil: "networkidle",
-    timeout: 60000,
-  });
+  await loadBackstageproDetailPage(page, entry.original_url);
 
   const extra = await page.evaluate(extractBackstageproDetailText);
   const parts = [
@@ -142,11 +194,11 @@ async function scrapeBackstagepro(page, options = {}) {
 
   while (true) {
     const url = buildListingUrl(pageIndex);
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 90000 });
-    await page.waitForTimeout(1500);
+    await loadBackstageproPage(page, url);
 
-    const items = await page.evaluate(() =>
-      [...document.querySelectorAll(".media-object-section.pbody")]
+    const items = await page.evaluate(
+      (listingSelector) =>
+        [...document.querySelectorAll(listingSelector)]
         .map((block) => {
           const anchor = block.querySelector('h2.resource-title a[href*="/musikerkontakt/"]');
           if (!anchor) {
@@ -175,6 +227,7 @@ async function scrapeBackstagepro(page, options = {}) {
           };
         })
         .filter(Boolean),
+      LISTING_SELECTOR,
     );
 
     if (!items.length) {
@@ -219,8 +272,8 @@ async function scrapeBackstagepro(page, options = {}) {
 
     await enrichEntriesInParallel(page.context(), entries, enrichBackstageproDetail, {
       boardLabel: `${BOARD_NAME} details`,
-      concurrency: 4,
-      logEvery: 50,
+      concurrency: 2,
+      logEvery: 25,
     });
   }
 
@@ -230,6 +283,8 @@ async function scrapeBackstagepro(page, options = {}) {
 
 module.exports = {
   scrapeBackstagepro,
+  loadBackstageproPage,
+  loadBackstageproDetailPage,
   enrichBackstageproDetail,
   extractBackstageproDetailText,
   buildListingUrl,

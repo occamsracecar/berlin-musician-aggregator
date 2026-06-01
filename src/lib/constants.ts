@@ -7,7 +7,7 @@ export const BOARDS = [
   { value: "community", label: "Community" },
 ] as const;
 
-/** Lower numbers appear first in default browse sort. */
+/** Lower numbers break ties when listings share the same published_at. */
 export const BOARD_SORT_PRIORITY: Record<string, number> = {
   "noisy-rooms.com": 1,
   "backstagepro.de": 2,
@@ -68,6 +68,30 @@ export type ListingFiltersState = {
  */
 export function getBoardLabel(boardName: string): string {
   return BOARDS.find((board) => board.value === boardName)?.label ?? boardName;
+}
+
+/**
+ * Returns the hostname used to resolve a board favicon, or null for community listings.
+ */
+export function getBoardFaviconHost(boardName: string): string | null {
+  if (boardName === "community") {
+    return null;
+  }
+
+  return boardName;
+}
+
+/**
+ * Returns a favicon URL for a board slug, or null when no external site applies.
+ */
+export function getBoardFaviconUrl(boardName: string): string | null {
+  const host = getBoardFaviconHost(boardName);
+
+  if (!host) {
+    return null;
+  }
+
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=32`;
 }
 
 /**

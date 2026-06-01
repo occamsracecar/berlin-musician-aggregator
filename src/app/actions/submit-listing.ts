@@ -2,7 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
-import { detectGenres } from "@/lib/classify";
+import { mergeListingGenres, parseSubmittedGenres } from "@/lib/classify";
 import { createSupabaseClient } from "@/lib/supabase/client";
 
 export type SubmitListingState = {
@@ -26,6 +26,7 @@ export async function submitListing(
   const description = String(formData.get("description") ?? "").trim();
   const listingType = String(formData.get("listing_type") ?? "").trim();
   const contactUrl = String(formData.get("contact_url") ?? "").trim();
+  const selectedGenres = parseSubmittedGenres(formData.getAll("genres"));
 
   if (!title || title.length > MAX_TITLE_LENGTH) {
     return {
@@ -63,7 +64,7 @@ export async function submitListing(
   }
 
   const supabase = createSupabaseClient();
-  const genres = detectGenres(title, description);
+  const genres = mergeListingGenres(selectedGenres, title, description);
 
   const { error } = await supabase.from("entries").insert({
     board_name: COMMUNITY_BOARD,

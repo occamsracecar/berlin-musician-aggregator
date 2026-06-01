@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import { getBoardLabel, getListingTypeLabel, isRecentListing } from "@/lib/constants";
+import { BoardTag } from "@/components/BoardTag";
 import { ListingNewBadge } from "@/components/ListingNewBadge";
+import { getListingTypeLabel, isRecentListing } from "@/lib/constants";
 import type { Entry } from "@/types/entry";
 
 type ListingDetailDialogProps = {
@@ -82,9 +83,7 @@ export function ListingDetailDialog({
         <div className="flex items-start justify-between gap-4 border-b border-zinc-100 px-5 py-4 sm:px-6">
           <div className="min-w-0 flex-1">
             <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-              <span className="rounded-full bg-violet-50 px-2.5 py-1 font-medium text-violet-700">
-                {getBoardLabel(entry.board_name)}
-              </span>
+              <BoardTag boardName={entry.board_name} />
               {listingTypeLabel ? (
                 <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-medium text-zinc-700">
                   {listingTypeLabel}

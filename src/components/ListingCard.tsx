@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { BoardTag } from "@/components/BoardTag";
 import { ListingDetailDialog } from "@/components/ListingDetailDialog";
 import { ListingNewBadge } from "@/components/ListingNewBadge";
-import { getBoardLabel, getListingTypeLabel, isRecentListing } from "@/lib/constants";
+import { getListingTypeLabel, isRecentListing } from "@/lib/constants";
 import type { Entry } from "@/types/entry";
 
 /**
@@ -31,9 +32,7 @@ export function ListingCard({ entry }: { entry: Entry }) {
     <>
       <article className="flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-violet-200 hover:shadow-md">
         <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-          <span className="rounded-full bg-violet-50 px-2.5 py-1 font-medium text-violet-700">
-            {getBoardLabel(entry.board_name)}
-          </span>
+          <BoardTag boardName={entry.board_name} />
           {listingTypeLabel ? (
             <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-medium text-zinc-700">
               {listingTypeLabel}

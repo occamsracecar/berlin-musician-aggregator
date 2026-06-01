@@ -10,10 +10,16 @@
 | `src/app/submit/page.tsx` | `SubmitPage()` | Community listing submission page |
 | `src/app/actions/submit-listing.ts` | `submitListing()` | Server action to validate and insert community listings |
 | `src/lib/supabase/client.ts` | `createSupabaseClient()` | Creates Supabase client for frontend reads |
+| `src/lib/classify.ts` | `parseSubmittedGenres()` | Validates genre tags from submit form |
+| `src/lib/classify.ts` | `mergeListingGenres()` | Merges selected and auto-detected genre tags |
 | `src/lib/classify.ts` | `detectGenres()` | Tags genres from listing text on submit |
 | `src/lib/search.ts` | `parseSearchTokens()` | Normalizes query words for order-free search |
 | `src/lib/search.ts` | `buildSearchOrFilter()` | PostgREST OR filter for compact phrase or all words in any order |
 | `src/lib/constants.ts` | `getBoardLabel()` | Maps board slug to friendly label |
+| `src/lib/constants.ts` | `getBoardFaviconHost()` | Hostname for board favicon lookup |
+| `src/lib/constants.ts` | `getBoardFaviconUrl()` | Favicon URL for a board slug |
+| `src/components/BoardTag.tsx` | `BoardTag()` | Board pill with favicon and label |
+| `src/components/BoardTag.tsx` | `CommunityBoardIcon()` | Inline icon for community listings |
 | `src/lib/constants.ts` | `getListingTypeLabel()` | Maps listing type to friendly label |
 | `src/lib/constants.ts` | `parseListingPage()` | Parses a 1-based page number from URL params |
 | `src/lib/constants.ts` | `getTimeFilterStart()` | Returns earliest date for a time filter |
@@ -41,6 +47,7 @@
 | `scripts/lib/classify.js` | `detectGenres()` | Tags genres from listing text |
 | `scripts/lib/classify.js` | `scoreListingType()` | Weighted band vs musician signal scoring |
 | `scripts/lib/classify.js` | `detectListingType()` | Infers listing type from title and description |
+| `scripts/lib/date-utils.js` | `parseBandmixActivityDate()` | Maps Bandmix “Aktiv …” labels to estimated last-active dates |
 | `scripts/lib/classify.js` | `classifyEntry()` | Adds genres and listing_type to entries |
 | `scripts/lib/parallel-enrich.js` | `enrichEntriesInParallel()` | Fetches full listing text in parallel browser tabs |
 | `scripts/boards/berlinmusiker.js` | `scrapeBerlinmusiker()` | Scrapes Berlinmusiker with category hints |
@@ -69,7 +76,10 @@
 | `supabase/migrations/20260530120000_create_entries.sql` | Creates `entries` table |
 | `supabase/migrations/20260531130000_add_entry_classification.sql` | Adds `listing_type` and `genres` columns |
 | `supabase/migrations/20260531140000_add_community_submissions.sql` | Adds `contact_url` and community insert policy |
-| `supabase/migrations/20260531150000_add_board_priority.sql` | Adds generated `board_priority` for browse sort order |
+| `supabase/migrations/20260531150000_add_board_priority.sql` | Adds generated `board_priority` for browse tie-breakers |
+| `supabase/migrations/20260601130000_reindex_entries_by_date.sql` | Index for date-first browse sort (board_priority secondary) |
+| `supabase/migrations/20260601140000_fix_bandmix_published_at.sql` | Backfill Bandmix published_at from activity labels |
+| `supabase/migrations/20260601150000_deprioritize_bandmix_dates.sql` | Subtract 7 days from all Bandmix published_at values |
 | `supabase/migrations/20260601120000_add_search_blob.sql` | Adds space-insensitive `search_blob` for generous text search |
 
 ## Automation

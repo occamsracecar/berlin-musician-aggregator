@@ -74,4 +74,35 @@ function parseGermanListingDate(rawDate) {
   return null;
 }
 
-module.exports = { parseGermanListingDate };
+/** Bandmix activity labels mapped to approximate days since last activity (+7d deprioritize). */
+const BANDMIX_ACTIVITY_DAYS_AGO = [
+  { pattern: /innerhalb\s+24\s+stunden/i, daysAgo: 8 },
+  { pattern: /während der letzten woche|letzte\s+woche/i, daysAgo: 14 },
+  { pattern: /letzten\s+2\s+wochen/i, daysAgo: 21 },
+  { pattern: /innerhalb\s+eines\s+monats/i, daysAgo: 37 },
+  { pattern: /vor\s+mehr\s+als\s+einem\s+monat/i, daysAgo: 97 },
+];
+
+/**
+ * Estimates last-active date from Bandmix "Aktiv …" labels (not calendar dates).
+ */
+function parseBandmixActivityDate(rawActivity, referenceDate = new Date()) {
+  if (!rawActivity?.trim()) {
+    return null;
+  }
+
+  const normalized = rawActivity.trim();
+
+  for (const { pattern, daysAgo } of BANDMIX_ACTIVITY_DAYS_AGO) {
+    if (pattern.test(normalized)) {
+      const estimated = new Date(referenceDate);
+      estimated.setDate(estimated.getDate() - daysAgo);
+      estimated.setUTCHours(12, 0, 0, 0);
+      return estimated.toISOString();
+    }
+  }
+
+  return null;
+}
+
+module.exports = { parseGermanListingDate, parseBandmixActivityDate };

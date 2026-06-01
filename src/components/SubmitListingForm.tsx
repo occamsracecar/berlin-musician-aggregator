@@ -5,7 +5,8 @@ import {
   submitListing,
   type SubmitListingState,
 } from "@/app/actions/submit-listing";
-import { LISTING_TYPES } from "@/lib/constants";
+import { GENRES, LISTING_TYPES } from "@/lib/constants";
+import { MAX_LISTING_GENRE_TAGS } from "@/lib/classify";
 
 const initialState: SubmitListingState = {
   success: false,
@@ -49,6 +50,35 @@ export function SubmitListingForm() {
           className={`${inputClassName} resize-y`}
         />
       </label>
+
+      <fieldset className="flex flex-col gap-2 text-sm">
+        <legend className="font-medium text-zinc-700">
+          Tags{" "}
+          <span className="font-normal text-zinc-500">
+            (optional, up to {MAX_LISTING_GENRE_TAGS})
+          </span>
+        </legend>
+        <p className="text-xs text-zinc-500">
+          Pick genres that fit your listing. Matching tags from your description
+          may be added automatically.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {GENRES.map((genre) => (
+            <label
+              key={genre}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-medium text-zinc-700 transition has-[:checked]:border-violet-300 has-[:checked]:bg-violet-50 has-[:checked]:text-violet-800"
+            >
+              <input
+                type="checkbox"
+                name="genres"
+                value={genre}
+                className="size-3.5 rounded border-zinc-300 text-violet-600 focus:ring-violet-500"
+              />
+              {genre}
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       <label className="flex flex-col gap-1.5 text-sm">
         <span className="font-medium text-zinc-700">Listing type</span>

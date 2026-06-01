@@ -1,3 +1,4 @@
+const { parseBandmixActivityDate } = require("../lib/date-utils");
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
 const { isKnownListing } = require("../lib/scrape-context");
 
@@ -238,7 +239,7 @@ function finalizeEntry(profile, originalUrl) {
     title: buildTitle(profile),
     description: buildDescription(profile),
     original_url: originalUrl,
-    published_at: new Date().toISOString(),
+    published_at: parseBandmixActivityDate(profile.activity),
     listing_type_hint: parseListingTypeHint(profile),
   };
 }

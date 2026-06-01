@@ -1,4 +1,5 @@
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
+const { isKnownListing } = require("../lib/scrape-context");
 
 const BOARD_NAME = "noisy-rooms.com";
 const BASE_URL = "https://noisy-rooms.com/en/community";
@@ -91,7 +92,8 @@ async function enrichNoisyRoomsDetail(page, entry) {
 /**
  * Scrapes musician listings from noisy-rooms.com community board.
  */
-async function scrapeNoisyRooms(page) {
+async function scrapeNoisyRooms(page, options = {}) {
+  const { incremental = false, knownUrls = new Set() } = options;
   const entries = [];
   let pageIndex = 0;
 
@@ -123,12 +125,19 @@ async function scrapeNoisyRooms(page) {
       break;
     }
 
+    let newOnPage = 0;
+
     for (const item of items) {
       const originalUrl = normalizeListingUrl(item.href);
       if (!originalUrl) {
         continue;
       }
 
+      if (isKnownListing(knownUrls, incremental, originalUrl)) {
+        continue;
+      }
+
+      newOnPage += 1;
       entries.push({
         board_name: BOARD_NAME,
         title: item.title,
@@ -138,12 +147,15 @@ async function scrapeNoisyRooms(page) {
       });
     }
 
+    if (incremental && newOnPage === 0) {
+      console.log(`[${BOARD_NAME}] index page ${pageIndex}: no new listings, stopping`);
+      break;
+    }
+
     pageIndex += 1;
   }
 
-  const needsDetail = entries.filter((entry) =>
-    isTruncated(entry.description),
-  );
+  const needsDetail = entries.filter((entry) => isTruncated(entry.description));
 
   if (needsDetail.length) {
     console.log(

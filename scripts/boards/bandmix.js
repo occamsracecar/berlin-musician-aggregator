@@ -1,4 +1,5 @@
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
+const { isKnownListing } = require("../lib/scrape-context");
 
 const BOARD_NAME = "bandmix.de";
 const BASE_URL = "https://www.bandmix.de/berlin/";
@@ -245,7 +246,8 @@ function finalizeEntry(profile, originalUrl) {
 /**
  * Scrapes Berlin musician profiles from bandmix.de.
  */
-async function scrapeBandmix(page) {
+async function scrapeBandmix(page, options = {}) {
+  const { incremental = false, knownUrls = new Set() } = options;
   const pending = [];
   const seenSlugs = new Set();
   let pageIndex = 1;
@@ -265,6 +267,10 @@ async function scrapeBandmix(page) {
         continue;
       }
 
+      if (isKnownListing(knownUrls, incremental, originalUrl)) {
+        continue;
+      }
+
       seenSlugs.add(slug);
       newProfiles += 1;
 
@@ -275,13 +281,21 @@ async function scrapeBandmix(page) {
     }
 
     if (newProfiles === 0) {
+      if (incremental && pageIndex === 1) {
+        console.log(`[${BOARD_NAME}] no new profiles on first page`);
+      }
       break;
     }
 
     pageIndex += 1;
   }
 
-  console.log(`[${BOARD_NAME}] ${pending.length} profiles found, fetching full text...`);
+  if (!pending.length) {
+    console.log(`[${BOARD_NAME}] 0 new listings`);
+    return [];
+  }
+
+  console.log(`[${BOARD_NAME}] ${pending.length} new profiles, fetching full text...`);
 
   await enrichEntriesInParallel(page.context(), pending, enrichBandmixDetail, {
     boardLabel: BOARD_NAME,

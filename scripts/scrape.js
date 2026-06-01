@@ -6,6 +6,10 @@ const { scrapeBackstagepro } = require("./boards/backstagepro");
 const { scrapeBandmix } = require("./boards/bandmix");
 const { classifyEntry } = require("./lib/classify");
 const {
+  isIncrementalScrape,
+  loadKnownUrlsByBoard,
+} = require("./lib/scrape-context");
+const {
   createScraperSupabaseClient,
   upsertEntries,
 } = require("./lib/supabase");
@@ -22,11 +26,11 @@ const BOARD_SCRAPERS = [
 /**
  * Runs a single board scraper and returns its entries, logging failures without aborting others.
  */
-async function scrapeBoard(page, board, failures) {
+async function scrapeBoard(page, board, scrapeOptions, failures) {
   console.log(`\n=== ${board.id} ===`);
 
   try {
-    const entries = await board.scrape(page);
+    const entries = await board.scrape(page, scrapeOptions);
     console.log(`[${board.id}] scraped ${entries.length} listings`);
     return entries;
   } catch (error) {
@@ -42,6 +46,7 @@ async function scrapeBoard(page, board, failures) {
  */
 async function runScrape() {
   const supabase = createScraperSupabaseClient();
+  const incremental = isIncrementalScrape();
   const boardFilter = process.env.SCRAPE_BOARD?.trim();
   const boards = boardFilter
     ? BOARD_SCRAPERS.filter((board) => board.id === boardFilter)
@@ -51,6 +56,21 @@ async function runScrape() {
     throw new Error(
       `Unknown SCRAPE_BOARD "${boardFilter}". Use one of: ${BOARD_SCRAPERS.map((board) => board.id).join(", ")}`,
     );
+  }
+
+  let knownUrlsByBoard = new Map();
+
+  if (incremental) {
+    knownUrlsByBoard = await loadKnownUrlsByBoard(supabase);
+    const totalKnown = [...knownUrlsByBoard.values()].reduce(
+      (sum, urls) => sum + urls.size,
+      0,
+    );
+    console.log(
+      `Incremental scrape: ${totalKnown} known URLs loaded from database`,
+    );
+  } else {
+    console.log("Full scrape: fetching all listings from every board");
   }
 
   const browser = await chromium.launch({
@@ -69,15 +89,22 @@ async function runScrape() {
     const scrapedEntries = [];
 
     for (const board of boards) {
-      scrapedEntries.push(...(await scrapeBoard(page, board, failures)));
+      const scrapeOptions = {
+        incremental,
+        knownUrls: knownUrlsByBoard.get(board.id) ?? new Set(),
+      };
+      scrapedEntries.push(...(await scrapeBoard(page, board, scrapeOptions, failures)));
     }
 
     if (!scrapedEntries.length) {
-      throw new Error(
-        failures.length
-          ? `No listings scraped. Failures: ${failures.map((item) => item.board).join(", ")}`
-          : "No listings scraped.",
-      );
+      if (failures.length) {
+        throw new Error(
+          `No listings scraped. Failures: ${failures.map((item) => item.board).join(", ")}`,
+        );
+      }
+
+      console.log("\nNo new listings found.");
+      return;
     }
 
     const classifiedEntries = scrapedEntries.map(classifyEntry);

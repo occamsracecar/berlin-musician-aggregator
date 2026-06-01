@@ -1,5 +1,6 @@
 const { parseGermanListingDate } = require("../lib/date-utils");
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
+const { isKnownListing } = require("../lib/scrape-context");
 
 const BOARD_NAME = "musiker-sucht.de";
 const LISTING_URL = "https://www.musiker-sucht.de/index.php/stadt/berlin";
@@ -113,7 +114,8 @@ async function enrichMusikerSuchtDetail(page, entry) {
 /**
  * Scrapes Berlin listings from musiker-sucht.de.
  */
-async function scrapeMusikerSucht(page) {
+async function scrapeMusikerSucht(page, options = {}) {
+  const { incremental = false, knownUrls = new Set() } = options;
   await page.goto(LISTING_URL, { waitUntil: "networkidle", timeout: 60000 });
 
   const cards = await page.evaluate(() =>
@@ -133,6 +135,10 @@ async function scrapeMusikerSucht(page) {
     seen.add(card.href);
 
     const parsed = parseCardText(card.cardText.replace(/\s+/g, " ").trim());
+
+    if (isKnownListing(knownUrls, incremental, card.href)) {
+      continue;
+    }
 
     entries.push({
       board_name: BOARD_NAME,

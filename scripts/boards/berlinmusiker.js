@@ -1,4 +1,5 @@
 const { parseGermanListingDate } = require("../lib/date-utils");
+const { isKnownListing } = require("../lib/scrape-context");
 
 const BOARD_NAME = "berlinmusiker.de";
 const BASE_URL = "https://www.berlinmusiker.de/anzeigen/start/anzeigen.html";
@@ -53,7 +54,8 @@ function parseListItem(item, categoryId) {
 /**
  * Scrapes one Berlinmusiker category across all available pages.
  */
-async function scrapeBerlinmusikerCategory(page, categoryId) {
+async function scrapeBerlinmusikerCategory(page, categoryId, options = {}) {
+  const { incremental = false, knownUrls = new Set() } = options;
   const entries = [];
   let pageIndex = 0;
 
@@ -75,11 +77,25 @@ async function scrapeBerlinmusikerCategory(page, categoryId) {
       break;
     }
 
+    let newOnPage = 0;
+
     for (const item of items) {
       const entry = parseListItem(item, categoryId);
-      if (entry) {
-        entries.push(entry);
+      if (!entry) {
+        continue;
       }
+
+      if (isKnownListing(knownUrls, incremental, entry.original_url)) {
+        continue;
+      }
+
+      newOnPage += 1;
+      entries.push(entry);
+    }
+
+    if (incremental && newOnPage === 0) {
+      console.log(`[${BOARD_NAME}] index page ${pageIndex}: no new listings, stopping`);
+      break;
     }
 
     pageIndex += 1;
@@ -91,8 +107,8 @@ async function scrapeBerlinmusikerCategory(page, categoryId) {
 /**
  * Scrapes all Berlinmusiker listings once (categories share the same pool).
  */
-async function scrapeBerlinmusiker(page) {
-  const entries = await scrapeBerlinmusikerCategory(page, 2);
+async function scrapeBerlinmusiker(page, options = {}) {
+  const entries = await scrapeBerlinmusikerCategory(page, 2, options);
   console.log(`[${BOARD_NAME}] ${entries.length} listings`);
   return entries;
 }

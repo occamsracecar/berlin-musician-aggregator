@@ -10,6 +10,11 @@ on:
         description: "Optional single board (e.g. bandmix.de). Leave empty for all boards."
         required: false
         type: string
+      full_scrape:
+        description: "Re-scrape every listing (slow, ~30–60 min). Default is new listings only."
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: daily-scrape
@@ -34,17 +39,17 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run scraper (all boards)
+      - name: Run scraper
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SCRAPE_BOARD: ${{ github.event.inputs.board }}
+          SCRAPE_INCREMENTAL: ${{ github.event.inputs.full_scrape != 'true' && 'true' || 'false' }}
         run: npm run scrape
 
       - name: Scrape summary
         if: always()
         run: |
-          echo "Daily scrape finished at $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
-          echo "Boards: berlinmusiker.de, musiker-sucht.de, noisy-rooms.com, backstagepro.de, bandmix.de"
-          echo "New listings are upserted by original_url (existing rows are updated)."
+          echo "Finished at $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo "Mode: ${{ github.event.inputs.full_scrape == 'true' && 'full' || 'incremental (new listings only)' }}"

@@ -16,11 +16,21 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scraping
 
-Scrape all boards and upsert into Supabase (new listings are inserted; existing URLs are updated):
+**Daily GitHub Action (default):** only **new** listings — skips URLs already in the database and stops each board’s index crawl when it hits a page of known listings. Usually a few minutes unless many new posts appeared.
+
+**Full scrape** (all boards, all detail pages, ~30–60 min):
 
 ```bash
-npm run scrape
+npm run scrape:full
 ```
+
+**Incremental scrape** (same as daily cron):
+
+```bash
+SCRAPE_INCREMENTAL=true npm run scrape
+```
+
+**Default local run** (`npm run scrape`) still scrapes everything for development.
 
 Scrape one board only:
 
@@ -30,26 +40,11 @@ SCRAPE_BOARD=backstagepro.de npm run scrape
 
 Boards: `berlinmusiker.de`, `musiker-sucht.de`, `noisy-rooms.com`, `backstagepro.de`, `bandmix.de`.
 
-A full run takes about 20–40 minutes (Bandmix and Noisy Rooms fetch detail pages).
-
 ## Daily automated scrape
 
-GitHub Actions runs **every day at 06:00 UTC** (`.github/workflows/scrape.yml`):
+GitHub Actions runs **every day at 06:00 UTC** in **incremental** mode (new listings only).
 
-1. Installs dependencies and Playwright Chromium
-2. Runs `npm run scrape` for **all five boards**
-3. Upserts rows on `original_url` so new listings are always added
-
-### One-time setup (GitHub repo)
-
-1. Push this repo to GitHub.
-2. In the repo: **Settings → Secrets and variables → Actions → New repository secret**
-   - `SUPABASE_URL` — your project URL (same as `NEXT_PUBLIC_SUPABASE_URL`)
-   - `SUPABASE_SERVICE_ROLE_KEY` — service role key (not the anon key)
-3. **Actions** tab → enable workflows if prompted.
-4. Run **Scrape musician listings** manually once via **Run workflow** to verify.
-
-If one board fails (timeout, site change), the workflow still upserts the other boards and exits with a warning.
+Manual run in GitHub: **Actions → Scrape musician listings → Run workflow**. Leave **full scrape** unchecked for a fast daily-style run; check it only when you need to refresh every listing.
 
 ## Deploy frontend
 

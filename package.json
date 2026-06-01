@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "scrape": "node scripts/scrape.js",
+    "scrape:full": "SCRAPE_FULL=true node scripts/scrape.js",
     "scrape:noisy-rooms": "SCRAPE_BOARD=noisy-rooms.com node scripts/scrape.js",
     "scrape:remaining": "SCRAPE_BOARD=berlinmusiker.de node scripts/scrape.js && SCRAPE_BOARD=musiker-sucht.de node scripts/scrape.js && SCRAPE_BOARD=backstagepro.de node scripts/scrape.js && SCRAPE_BOARD=bandmix.de node scripts/scrape.js"
   },

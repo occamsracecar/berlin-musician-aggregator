@@ -31,6 +31,8 @@
 | File | Symbol | Description |
 |------|--------|-------------|
 | `scripts/scrape.js` | `runScrape()` | Main entry: runs all board scrapers and upserts |
+| `scripts/lib/scrape-context.js` | `isIncrementalScrape()` | Whether to skip listings already in the database |
+| `scripts/lib/scrape-context.js` | `loadKnownUrlsByBoard()` | Loads existing URLs per board for incremental scrapes |
 | `scripts/scrape.js` | `scrapeBoard()` | Runs one board scraper; logs errors without stopping others |
 | `scripts/lib/supabase.js` | `createScraperSupabaseClient()` | Admin Supabase client for scraper |
 | `scripts/lib/supabase.js` | `upsertEntries()` | Batched upserts on `original_url` conflict |

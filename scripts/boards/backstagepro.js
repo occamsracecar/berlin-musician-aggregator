@@ -1,5 +1,6 @@
 const { parseGermanListingDate } = require("../lib/date-utils");
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
+const { isKnownListing } = require("../lib/scrape-context");
 
 const BOARD_NAME = "backstagepro.de";
 const BASE_URL =
@@ -134,13 +135,15 @@ async function enrichBackstageproDetail(page, entry) {
 /**
  * Scrapes Berlin musician listings from backstagepro.de.
  */
-async function scrapeBackstagepro(page) {
+async function scrapeBackstagepro(page, options = {}) {
+  const { incremental = false, knownUrls = new Set() } = options;
   const entries = [];
   let pageIndex = 1;
 
   while (true) {
     const url = buildListingUrl(pageIndex);
-    await page.goto(url, { waitUntil: "networkidle", timeout: 60000 });
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await page.waitForTimeout(1500);
 
     const items = await page.evaluate(() =>
       [...document.querySelectorAll(".media-object-section.pbody")]
@@ -178,12 +181,19 @@ async function scrapeBackstagepro(page) {
       break;
     }
 
+    let newOnPage = 0;
+
     for (const item of items) {
       const originalUrl = normalizeListingUrl(item.href);
       if (!originalUrl) {
         continue;
       }
 
+      if (isKnownListing(knownUrls, incremental, originalUrl)) {
+        continue;
+      }
+
+      newOnPage += 1;
       entries.push({
         board_name: BOARD_NAME,
         title: item.title,
@@ -194,12 +204,17 @@ async function scrapeBackstagepro(page) {
       });
     }
 
+    if (incremental && newOnPage === 0) {
+      console.log(`[${BOARD_NAME}] index page ${pageIndex}: no new listings, stopping`);
+      break;
+    }
+
     pageIndex += 1;
   }
 
   if (entries.length) {
     console.log(
-      `[${BOARD_NAME}] ${entries.length} listings, fetching full text from detail pages...`,
+      `[${BOARD_NAME}] ${entries.length} new listings, fetching full text from detail pages...`,
     );
 
     await enrichEntriesInParallel(page.context(), entries, enrichBackstageproDetail, {

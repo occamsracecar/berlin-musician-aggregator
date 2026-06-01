@@ -1,4 +1,5 @@
 const { createClient } = require("@supabase/supabase-js");
+const WebSocket = require("ws");
 require("dotenv").config({ path: ".env.local" });
 require("dotenv").config();
 
@@ -15,7 +16,10 @@ function createScraperSupabaseClient() {
     );
   }
 
-  return createClient(url, serviceRoleKey);
+  return createClient(url, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+    realtime: { transport: WebSocket },
+  });
 }
 
 /**

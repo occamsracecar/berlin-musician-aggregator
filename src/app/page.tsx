@@ -124,7 +124,10 @@ export default async function Home({
       <AppNav active="browse" sticky>
         <Suspense
           fallback={
-            <div className="h-9 min-w-0 flex-1 animate-pulse rounded-lg bg-zinc-100" />
+            <div className="flex w-full flex-col gap-2">
+              <div className="h-10 w-full animate-pulse rounded-lg bg-zinc-100" />
+              <div className="h-10 w-full animate-pulse rounded-lg bg-zinc-100 sm:hidden" />
+            </div>
           }
         >
           <BrowseNavControls />

@@ -13,7 +13,7 @@ type AppNavProps = {
 export function AppNav({ active, sticky = false, children }: AppNavProps) {
   const tabClassName = (isActive: boolean) =>
     [
-      "rounded-lg px-4 py-2 text-sm font-medium transition",
+      "flex-1 rounded-lg px-3 py-2.5 text-center text-sm font-medium transition sm:flex-none sm:px-4",
       isActive
         ? "bg-violet-600 text-white"
         : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
@@ -22,22 +22,31 @@ export function AppNav({ active, sticky = false, children }: AppNavProps) {
   return (
     <nav
       className={[
-        "border-b border-zinc-200 bg-white",
+        "overflow-x-hidden border-b border-zinc-200 bg-white",
         sticky
           ? "sticky top-0 z-20 bg-white/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/90"
           : "",
       ].join(" ")}
     >
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-2 gap-y-2 px-4 py-3 sm:gap-3 sm:px-6">
-        <div className="flex shrink-0 items-center gap-2">
+      <div
+        className={[
+          "mx-auto flex w-full min-w-0 max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6",
+          children ? "lg:flex-row lg:items-center lg:gap-4" : "",
+        ].join(" ")}
+      >
+        <div className="flex w-full min-w-0 gap-2 sm:w-auto">
           <Link href="/" className={tabClassName(active === "browse")}>
-            Browse listings
+            <span className="sm:hidden">Browse</span>
+            <span className="hidden sm:inline">Browse listings</span>
           </Link>
           <Link href="/submit" className={tabClassName(active === "submit")}>
-            Submit listing
+            <span className="sm:hidden">Submit</span>
+            <span className="hidden sm:inline">Submit listing</span>
           </Link>
         </div>
-        {children}
+        {children ? (
+          <div className="w-full min-w-0 lg:min-w-0 lg:flex-1">{children}</div>
+        ) : null}
       </div>
     </nav>
   );

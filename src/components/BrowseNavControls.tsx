@@ -70,39 +70,41 @@ export function BrowseNavControls() {
   const selectClassName =
     "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none ring-violet-500 focus:ring-2";
 
+  const filtersButtonClassName = [
+    "inline-flex w-full items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-sm font-medium transition sm:w-auto",
+    filtersOpen || activeFilterCount > 0
+      ? "border-violet-300 bg-violet-50 text-violet-800"
+      : "border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50",
+  ].join(" ");
+
   return (
-    <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-2 sm:gap-3">
+    <div className="flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
       <form
         onSubmit={handleSearchSubmit}
-        className="flex min-w-0 flex-1 basis-[12rem] gap-2 sm:max-w-md"
+        className="flex w-full min-w-0 gap-2 sm:min-w-0 sm:flex-1 lg:max-w-xl"
       >
         <input
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search listings..."
-          className="min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none ring-violet-500 placeholder:text-zinc-400 focus:ring-2"
+          className="min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none ring-violet-500 placeholder:text-zinc-400 focus:ring-2"
         />
         <button
           type="submit"
-          className="shrink-0 rounded-lg bg-violet-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-violet-700 sm:px-4"
+          className="shrink-0 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700"
         >
           Search
         </button>
       </form>
 
-      <div className="relative shrink-0" ref={panelRef}>
+      <div className="relative w-full sm:w-auto sm:shrink-0" ref={panelRef}>
         <button
           type="button"
           aria-expanded={filtersOpen}
           aria-controls={filtersMenuId}
           onClick={() => setFiltersOpen((open) => !open)}
-          className={[
-            "inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition",
-            filtersOpen || activeFilterCount > 0
-              ? "border-violet-300 bg-violet-50 text-violet-800"
-              : "border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50",
-          ].join(" ")}
+          className={filtersButtonClassName}
         >
           Filters
           {activeFilterCount > 0 ? (
@@ -118,7 +120,7 @@ export function BrowseNavControls() {
         {filtersOpen ? (
           <div
             id={filtersMenuId}
-            className="absolute right-0 z-30 mt-2 w-[min(100vw-2rem,20rem)] rounded-xl border border-zinc-200 bg-white p-4 shadow-lg"
+            className="absolute inset-x-0 top-full z-30 mt-2 max-h-[min(70vh,24rem)] overflow-y-auto rounded-xl border border-zinc-200 bg-white p-4 shadow-lg sm:inset-x-auto sm:right-0 sm:left-auto sm:w-80"
           >
             <div className="flex flex-col gap-3">
               <label className="flex flex-col gap-1 text-sm">

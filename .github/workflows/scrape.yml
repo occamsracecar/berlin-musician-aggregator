@@ -1,0 +1,50 @@
+name: Scrape musician listings
+
+on:
+  schedule:
+    # Daily at 06:00 UTC (~07:00 Berlin in summer, ~08:00 in winter)
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    inputs:
+      board:
+        description: "Optional single board (e.g. bandmix.de). Leave empty for all boards."
+        required: false
+        type: string
+
+concurrency:
+  group: daily-scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run scraper (all boards)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SCRAPE_BOARD: ${{ github.event.inputs.board }}
+        run: npm run scrape
+
+      - name: Scrape summary
+        if: always()
+        run: |
+          echo "Daily scrape finished at $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo "Boards: berlinmusiker.de, musiker-sucht.de, noisy-rooms.com, backstagepro.de, bandmix.de"
+          echo "New listings are upserted by original_url (existing rows are updated)."

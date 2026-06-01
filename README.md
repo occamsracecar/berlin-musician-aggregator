@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Berlin Musician Aggregator
 
-## Getting Started
+Aggregates musician listings from Berlin boards into one searchable directory (Next.js + Supabase).
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
+npx playwright install chromium
+cp .env.example .env.local
+# Fill in Supabase URL and keys from your project dashboard
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scraping
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Scrape all boards and upsert into Supabase (new listings are inserted; existing URLs are updated):
 
-## Learn More
+```bash
+npm run scrape
+```
 
-To learn more about Next.js, take a look at the following resources:
+Scrape one board only:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+SCRAPE_BOARD=backstagepro.de npm run scrape
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Boards: `berlinmusiker.de`, `musiker-sucht.de`, `noisy-rooms.com`, `backstagepro.de`, `bandmix.de`.
 
-## Deploy on Vercel
+A full run takes about 20–40 minutes (Bandmix and Noisy Rooms fetch detail pages).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Daily automated scrape
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GitHub Actions runs **every day at 06:00 UTC** (`.github/workflows/scrape.yml`):
+
+1. Installs dependencies and Playwright Chromium
+2. Runs `npm run scrape` for **all five boards**
+3. Upserts rows on `original_url` so new listings are always added
+
+### One-time setup (GitHub repo)
+
+1. Push this repo to GitHub.
+2. In the repo: **Settings → Secrets and variables → Actions → New repository secret**
+   - `SUPABASE_URL` — your project URL (same as `NEXT_PUBLIC_SUPABASE_URL`)
+   - `SUPABASE_SERVICE_ROLE_KEY` — service role key (not the anon key)
+3. **Actions** tab → enable workflows if prompted.
+4. Run **Scrape musician listings** manually once via **Run workflow** to verify.
+
+If one board fails (timeout, site change), the workflow still upserts the other boards and exits with a warning.
+
+## Deploy frontend
+
+Deploy the Next.js app to Vercel (or similar). Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in the host environment. Scraping stays on GitHub Actions (Playwright does not run on Vercel serverless by default).

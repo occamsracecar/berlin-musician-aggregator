@@ -1,0 +1,16 @@
+export const GENRE_RULES = [
+  { genre: "Metal", keywords: ["metal", "metalcore", "hardcore", "death metal", "black metal", "nu metal", "d-beat", "hc", "thrash"] },
+  { genre: "Punk", keywords: ["punk", "grunge", "post-punk", "crust", "neocrust", "screamo"] },
+  { genre: "Rock", keywords: ["rock", "hard rock", "classic rock", "indie rock", "alternative", "garage rock"] },
+  { genre: "Jazz", keywords: ["jazz", "fusion", "swing", "bebop", "bossa", "latin jazz"] },
+  { genre: "Blues", keywords: ["blues", "rhythm and blues", "r&b"] },
+  { genre: "Pop", keywords: ["pop", "synth pop", "schlager", "top 40", "cover band", "cover-duo"] },
+  { genre: "Funk / Soul", keywords: ["funk", "soul", "motown", "neo soul", "neosoul", "disco"] },
+  { genre: "Hip-Hop", keywords: ["hip hop", "hip-hop", "hiphop", "rap", "trap", "boombap", "beatmaker"] },
+  { genre: "Electronic", keywords: ["electronic", "electronica", "house", "techno", "dnb", "drum and bass", "ambient", "synth", "ableton", "edm"] },
+  { genre: "Latin", keywords: ["latin", "salsa", "cumbia", "samba", "bossa nova", "reggaeton"] },
+  { genre: "Folk / Acoustic", keywords: ["folk", "acoustic", "country", "bluegrass", "singer-songwriter"] },
+  { genre: "Classical", keywords: ["classical", "klassik", "orchestra", "orchester", "philharm", "chor", "choir", "oper", "opera"] },
+  { genre: "Reggae", keywords: ["reggae", "dub", "ska"] },
+  { genre: "World", keywords: ["world music", "weltmusik", "afro", "klezmer", "balkan"] },
+] as const;

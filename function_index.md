@@ -11,6 +11,11 @@
 | `src/app/login/page.tsx` | `LoginPage()` | Email and Google sign-in / sign-up |
 | `src/app/auth/callback/route.ts` | `GET` | OAuth and email confirmation callback |
 | `src/app/actions/submit-listing.ts` | `submitListing()` | Inserts community listing for authenticated user |
+| `src/app/actions/update-listing.ts` | `updateListing()` | Updates the signed-in user's community listing |
+| `src/lib/listing-form.ts` | `parseListingFormData()` | Shared validation for create/edit listing forms |
+| `src/components/ListingFormFields.tsx` | `ListingFormFields()` | Shared listing form fields |
+| `src/components/UserListingsSection.tsx` | `UserListingsSection()` | Profile section listing user's posts |
+| `src/components/UserListingEditor.tsx` | `UserListingEditor()` | Single listing row with inline edit |
 | `src/app/actions/send-listing-message.ts` | `sendListingMessage()` | Saves message and emails listing owner |
 | `src/lib/supabase/client.ts` | `createSupabaseClient()` | Creates Supabase client for anonymous reads |
 | `src/lib/supabase/server.ts` | `createSupabaseServerClient()` | Cookie-based Supabase client for server/actions |

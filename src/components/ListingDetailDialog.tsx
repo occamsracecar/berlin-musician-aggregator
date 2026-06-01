@@ -2,14 +2,17 @@
 
 import { useEffect, useId, useRef } from "react";
 import { BoardTag } from "@/components/BoardTag";
+import { ListingContactActions } from "@/components/ListingContactActions";
 import { ListingNewBadge } from "@/components/ListingNewBadge";
+import { ProfileAuthorStrip } from "@/components/ProfileAuthorStrip";
 import { getListingTypeLabel, isRecentListing } from "@/lib/constants";
-import type { Entry } from "@/types/entry";
+import type { EntryWithAuthor } from "@/lib/profiles";
 
 type ListingDetailDialogProps = {
-  entry: Entry;
+  entry: EntryWithAuthor;
   open: boolean;
   onClose: () => void;
+  isSignedIn: boolean;
 };
 
 /**
@@ -19,6 +22,7 @@ export function ListingDetailDialog({
   entry,
   open,
   onClose,
+  isSignedIn,
 }: ListingDetailDialogProps) {
   const titleId = useId();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -59,10 +63,6 @@ export function ListingDetailDialog({
     : "Unknown date";
 
   const listingTypeLabel = getListingTypeLabel(entry.listing_type);
-  const isCommunityListing = entry.board_name === "community";
-  const outboundUrl = isCommunityListing
-    ? entry.contact_url
-    : entry.original_url;
   const isNew = isRecentListing(entry.published_at);
 
   return (
@@ -135,21 +135,16 @@ export function ListingDetailDialog({
           ) : (
             <p className="text-sm text-zinc-500">No description available.</p>
           )}
+
+          <div className="mt-4 px-5 sm:px-6">
+            <ProfileAuthorStrip profile={entry.author_profile} />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 px-5 py-4 sm:px-6">
-          {outboundUrl ? (
-            <a
-              href={outboundUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-violet-600 hover:text-violet-800"
-            >
-              {isCommunityListing ? "Contact →" : "View original listing →"}
-            </a>
-          ) : (
-            <span className="text-sm text-zinc-500">Community listing</span>
-          )}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            <ListingContactActions entry={entry} isSignedIn={isSignedIn} />
+          </div>
           <button
             type="button"
             onClick={onClose}

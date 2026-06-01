@@ -7,9 +7,30 @@
 | `src/app/page.tsx` | `fetchEntries()` | Fetches paginated entries with search, filters, and sort |
 | `src/app/page.tsx` | `formatResultRange()` | Formats the visible listing range summary |
 | `src/app/page.tsx` | `Home()` | Server page rendering filters and listing grid |
-| `src/app/submit/page.tsx` | `SubmitPage()` | Community listing submission page |
-| `src/app/actions/submit-listing.ts` | `submitListing()` | Server action to validate and insert community listings |
-| `src/lib/supabase/client.ts` | `createSupabaseClient()` | Creates Supabase client for frontend reads |
+| `src/app/submit/page.tsx` | `SubmitPage()` | Community listing submission page (signed-in) |
+| `src/app/login/page.tsx` | `LoginPage()` | Email and Google sign-in / sign-up |
+| `src/app/auth/callback/route.ts` | `GET` | OAuth and email confirmation callback |
+| `src/app/actions/submit-listing.ts` | `submitListing()` | Inserts community listing for authenticated user |
+| `src/app/actions/send-listing-message.ts` | `sendListingMessage()` | Saves message and emails listing owner |
+| `src/lib/supabase/client.ts` | `createSupabaseClient()` | Creates Supabase client for anonymous reads |
+| `src/lib/supabase/server.ts` | `createSupabaseServerClient()` | Cookie-based Supabase client for server/actions |
+| `src/lib/supabase/browser.ts` | `createSupabaseBrowserClient()` | Browser Supabase client for auth UI |
+| `src/lib/supabase/admin.ts` | `createSupabaseAdminClient()` | Service-role client for owner email lookup |
+| `src/lib/email.ts` | `sendListingMessageEmail()` | Sends contact message via Resend |
+| `src/lib/listings.ts` | `isUserSubmittedListing()` | Whether listing supports in-app messaging |
+| `middleware.ts` | `middleware()` | Session refresh; protects `/submit` |
+| `src/components/AuthForm.tsx` | `AuthForm()` | Email/password and Google auth form |
+| `src/components/NavAuth.tsx` | `NavAuth()` | Sign in / sign out in nav |
+| `src/components/ContactListingDialog.tsx` | `ContactListingDialog()` | Message modal for listing authors |
+| `src/components/ListingContactActions.tsx` | `ListingContactActions()` | Send message and outbound links |
+| `src/app/profile/page.tsx` | `ProfilePage()` | User profile settings page |
+| `src/app/actions/update-profile.ts` | `updateProfile()` | Saves profile and social URLs |
+| `src/lib/profiles.ts` | `attachAuthorProfiles()` | Joins author profiles onto listings |
+| `src/lib/profile-urls.ts` | `validateSocialUrl()` | Validates music platform URLs |
+| `src/components/ProfileForm.tsx` | `ProfileForm()` | Profile edit form |
+| `src/components/ProfileAvatarUpload.tsx` | `ProfileAvatarUpload()` | Drag-and-drop avatar upload |
+| `src/components/ProfileSocialIcons.tsx` | `ProfileSocialIcons()` | Platform icon links on listings |
+| `src/components/ProfileAuthorStrip.tsx` | `ProfileAuthorStrip()` | Avatar + social row on listing cards |
 | `src/lib/classify.ts` | `parseSubmittedGenres()` | Validates genre tags from submit form |
 | `src/lib/classify.ts` | `mergeListingGenres()` | Merges selected and auto-detected genre tags |
 | `src/lib/classify.ts` | `detectGenres()` | Tags genres from listing text on submit |
@@ -82,6 +103,8 @@
 | `supabase/migrations/20260601140000_fix_bandmix_published_at.sql` | Backfill Bandmix published_at from activity labels |
 | `supabase/migrations/20260601150000_deprioritize_bandmix_dates.sql` | Subtract 7 days from all Bandmix published_at values |
 | `supabase/migrations/20260601120000_add_search_blob.sql` | Adds space-insensitive `search_blob` for generous text search |
+| `supabase/migrations/20260602120000_user_profiles_and_messages.sql` | Profiles, `created_by`, listing messages, auth RLS |
+| `supabase/migrations/20260602140000_profile_social_and_avatars.sql` | Profile social URLs, avatar storage bucket |
 
 ## Automation
 

@@ -10,6 +10,8 @@ import {
   parseListingPage,
 } from "@/lib/constants";
 import { applySearchFilter } from "@/lib/search";
+import { attachAuthorProfiles } from "@/lib/profiles";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Entry } from "@/types/entry";
 
 export const dynamic = "force-dynamic";
@@ -117,7 +119,15 @@ export default async function Home({
     page: params.page ?? "",
   };
   const page = parseListingPage(filters.page);
-  const { entries, total } = await fetchEntries(filters, page);
+  const [{ entries, total }, supabase] = await Promise.all([
+    fetchEntries(filters, page),
+    createSupabaseServerClient(),
+  ]);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const isSignedIn = Boolean(user);
+  const entriesWithAuthors = await attachAuthorProfiles(supabase, entries);
 
   return (
     <div className="min-h-full bg-zinc-50">
@@ -151,10 +161,10 @@ export default async function Home({
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <p className="mb-4 text-sm text-zinc-500">
-          {formatResultRange(page, total, entries.length)}
+          {formatResultRange(page, total, entriesWithAuthors.length)}
         </p>
 
-        {entries.length === 0 ? (
+        {entriesWithAuthors.length === 0 ? (
           <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-10 text-center">
             <p className="text-sm text-zinc-600">
               No listings matched your filters.
@@ -163,9 +173,9 @@ export default async function Home({
         ) : (
           <>
             <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {entries.map((entry) => (
+              {entriesWithAuthors.map((entry) => (
                 <li key={entry.id} className="h-full">
-                  <ListingCard entry={entry} />
+                  <ListingCard entry={entry} isSignedIn={isSignedIn} />
                 </li>
               ))}
             </ul>

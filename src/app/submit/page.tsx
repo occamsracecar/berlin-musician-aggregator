@@ -1,24 +1,35 @@
 import { AppNav } from "@/components/AppNav";
 import { SubmitListingForm } from "@/components/SubmitListingForm";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-export default function SubmitPage() {
+export default async function SubmitPage() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <div className="min-h-full bg-zinc-50">
-      <AppNav active="submit" />
+      <AppNav active="submit" sticky />
 
       <header className="border-b border-zinc-200 bg-white">
         <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
           <p className="text-sm font-medium uppercase tracking-wide text-violet-600">
-            Berlin Musician Aggregator
+            Berlin Musician Listings
           </p>
           <h1 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900">
             Submit a listing
           </h1>
           <p className="mt-2 text-sm text-zinc-600">
-            Post directly to the community board. Your listing appears alongside
-            scraped posts from other Berlin musician sites.
+            Post as a signed-in member. Others can send you messages by email.
+            {user?.email ? (
+              <>
+                {" "}
+                Posting as <span className="font-medium">{user.email}</span>.
+              </>
+            ) : null}
           </p>
         </div>
       </header>

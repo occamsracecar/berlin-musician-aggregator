@@ -8,4 +8,5 @@ export type Entry = {
   listing_type: string | null;
   genres: string[];
   contact_url: string | null;
+  created_by: string | null;
 };

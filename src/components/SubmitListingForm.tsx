@@ -94,18 +94,10 @@ export function SubmitListingForm() {
         </select>
       </label>
 
-      <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium text-zinc-700">
-          Contact link <span className="font-normal text-zinc-500">(optional)</span>
-        </span>
-        <input
-          type="text"
-          name="contact_url"
-          maxLength={500}
-          placeholder="https://..., mailto:you@example.com"
-          className={inputClassName}
-        />
-      </label>
+      <p className="text-sm text-zinc-600">
+        Signed-in members can message you by email from your listing. Make sure
+        your account email is correct in Supabase Auth settings.
+      </p>
 
       {state.message ? (
         <p

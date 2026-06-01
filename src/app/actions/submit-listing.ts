@@ -3,7 +3,7 @@
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { mergeListingGenres, parseSubmittedGenres } from "@/lib/classify";
-import { createSupabaseClient } from "@/lib/supabase/client";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type SubmitListingState = {
   success: boolean;
@@ -13,19 +13,29 @@ export type SubmitListingState = {
 const COMMUNITY_BOARD = "community";
 const MAX_TITLE_LENGTH = 200;
 const MAX_DESCRIPTION_LENGTH = 5000;
-const MAX_CONTACT_LENGTH = 500;
 
 /**
- * Validates and inserts a community-submitted listing into Supabase.
+ * Validates and inserts a community listing for the signed-in user.
  */
 export async function submitListing(
   _prevState: SubmitListingState,
   formData: FormData,
 ): Promise<SubmitListingState> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Sign in to publish a listing.",
+    };
+  }
+
   const title = String(formData.get("title") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const listingType = String(formData.get("listing_type") ?? "").trim();
-  const contactUrl = String(formData.get("contact_url") ?? "").trim();
   const selectedGenres = parseSubmittedGenres(formData.getAll("genres"));
 
   if (!title || title.length > MAX_TITLE_LENGTH) {
@@ -49,21 +59,6 @@ export async function submitListing(
     };
   }
 
-  if (contactUrl && contactUrl.length > MAX_CONTACT_LENGTH) {
-    return {
-      success: false,
-      message: "Contact link is too long.",
-    };
-  }
-
-  if (contactUrl && !/^https?:\/\//i.test(contactUrl) && !/^mailto:/i.test(contactUrl)) {
-    return {
-      success: false,
-      message: "Contact link must start with http://, https://, or mailto:",
-    };
-  }
-
-  const supabase = createSupabaseClient();
   const genres = mergeListingGenres(selectedGenres, title, description);
 
   const { error } = await supabase.from("entries").insert({
@@ -73,8 +68,9 @@ export async function submitListing(
     listing_type: listingType,
     genres,
     original_url: `community://${randomUUID()}`,
-    contact_url: contactUrl || null,
+    contact_url: null,
     published_at: new Date().toISOString(),
+    created_by: user.id,
   });
 
   if (error) {
@@ -89,6 +85,6 @@ export async function submitListing(
 
   return {
     success: true,
-    message: "Your listing was published. It now appears in Browse listings.",
+    message: "Your listing was published. Others can message you by email.",
   };
 }

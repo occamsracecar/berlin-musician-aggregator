@@ -4,13 +4,20 @@ import { useState } from "react";
 import { BoardTag } from "@/components/BoardTag";
 import { ListingDetailDialog } from "@/components/ListingDetailDialog";
 import { ListingNewBadge } from "@/components/ListingNewBadge";
+import { ListingContactActions } from "@/components/ListingContactActions";
+import { ProfileAuthorStrip } from "@/components/ProfileAuthorStrip";
 import { getListingTypeLabel, isRecentListing } from "@/lib/constants";
-import type { Entry } from "@/types/entry";
+import type { EntryWithAuthor } from "@/lib/profiles";
+
+type ListingCardProps = {
+  entry: EntryWithAuthor;
+  isSignedIn: boolean;
+};
 
 /**
  * Renders a single musician listing card with preview text and detail modal.
  */
-export function ListingCard({ entry }: { entry: Entry }) {
+export function ListingCard({ entry, isSignedIn }: ListingCardProps) {
   const [detailsOpen, setDetailsOpen] = useState(false);
 
   const publishedDate = entry.published_at
@@ -22,10 +29,6 @@ export function ListingCard({ entry }: { entry: Entry }) {
     : "Unknown date";
 
   const listingTypeLabel = getListingTypeLabel(entry.listing_type);
-  const isCommunityListing = entry.board_name === "community";
-  const outboundUrl = isCommunityListing
-    ? entry.contact_url
-    : entry.original_url;
   const isNew = isRecentListing(entry.published_at);
 
   return (
@@ -67,7 +70,9 @@ export function ListingCard({ entry }: { entry: Entry }) {
           <div className="flex-1" />
         )}
 
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+        <ProfileAuthorStrip profile={entry.author_profile} />
+
+        <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-2 text-sm">
           <button
             type="button"
             onClick={() => setDetailsOpen(true)}
@@ -75,18 +80,7 @@ export function ListingCard({ entry }: { entry: Entry }) {
           >
             Details
           </button>
-          {outboundUrl ? (
-            <a
-              href={outboundUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-violet-600 hover:text-violet-800"
-            >
-              {isCommunityListing ? "Contact →" : "View original listing →"}
-            </a>
-          ) : (
-            <span className="text-zinc-500">Community listing</span>
-          )}
+          <ListingContactActions entry={entry} isSignedIn={isSignedIn} />
         </div>
       </article>
 
@@ -94,6 +88,7 @@ export function ListingCard({ entry }: { entry: Entry }) {
         entry={entry}
         open={detailsOpen}
         onClose={() => setDetailsOpen(false)}
+        isSignedIn={isSignedIn}
       />
     </>
   );

@@ -27,8 +27,9 @@
 | `src/components/ListingNewBadge.tsx` | `ListingNewBadge()` | Shiny badge for listings from the last 7 days |
 | `src/components/ListingPagination.tsx` | `ListingPagination()` | Previous/next page navigation for browse results |
 | `src/components/AppNav.tsx` | `AppNav()` | Browse / Submit navigation tabs |
-| `src/components/ListingFilters.tsx` | `ListingFilters()` | Search, board, genre, type, and sort controls |
-| `src/components/ListingFilters.tsx` | `applyFilters()` | Updates URL query params for server-side filtering |
+| `src/hooks/use-listing-filters.ts` | `useListingFilters()` | Syncs browse filters with URL search params |
+| `src/components/BrowseNavControls.tsx` | `BrowseNavControls()` | Nav search bar and filters dropdown |
+| `src/components/AppNav.tsx` | `AppNav()` | Top nav tabs; optional sticky bar and children |
 | `src/components/SubmitListingForm.tsx` | `SubmitListingForm()` | Client form for posting community listings |
 | `src/components/ListingCard.tsx` | `ListingCard()` | Renders listing card with preview, Details modal, and outbound link |
 | `src/components/ListingDetailDialog.tsx` | `ListingDetailDialog()` | Modal showing full listing description and metadata |

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { AppNav } from "@/components/AppNav";
+import { BrowseNavControls } from "@/components/BrowseNavControls";
 import { ListingCard } from "@/components/ListingCard";
-import { ListingFilters } from "@/components/ListingFilters";
 import { ListingPagination } from "@/components/ListingPagination";
 import {
   ENTRIES_PER_PAGE,
@@ -121,30 +121,30 @@ export default async function Home({
 
   return (
     <div className="min-h-full bg-zinc-50">
-      <div className="sticky top-0 z-20 border-b border-zinc-200 bg-white/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/90">
-        <AppNav active="browse" />
+      <AppNav active="browse" sticky>
+        <Suspense
+          fallback={
+            <div className="h-9 min-w-0 flex-1 animate-pulse rounded-lg bg-zinc-100" />
+          }
+        >
+          <BrowseNavControls />
+        </Suspense>
+      </AppNav>
 
-        <header>
-          <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 sm:px-6 sm:py-8">
-            <div>
-              <p className="text-sm font-medium uppercase tracking-wide text-violet-600">
-                Berlin Musician Listings
-              </p>
-              <h1 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900">
-                Find musicians or join a band in Berlin
-              </h1>
-              <p className="mt-2 text-sm text-zinc-600">
-                Search all listings from Noisy Rooms, Backstage-Pro, Berlin
-                Musiker and more.
-              </p>
-            </div>
-
-            <Suspense fallback={<div className="h-32 rounded-lg bg-zinc-100" />}>
-              <ListingFilters {...filters} />
-            </Suspense>
-          </div>
-        </header>
-      </div>
+      <header className="border-b border-zinc-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+          <p className="text-sm font-medium uppercase tracking-wide text-violet-600">
+            Berlin Musician Listings
+          </p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900">
+            Find musicians or join a band in Berlin
+          </h1>
+          <p className="mt-2 text-sm text-zinc-600">
+            Search all listings from Noisy Rooms, Backstage-Pro, Berlin Musiker
+            and more.
+          </p>
+        </div>
+      </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <p className="mb-4 text-sm text-zinc-500">

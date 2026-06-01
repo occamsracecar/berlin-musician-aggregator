@@ -1,13 +1,16 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 type AppNavProps = {
   active: "browse" | "submit";
+  sticky?: boolean;
+  children?: ReactNode;
 };
 
 /**
- * Top navigation tabs for browsing and submitting listings.
+ * Top navigation tabs; optional sticky bar with browse search and filters.
  */
-export function AppNav({ active }: AppNavProps) {
+export function AppNav({ active, sticky = false, children }: AppNavProps) {
   const tabClassName = (isActive: boolean) =>
     [
       "rounded-lg px-4 py-2 text-sm font-medium transition",
@@ -17,14 +20,24 @@ export function AppNav({ active }: AppNavProps) {
     ].join(" ");
 
   return (
-    <nav className="border-b border-zinc-200 bg-white">
-      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:px-6">
-        <Link href="/" className={tabClassName(active === "browse")}>
-          Browse listings
-        </Link>
-        <Link href="/submit" className={tabClassName(active === "submit")}>
-          Submit listing
-        </Link>
+    <nav
+      className={[
+        "border-b border-zinc-200 bg-white",
+        sticky
+          ? "sticky top-0 z-20 bg-white/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/90"
+          : "",
+      ].join(" ")}
+    >
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-2 gap-y-2 px-4 py-3 sm:gap-3 sm:px-6">
+        <div className="flex shrink-0 items-center gap-2">
+          <Link href="/" className={tabClassName(active === "browse")}>
+            Browse listings
+          </Link>
+          <Link href="/submit" className={tabClassName(active === "submit")}>
+            Submit listing
+          </Link>
+        </div>
+        {children}
       </div>
     </nav>
   );

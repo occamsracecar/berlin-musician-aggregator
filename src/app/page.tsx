@@ -9,6 +9,7 @@ import {
   type ListingFiltersState,
   parseListingPage,
 } from "@/lib/constants";
+import { applySearchFilter } from "@/lib/search";
 import type { Entry } from "@/types/entry";
 
 export const dynamic = "force-dynamic";
@@ -53,8 +54,7 @@ async function fetchEntries(
   }
 
   if (filters.q?.trim()) {
-    const term = filters.q.trim();
-    request = request.or(`title.ilike.%${term}%,description.ilike.%${term}%`);
+    request = applySearchFilter(request, filters.q);
   }
 
   const timeFilterStart = getTimeFilterStart(filters.when);

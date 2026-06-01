@@ -11,6 +11,8 @@
 | `src/app/actions/submit-listing.ts` | `submitListing()` | Server action to validate and insert community listings |
 | `src/lib/supabase/client.ts` | `createSupabaseClient()` | Creates Supabase client for frontend reads |
 | `src/lib/classify.ts` | `detectGenres()` | Tags genres from listing text on submit |
+| `src/lib/search.ts` | `parseSearchTokens()` | Normalizes query words for order-free search |
+| `src/lib/search.ts` | `buildSearchOrFilter()` | PostgREST OR filter for compact phrase or all words in any order |
 | `src/lib/constants.ts` | `getBoardLabel()` | Maps board slug to friendly label |
 | `src/lib/constants.ts` | `getListingTypeLabel()` | Maps listing type to friendly label |
 | `src/lib/constants.ts` | `parseListingPage()` | Parses a 1-based page number from URL params |
@@ -68,6 +70,7 @@
 | `supabase/migrations/20260531130000_add_entry_classification.sql` | Adds `listing_type` and `genres` columns |
 | `supabase/migrations/20260531140000_add_community_submissions.sql` | Adds `contact_url` and community insert policy |
 | `supabase/migrations/20260531150000_add_board_priority.sql` | Adds generated `board_priority` for browse sort order |
+| `supabase/migrations/20260601120000_add_search_blob.sql` | Adds space-insensitive `search_blob` for generous text search |
 
 ## Automation
 

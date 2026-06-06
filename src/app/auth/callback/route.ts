@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { getAuthRedirectOrigin } from "@/lib/site-url";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -9,10 +10,11 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const next = requestUrl.searchParams.get("next") ?? "/";
+  const responseOrigin = getAuthRedirectOrigin(requestUrl.origin);
 
   if (!code) {
     return NextResponse.redirect(
-      new URL("/login?error=missing_code", requestUrl.origin),
+      new URL("/login?error=missing_code", responseOrigin),
     );
   }
 
@@ -22,7 +24,7 @@ export async function GET(request: Request) {
 
   if (!url || !anonKey) {
     return NextResponse.redirect(
-      new URL("/login?error=config", requestUrl.origin),
+      new URL("/login?error=config", responseOrigin),
     );
   }
 
@@ -43,9 +45,9 @@ export async function GET(request: Request) {
 
   if (error) {
     return NextResponse.redirect(
-      new URL("/login?error=auth_callback", requestUrl.origin),
+      new URL("/login?error=auth_callback", responseOrigin),
     );
   }
 
-  return NextResponse.redirect(new URL(next, requestUrl.origin));
+  return NextResponse.redirect(new URL(next, responseOrigin));
 }

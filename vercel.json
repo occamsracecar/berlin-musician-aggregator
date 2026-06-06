@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "berlin-musician-aggregator.vercel.app"
+        }
+      ],
+      "destination": "https://berlinbandhub.de/:path*",
+      "permanent": true
+    }
+  ]
+}

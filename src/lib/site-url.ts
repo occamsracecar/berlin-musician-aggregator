@@ -1,13 +1,21 @@
+/** Production custom domain for this deployment. */
+export const PRODUCTION_CANONICAL_ORIGIN = "https://berlinbandhub.de";
+
 /**
- * Returns the configured production site origin, or null if unset.
+ * Returns the configured production site origin, with a hardcoded production fallback.
  */
 export function getCanonicalSiteOrigin(): string | null {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (!siteUrl) {
-    return null;
+
+  if (siteUrl) {
+    return siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`;
   }
 
-  return siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`;
+  if (process.env.VERCEL_ENV === "production") {
+    return PRODUCTION_CANONICAL_ORIGIN;
+  }
+
+  return null;
 }
 
 /**
@@ -22,7 +30,39 @@ export function shouldRedirectToCanonicalHost(
   }
 
   const canonicalHost = new URL(canonicalOrigin).hostname;
+
+  if (requestHost === canonicalHost) {
+    return false;
+  }
+
+  if (requestHost.endsWith(".vercel.app")) {
+    return true;
+  }
+
   return requestHost !== canonicalHost;
+}
+
+/**
+ * Builds the redirect target on the canonical domain, fixing OAuth codes on `/`.
+ */
+export function buildCanonicalRedirectUrl(
+  requestUrl: URL,
+  canonicalOrigin: string,
+): URL {
+  const redirectUrl = new URL(
+    `${requestUrl.pathname}${requestUrl.search}`,
+    canonicalOrigin,
+  );
+
+  if (redirectUrl.pathname === "/" && redirectUrl.searchParams.has("code")) {
+    redirectUrl.pathname = "/auth/callback";
+
+    if (!redirectUrl.searchParams.has("next")) {
+      redirectUrl.searchParams.set("next", "/");
+    }
+  }
+
+  return redirectUrl;
 }
 
 /**
@@ -42,6 +82,26 @@ export function getSiteOrigin(): string {
   }
 
   return "http://localhost:3000";
+}
+
+/**
+ * Returns the origin to use for auth redirects (prefers canonical domain in production).
+ */
+export function getAuthRedirectOrigin(requestOrigin: string): string {
+  const canonical = getCanonicalSiteOrigin();
+
+  if (!canonical || process.env.VERCEL_ENV !== "production") {
+    return requestOrigin;
+  }
+
+  const canonicalHost = new URL(canonical).hostname;
+  const requestHost = new URL(requestOrigin).hostname;
+
+  if (requestHost === canonicalHost) {
+    return requestOrigin;
+  }
+
+  return canonical;
 }
 
 /**

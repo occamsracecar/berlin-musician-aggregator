@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import {
+  buildCanonicalRedirectUrl,
   buildOAuthCallbackRecoveryUrl,
   getCanonicalSiteOrigin,
   shouldRedirectToCanonicalHost,
@@ -17,8 +18,8 @@ export async function middleware(request: NextRequest) {
     canonicalOrigin &&
     shouldRedirectToCanonicalHost(request.nextUrl.hostname, canonicalOrigin)
   ) {
-    const redirectUrl = new URL(
-      `${request.nextUrl.pathname}${request.nextUrl.search}`,
+    const redirectUrl = buildCanonicalRedirectUrl(
+      request.nextUrl,
       canonicalOrigin,
     );
     return NextResponse.redirect(redirectUrl, 308);

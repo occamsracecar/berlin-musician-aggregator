@@ -27,7 +27,10 @@
 | `src/lib/email.ts` | `sendListingMessageEmail()` | Emails listing owner (HTML + reply-to) |
 | `src/lib/email.ts` | `sendListingMessageConfirmationEmail()` | Sends sender a copy of their message |
 | `src/lib/email.ts` | `isEmailConfigured()` | Whether RESEND_API_KEY is set |
-| `src/lib/site-url.ts` | `getCanonicalSiteOrigin()` | Configured production origin from env |
+| `src/lib/site-url.ts` | `PRODUCTION_CANONICAL_ORIGIN` | Hardcoded production domain (`berlinbandhub.de`) |
+| `src/lib/site-url.ts` | `getCanonicalSiteOrigin()` | Production origin from env or hardcoded fallback |
+| `src/lib/site-url.ts` | `buildCanonicalRedirectUrl()` | Canonical redirect; fixes OAuth `?code=` on `/` |
+| `src/lib/site-url.ts` | `getAuthRedirectOrigin()` | Auth callback redirect target (custom domain) |
 | `src/lib/site-url.ts` | `shouldRedirectToCanonicalHost()` | Whether to redirect off vercel.app to custom domain |
 | `src/lib/site-url.ts` | `buildOAuthCallbackRecoveryUrl()` | Fixes Supabase OAuth landing on `/` with `?code=` |
 | `src/lib/site-url.ts` | `getSiteOrigin()` | Public site origin for email links |

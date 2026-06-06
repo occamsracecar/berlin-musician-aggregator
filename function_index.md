@@ -31,7 +31,8 @@
 | `src/lib/site-url.ts` | `getCanonicalSiteOrigin()` | Production origin from env or hardcoded fallback |
 | `src/lib/site-url.ts` | `buildCanonicalRedirectUrl()` | Canonical redirect; fixes OAuth `?code=` on `/` |
 | `src/lib/site-url.ts` | `getAuthRedirectOrigin()` | Auth callback redirect target (custom domain) |
-| `src/lib/site-url.ts` | `shouldRedirectToCanonicalHost()` | Whether to redirect off vercel.app to custom domain |
+| `src/lib/site-url.ts` | `hostsMatchSiteDomain()` | Compares hosts ignoring www prefix |
+| `src/lib/site-url.ts` | `shouldRedirectToCanonicalHost()` | Redirect only `*.vercel.app`, not www ↔ apex |
 | `src/lib/site-url.ts` | `buildOAuthCallbackRecoveryUrl()` | Fixes Supabase OAuth landing on `/` with `?code=` |
 | `src/lib/site-url.ts` | `getSiteOrigin()` | Public site origin for email links |
 | `src/lib/site-url.ts` | `getListingBrowseUrl()` | Browse URL with `?listing=` deep link |

@@ -19,7 +19,19 @@ export function getCanonicalSiteOrigin(): string | null {
 }
 
 /**
+ * Returns whether two hostnames refer to the same site (ignoring www).
+ */
+export function hostsMatchSiteDomain(
+  requestHost: string,
+  canonicalHost: string,
+): boolean {
+  const normalize = (host: string) => host.replace(/^www\./, "");
+  return normalize(requestHost) === normalize(canonicalHost);
+}
+
+/**
  * Returns whether an incoming host should redirect to the canonical production domain.
+ * Only Vercel deployment URLs are redirected — never www ↔ apex (Vercel handles that).
  */
 export function shouldRedirectToCanonicalHost(
   requestHost: string,
@@ -31,15 +43,11 @@ export function shouldRedirectToCanonicalHost(
 
   const canonicalHost = new URL(canonicalOrigin).hostname;
 
-  if (requestHost === canonicalHost) {
+  if (hostsMatchSiteDomain(requestHost, canonicalHost)) {
     return false;
   }
 
-  if (requestHost.endsWith(".vercel.app")) {
-    return true;
-  }
-
-  return requestHost !== canonicalHost;
+  return requestHost.endsWith(".vercel.app");
 }
 
 /**
@@ -97,7 +105,7 @@ export function getAuthRedirectOrigin(requestOrigin: string): string {
   const canonicalHost = new URL(canonical).hostname;
   const requestHost = new URL(requestOrigin).hostname;
 
-  if (requestHost === canonicalHost) {
+  if (hostsMatchSiteDomain(requestHost, canonicalHost)) {
     return requestOrigin;
   }
 

@@ -35,7 +35,10 @@
 | `src/lib/site-url.ts` | `shouldRedirectToCanonicalHost()` | Redirect only `*.vercel.app`, not www ↔ apex |
 | `src/lib/site-url.ts` | `buildOAuthCallbackRecoveryUrl()` | Fixes Supabase OAuth landing on `/` with `?code=` |
 | `src/lib/site-url.ts` | `getSiteOrigin()` | Public site origin for email links |
-| `src/lib/site-url.ts` | `getListingBrowseUrl()` | Browse URL with `?listing=` deep link |
+| `src/lib/sitemap-urls.ts` | `getSitemapEntries()` | Sitemap URLs for static pages and listings |
+| `src/lib/sitemap-urls.ts` | `getStaticSitemapEntries()` | Homepage and legal routes for sitemap |
+| `src/app/robots.ts` | `robots()` | robots.txt generation |
+| `src/app/sitemap.ts` | `sitemap()` | XML sitemap for crawlers |
 | `src/lib/profile-email.ts` | `parseContactEmail()` | Validates profile contact email |
 | `src/lib/listings.ts` | `isCommunityListing()` | Community board listing with author |
 | `src/lib/listings.ts` | `canReceiveListingMessages()` | Whether listing supports email contact |
@@ -160,4 +163,5 @@
 | File | Description |
 |------|-------------|
 | `.github/workflows/scrape.yml` | Daily cron (06:00 UTC) + manual; GitHub boards only (not Backstage — Cloudflare) |
+| `docs/GOOGLE_SEARCH_CONSOLE.md` | GSC verification, sitemap submit, indexing |
 | `docs/BACKSTAGE_LOCAL_SCRAPE.md` | Local Backstage screen-unlock watcher setup for macOS |

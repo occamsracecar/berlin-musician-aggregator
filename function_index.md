@@ -27,6 +27,9 @@
 | `src/lib/email.ts` | `sendListingMessageEmail()` | Emails listing owner (HTML + reply-to) |
 | `src/lib/email.ts` | `sendListingMessageConfirmationEmail()` | Sends sender a copy of their message |
 | `src/lib/email.ts` | `isEmailConfigured()` | Whether RESEND_API_KEY is set |
+| `src/lib/site-url.ts` | `getCanonicalSiteOrigin()` | Configured production origin from env |
+| `src/lib/site-url.ts` | `shouldRedirectToCanonicalHost()` | Whether to redirect off vercel.app to custom domain |
+| `src/lib/site-url.ts` | `buildOAuthCallbackRecoveryUrl()` | Fixes Supabase OAuth landing on `/` with `?code=` |
 | `src/lib/site-url.ts` | `getSiteOrigin()` | Public site origin for email links |
 | `src/lib/site-url.ts` | `getListingBrowseUrl()` | Browse URL with `?listing=` deep link |
 | `src/lib/profile-email.ts` | `parseContactEmail()` | Validates profile contact email |

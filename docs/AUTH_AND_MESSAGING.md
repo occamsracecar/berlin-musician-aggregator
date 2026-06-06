@@ -14,19 +14,29 @@ The name on Google’s consent screen comes from your **Google Cloud OAuth conse
 2. **APIs & Services** → **OAuth consent screen**.
 3. Set **App name** to `Berlin Musicians` (or similar).
 4. Add a **User support email** and, if you publish the app, an **App logo** (optional but helps trust).
-5. Under **App domain**, set **Application home page** to `https://berlin-musician-aggregator.vercel.app`.
+5. Under **App domain**, set **Application home page** to `https://berlinbandhub.de`.
 6. Save. New sign-ins should show “Berlin Musicians” instead of the Supabase project hostname.
 
 The redirect URI stays `https://<project-ref>.supabase.co/auth/v1/callback` in Google’s **Authorized redirect URIs** — that URL is normal and users rarely see it if the app name is set correctly.
 
 2. Under **Authentication** → **URL configuration**:
-   - **Site URL:** `https://berlin-musician-aggregator.vercel.app` (production default)
+   - **Site URL:** `https://berlinbandhub.de`
    - **Redirect URLs** (add every environment you use — required for Google to return to the right app):
      - `http://localhost:3000/**`
      - `http://127.0.0.1:3000/**`
-     - `https://berlin-musician-aggregator.vercel.app/**`
+     - `https://berlinbandhub.de/**`
+     - `https://www.berlinbandhub.de/**` (if you use www)
 
-   If `localhost` is missing, Supabase ignores the app’s redirect and sends you to **Site URL** (Vercel) after sign-in.
+   If the custom domain is missing here, Supabase ignores the app’s redirect and sends you to **Site URL** with `?code=` on `/` (often the old `*.vercel.app` URL).
+
+### Custom domain (Vercel)
+
+1. Vercel → project → **Settings** → **Domains** → add `berlinbandhub.de` (and `www` if needed). Set one as **Primary**.
+2. Vercel → **Settings** → **Environment Variables** → Production:
+   - `NEXT_PUBLIC_SITE_URL` = `https://berlinbandhub.de`
+3. Redeploy after changing env vars.
+
+The app redirects other production hosts (including `*.vercel.app`) to `NEXT_PUBLIC_SITE_URL` and recovers OAuth codes sent to `/` by forwarding them to `/auth/callback`.
 
 ### Local development checklist
 
@@ -46,7 +56,7 @@ Add to `.env.local` and Vercel (required for email to work):
 
 - `RESEND_API_KEY` — from Resend dashboard
 - `RESEND_FROM_EMAIL` — verified sender, e.g. `Berlin Musician Listings <notifications@yourdomain.com>`
-- `NEXT_PUBLIC_SITE_URL` — production URL for links in emails (e.g. `https://berlin-musician-aggregator.vercel.app`)
+- `NEXT_PUBLIC_SITE_URL` — production URL for links in emails (e.g. `https://berlinbandhub.de`)
 - `SUPABASE_SERVICE_ROLE_KEY` — already needed; used to resolve the listing owner's email
 
 Without `RESEND_API_KEY`, the **Email author** button still appears but sending fails with a clear error.

@@ -1,10 +1,35 @@
 import { createServerClient } from "@supabase/ssr";
+import {
+  buildOAuthCallbackRecoveryUrl,
+  getCanonicalSiteOrigin,
+  shouldRedirectToCanonicalHost,
+} from "@/lib/site-url";
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * Refreshes the Supabase session and protects routes that require sign-in.
  */
 export async function middleware(request: NextRequest) {
+  const canonicalOrigin = getCanonicalSiteOrigin();
+
+  if (
+    process.env.VERCEL_ENV === "production" &&
+    canonicalOrigin &&
+    shouldRedirectToCanonicalHost(request.nextUrl.hostname, canonicalOrigin)
+  ) {
+    const redirectUrl = new URL(
+      `${request.nextUrl.pathname}${request.nextUrl.search}`,
+      canonicalOrigin,
+    );
+    return NextResponse.redirect(redirectUrl, 308);
+  }
+
+  const oauthRecoveryUrl = buildOAuthCallbackRecoveryUrl(request.nextUrl);
+
+  if (oauthRecoveryUrl) {
+    return NextResponse.redirect(oauthRecoveryUrl);
+  }
+
   let response = NextResponse.next({
     request: { headers: request.headers },
   });

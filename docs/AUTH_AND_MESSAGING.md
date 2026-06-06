@@ -55,9 +55,10 @@ Contact messages on **community** listings are emailed via [Resend](https://rese
 Add to `.env.local` and Vercel (required for email to work):
 
 - `RESEND_API_KEY` — from Resend dashboard
-- `RESEND_FROM_EMAIL` — verified sender, e.g. `Berlin Musician Listings <notifications@yourdomain.com>`
+- `RESEND_FROM_EMAIL` — verified sender, e.g. `Berlin Musician Listings <notifications@berlinbandhub.de>`
 - `NEXT_PUBLIC_SITE_URL` — production URL for links in emails (e.g. `https://berlinbandhub.de`)
-- `SUPABASE_SERVICE_ROLE_KEY` — already needed; used to resolve the listing owner's email
+
+Listing messages read the owner’s **contact email** from their public profile (backfilled from sign-in email). `SUPABASE_SERVICE_ROLE_KEY` is only required for **delete account**, not for messaging.
 
 Without `RESEND_API_KEY`, the **Email author** button still appears but sending fails with a clear error.
 

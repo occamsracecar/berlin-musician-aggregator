@@ -77,7 +77,7 @@ export async function updateProfile(
   const { error } = await supabase.from("profiles").upsert({
     id: user.id,
     display_name: displayName || null,
-    contact_email: contactEmailParsed.value,
+    contact_email: contactEmailParsed.value ?? user.email ?? null,
     avatar_url: normalizedAvatar,
     ...socialUpdates,
     updated_at: new Date().toISOString(),

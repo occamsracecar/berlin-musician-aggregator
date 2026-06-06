@@ -19,12 +19,14 @@
 | `src/components/ListingFormFields.tsx` | `ListingFormFields()` | Shared listing form fields |
 | `src/components/UserListingsSection.tsx` | `UserListingsSection()` | Profile section listing user's posts |
 | `src/components/UserListingEditor.tsx` | `UserListingEditor()` | Single listing row with inline edit |
-| `src/app/actions/send-listing-message.ts` | `sendListingMessage()` | Saves message and emails listing owner |
+| `src/app/actions/send-listing-message.ts` | `sendListingMessage()` | Saves message and emails owner via profile contact_email |
 | `src/lib/supabase/client.ts` | `createSupabaseClient()` | Creates Supabase client for anonymous reads |
 | `src/lib/supabase/server.ts` | `createSupabaseServerClient()` | Cookie-based Supabase client for server/actions |
 | `src/lib/supabase/browser.ts` | `createSupabaseBrowserClient()` | Browser Supabase client for auth UI |
-| `src/lib/supabase/admin.ts` | `createSupabaseAdminClient()` | Service-role client for owner email lookup |
+| `src/lib/supabase/admin.ts` | `createSupabaseAdminClient()` | Service-role client for account deletion |
 | `src/lib/email.ts` | `sendListingMessageEmail()` | Emails listing owner (HTML + reply-to) |
+| `src/lib/email.ts` | `sendListingMessageConfirmationEmail()` | Sends sender a copy of their message |
+| `src/lib/email.ts` | `isEmailConfigured()` | Whether RESEND_API_KEY is set |
 | `src/lib/email.ts` | `sendListingMessageConfirmationEmail()` | Sends sender a copy of their message |
 | `src/lib/email.ts` | `isEmailConfigured()` | Whether RESEND_API_KEY is set |
 | `src/lib/site-url.ts` | `PRODUCTION_CANONICAL_ORIGIN` | Hardcoded production domain (`berlinbandhub.de`) |
@@ -156,7 +158,7 @@
 | `supabase/migrations/20260601120000_add_search_blob.sql` | Adds space-insensitive `search_blob` for generous text search |
 | `supabase/migrations/20260602120000_user_profiles_and_messages.sql` | Profiles, `created_by`, listing messages, auth RLS |
 | `supabase/migrations/20260602140000_profile_social_and_avatars.sql` | Profile social URLs, avatar storage bucket |
-| `supabase/migrations/20260603120000_community_listing_email.sql` | Profile contact email, Resend messaging |
+| `supabase/migrations/20260606180000_profile_contact_email_backfill.sql` | Backfill profile contact_email from auth.users for messaging |
 
 ## Automation
 

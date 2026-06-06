@@ -6,7 +6,6 @@ import {
 } from "@/lib/email";
 import { canReceiveListingMessages } from "@/lib/listings";
 import { getListingBrowseUrl } from "@/lib/site-url";
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type SendListingMessageState = {
@@ -69,6 +68,22 @@ export async function sendListingMessage(
     };
   }
 
+  const { data: ownerProfile, error: ownerProfileError } = await supabase
+    .from("profiles")
+    .select("display_name, contact_email")
+    .eq("id", entry.created_by!)
+    .maybeSingle();
+
+  const ownerEmail = ownerProfile?.contact_email?.trim() || null;
+
+  if (ownerProfileError || !ownerEmail) {
+    return {
+      success: false,
+      message:
+        "This listing author has no contact email on their profile yet. They can add one under Profile → Contact email.",
+    };
+  }
+
   const { data: inserted, error: insertError } = await supabase
     .from("listing_messages")
     .insert({
@@ -83,42 +98,6 @@ export async function sendListingMessage(
     return {
       success: false,
       message: "Could not send your message. Please try again.",
-    };
-  }
-
-  let admin;
-
-  try {
-    admin = createSupabaseAdminClient();
-  } catch {
-    await supabase.from("listing_messages").delete().eq("id", inserted.id);
-
-    return {
-      success: false,
-      message:
-        "Messages are saved but email is not configured on the server (SUPABASE_SERVICE_ROLE_KEY).",
-    };
-  }
-
-  const [{ data: ownerAuth, error: ownerError }, { data: ownerProfile }] =
-    await Promise.all([
-      admin.auth.admin.getUserById(entry.created_by!),
-      admin
-        .from("profiles")
-        .select("display_name, contact_email")
-        .eq("id", entry.created_by!)
-        .maybeSingle(),
-    ]);
-
-  const ownerEmail =
-    ownerProfile?.contact_email?.trim() || ownerAuth?.user?.email || null;
-
-  if (ownerError || !ownerEmail) {
-    await supabase.from("listing_messages").delete().eq("id", inserted.id);
-
-    return {
-      success: false,
-      message: "Could not find the listing author's email address.",
     };
   }
 

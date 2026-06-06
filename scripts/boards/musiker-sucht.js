@@ -1,9 +1,11 @@
 const { parseGermanListingDate } = require("../lib/date-utils");
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
 const { isKnownListing } = require("../lib/scrape-context");
+const { dismissConsentDialogs, getScrapeTimeouts } = require("../lib/page-utils");
 
 const BOARD_NAME = "musiker-sucht.de";
 const LISTING_URL = "https://www.musiker-sucht.de/index.php/stadt/berlin";
+const { navigationMs } = getScrapeTimeouts();
 
 /**
  * Parses a musiker-sucht card string into title, description snippet, and date.
@@ -116,7 +118,14 @@ async function enrichMusikerSuchtDetail(page, entry) {
  */
 async function scrapeMusikerSucht(page, options = {}) {
   const { incremental = false, knownUrls = new Set() } = options;
-  await page.goto(LISTING_URL, { waitUntil: "networkidle", timeout: 60000 });
+  await page.goto(LISTING_URL, {
+    waitUntil: "domcontentloaded",
+    timeout: navigationMs,
+  });
+  await dismissConsentDialogs(page);
+  await page.waitForSelector('a[href*="/kleinanzeigen/"]', {
+    timeout: navigationMs,
+  });
 
   const cards = await page.evaluate(() =>
     [...document.querySelectorAll('a[href*="/kleinanzeigen/"]')].map((anchor) => ({

@@ -13,6 +13,7 @@ const {
   createScraperSupabaseClient,
   upsertEntries,
 } = require("./lib/supabase");
+const { blockHeavyAssets, isCiEnvironment } = require("./lib/page-utils");
 
 /** Boards scraped on each full run, in priority order. */
 const BOARD_SCRAPERS = [
@@ -82,7 +83,12 @@ async function runScrape() {
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     locale: "de-DE",
   });
+
+  if (isCiEnvironment()) {
+    await blockHeavyAssets(context);
+  }
   const failures = [];
+  const boardStats = [];
 
   try {
     const scrapedEntries = [];
@@ -95,9 +101,23 @@ async function runScrape() {
       };
 
       try {
-        scrapedEntries.push(
-          ...(await scrapeBoard(boardPage, board, scrapeOptions, failures)),
+        const beforeFailures = failures.length;
+        const entries = await scrapeBoard(
+          boardPage,
+          board,
+          scrapeOptions,
+          failures,
         );
+        scrapedEntries.push(...entries);
+        const boardFailure = failures
+          .slice(beforeFailures)
+          .find((item) => item.board === board.id);
+        boardStats.push({
+          board: board.id,
+          count: entries.length,
+          ok: !boardFailure,
+          message: boardFailure?.message,
+        });
       } finally {
         await boardPage.close();
       }
@@ -132,10 +152,25 @@ async function runScrape() {
 
     console.log(`Done. Upserted ${count} rows.`);
 
+    for (const stat of boardStats) {
+      if (stat.ok) {
+        console.log(`[summary] ${stat.board}: ${stat.count} scraped`);
+      } else {
+        console.warn(`[summary] ${stat.board}: FAILED — ${stat.message}`);
+      }
+    }
+
     if (failures.length) {
       console.warn(
         `\nCompleted with ${failures.length} board failure(s): ${failures.map((item) => item.board).join(", ")}`,
       );
+    }
+
+    const boardsSucceeded = boardStats.filter((stat) => stat.ok).length;
+
+    if (boardsSucceeded === 0) {
+      process.exitCode = 1;
+    } else if (failures.length && count === 0) {
       process.exitCode = 1;
     }
   } finally {

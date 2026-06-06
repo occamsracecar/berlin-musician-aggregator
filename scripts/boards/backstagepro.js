@@ -1,38 +1,63 @@
 const { parseGermanListingDate } = require("../lib/date-utils");
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
 const { isKnownListing } = require("../lib/scrape-context");
+const {
+  dismissConsentDialogs,
+  getScrapeTimeouts,
+} = require("../lib/page-utils");
 
 const BOARD_NAME = "backstagepro.de";
 const BASE_URL =
   "https://www.backstagepro.de/musikersuche/region/berlin-berlin-de";
 const ORIGIN = "https://www.backstagepro.de";
-const LISTING_SELECTOR = ".media-object-section.pbody";
-const INDEX_WAIT_MS = 30000;
-const NAVIGATION_TIMEOUT_MS = 90000;
+const LISTING_SELECTORS = [
+  ".media-object-section.pbody",
+  "h2.resource-title a[href*='/musikerkontakt/']",
+];
+const { navigationMs, selectorMs, retryDelayMs, maxAttempts } =
+  getScrapeTimeouts();
+
+/**
+ * Waits until listing blocks or title links appear on a Backstage PRO page.
+ */
+async function waitForBackstageListings(page) {
+  for (const selector of LISTING_SELECTORS) {
+    try {
+      await page.waitForSelector(selector, { timeout: selectorMs });
+      return selector;
+    } catch {
+      // Try the next selector.
+    }
+  }
+
+  throw new Error(
+    `No listings found (tried: ${LISTING_SELECTORS.join(", ")})`,
+  );
+}
 
 /**
  * Loads a Backstage PRO page and waits for listing blocks to appear.
  */
 async function loadBackstageproPage(page, url, attempt = 1) {
-  const maxAttempts = 3;
-
   try {
     await page.goto(url, {
       waitUntil: "domcontentloaded",
-      timeout: NAVIGATION_TIMEOUT_MS,
+      timeout: navigationMs,
     });
-    await page.waitForSelector(LISTING_SELECTOR, {
-      timeout: INDEX_WAIT_MS,
-    });
+    await dismissConsentDialogs(page);
+    return await waitForBackstageListings(page);
   } catch (error) {
     if (attempt >= maxAttempts) {
-      throw error;
+      const debugTitle = await page.title().catch(() => "");
+      throw new Error(
+        `${error instanceof Error ? error.message : String(error)} (page: "${debugTitle}")`,
+      );
     }
 
     console.warn(
       `[${BOARD_NAME}] page load retry ${attempt}/${maxAttempts - 1}: ${url}`,
     );
-    await page.waitForTimeout(2000 * attempt);
+    await page.waitForTimeout(retryDelayMs * attempt);
     return loadBackstageproPage(page, url, attempt + 1);
   }
 }
@@ -41,14 +66,13 @@ async function loadBackstageproPage(page, url, attempt = 1) {
  * Loads a Backstage PRO detail page and waits for profile content.
  */
 async function loadBackstageproDetailPage(page, url, attempt = 1) {
-  const maxAttempts = 3;
-
   try {
     await page.goto(url, {
       waitUntil: "domcontentloaded",
-      timeout: NAVIGATION_TIMEOUT_MS,
+      timeout: navigationMs,
     });
-    await page.waitForSelector("h3", { timeout: INDEX_WAIT_MS });
+    await dismissConsentDialogs(page);
+    await page.waitForSelector("h3", { timeout: selectorMs });
   } catch (error) {
     if (attempt >= maxAttempts) {
       throw error;
@@ -57,7 +81,7 @@ async function loadBackstageproDetailPage(page, url, attempt = 1) {
     console.warn(
       `[${BOARD_NAME}] detail retry ${attempt}/${maxAttempts - 1}: ${url}`,
     );
-    await page.waitForTimeout(2000 * attempt);
+    await page.waitForTimeout(retryDelayMs * attempt);
     return loadBackstageproDetailPage(page, url, attempt + 1);
   }
 }
@@ -194,11 +218,11 @@ async function scrapeBackstagepro(page, options = {}) {
 
   while (true) {
     const url = buildListingUrl(pageIndex);
-    await loadBackstageproPage(page, url);
+    const listingSelector = await loadBackstageproPage(page, url);
 
     const items = await page.evaluate(
-      (listingSelector) =>
-        [...document.querySelectorAll(listingSelector)]
+      (selector) =>
+        [...document.querySelectorAll(selector)]
         .map((block) => {
           const anchor = block.querySelector('h2.resource-title a[href*="/musikerkontakt/"]');
           if (!anchor) {
@@ -227,7 +251,9 @@ async function scrapeBackstagepro(page, options = {}) {
           };
         })
         .filter(Boolean),
-      LISTING_SELECTOR,
+      listingSelector.startsWith("h2")
+        ? ".media-object-section.pbody"
+        : listingSelector,
     );
 
     if (!items.length) {

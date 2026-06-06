@@ -24,6 +24,8 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - uses: actions/checkout@v4
@@ -40,16 +42,28 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run scraper
+        id: scrape
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SCRAPE_BOARD: ${{ github.event.inputs.board }}
           SCRAPE_INCREMENTAL: ${{ github.event.inputs.full_scrape != 'true' && 'true' || 'false' }}
-        run: npm run scrape
+        run: |
+          set -o pipefail
+          npm run scrape 2>&1 | tee scrape.log
 
       - name: Scrape summary
         if: always()
         run: |
-          echo "Finished at $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
-          echo "Mode: ${{ github.event.inputs.full_scrape == 'true' && 'full' || 'incremental (new listings only)' }}"
+          echo "## Scrape run $(date -u +"%Y-%m-%d %H:%M UTC")" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Mode:** ${{ github.event.inputs.full_scrape == 'true' && 'full (all listings)' || 'incremental (new listings only)' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f scrape.log ]; then
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            grep -E '^\[summary\]|^Done\.|^Incremental|^Completed with|FAILED:' scrape.log | tail -20 >> "$GITHUB_STEP_SUMMARY" || true
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Daily cron only fetches **new** URLs not already in the database. A red run usually means one board failed, not that nothing was saved." >> "$GITHUB_STEP_SUMMARY"

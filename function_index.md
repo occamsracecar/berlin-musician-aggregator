@@ -12,6 +12,9 @@
 | `src/app/auth/callback/route.ts` | `GET` | OAuth and email confirmation callback |
 | `src/app/actions/submit-listing.ts` | `submitListing()` | Inserts community listing for authenticated user |
 | `src/app/actions/update-listing.ts` | `updateListing()` | Updates the signed-in user's community listing |
+| `src/app/actions/delete-listing.ts` | `deleteListing()` | Deletes the signed-in user's community listing |
+| `src/app/actions/delete-account.ts` | `deleteAccount()` | Permanently deletes user, listings, and avatar |
+| `src/components/DeleteAccountSection.tsx` | `DeleteAccountSection()` | Profile danger-zone account deletion form |
 | `src/lib/listing-form.ts` | `parseListingFormData()` | Shared validation for create/edit listing forms |
 | `src/components/ListingFormFields.tsx` | `ListingFormFields()` | Shared listing form fields |
 | `src/components/UserListingsSection.tsx` | `UserListingsSection()` | Profile section listing user's posts |
@@ -21,8 +24,18 @@
 | `src/lib/supabase/server.ts` | `createSupabaseServerClient()` | Cookie-based Supabase client for server/actions |
 | `src/lib/supabase/browser.ts` | `createSupabaseBrowserClient()` | Browser Supabase client for auth UI |
 | `src/lib/supabase/admin.ts` | `createSupabaseAdminClient()` | Service-role client for owner email lookup |
-| `src/lib/email.ts` | `sendListingMessageEmail()` | Sends contact message via Resend |
-| `src/lib/listings.ts` | `isUserSubmittedListing()` | Whether listing supports in-app messaging |
+| `src/lib/email.ts` | `sendListingMessageEmail()` | Emails listing owner (HTML + reply-to) |
+| `src/lib/email.ts` | `sendListingMessageConfirmationEmail()` | Sends sender a copy of their message |
+| `src/lib/email.ts` | `isEmailConfigured()` | Whether RESEND_API_KEY is set |
+| `src/lib/site-url.ts` | `getSiteOrigin()` | Public site origin for email links |
+| `src/lib/site-url.ts` | `getListingBrowseUrl()` | Browse URL with `?listing=` deep link |
+| `src/lib/profile-email.ts` | `parseContactEmail()` | Validates profile contact email |
+| `src/lib/listings.ts` | `isCommunityListing()` | Community board listing with author |
+| `src/lib/listings.ts` | `canReceiveListingMessages()` | Whether listing supports email contact |
+| `src/lib/listings.ts` | `isUserSubmittedListing()` | Whether listing has a `created_by` author |
+| `src/components/ListingDeepLink.tsx` | `ListingDeepLink()` | Opens detail modal from `?listing=` URL |
+| `src/components/ProfileMessagesSection.tsx` | `ProfileMessagesSection()` | Inbox of messages on user's listings |
+| `src/components/ProfileMessagesSection.tsx` | `buildProfileListingMessages()` | Joins messages with titles and senders |
 | `middleware.ts` | `middleware()` | Session refresh; protects `/submit` |
 | `src/components/AuthForm.tsx` | `AuthForm()` | Email/password and Google auth form |
 | `src/components/NavAuth.tsx` | `NavAuth()` | Sign in / sign out in nav |
@@ -52,6 +65,9 @@
 | `src/lib/constants.ts` | `isRecentListing()` | Returns whether a listing is newer than one week |
 | `src/components/ListingNewBadge.tsx` | `ListingNewBadge()` | Shiny badge for listings from the last 7 days |
 | `src/components/ListingPagination.tsx` | `ListingPagination()` | Previous/next page navigation for browse results |
+| `src/components/SiteLogo.tsx` | `SiteLogo()` | Site logo in nav and auth (`public/logo.png`) |
+| `src/lib/site-branding.ts` | `SITE_LOGO_SOURCES` | Public logo paths and alt text |
+| `src/components/AuthPageBrand.tsx` | `AuthPageBrand()` | Logo and heading on login page |
 | `src/components/AppNav.tsx` | `AppNav()` | Browse / Submit navigation tabs |
 | `src/hooks/use-listing-filters.ts` | `useListingFilters()` | Syncs browse filters with URL search params |
 | `src/components/BrowseNavControls.tsx` | `BrowseNavControls()` | Nav search bar and filters dropdown |
@@ -66,7 +82,8 @@
 | File | Symbol | Description |
 |------|--------|-------------|
 | `scripts/scrape.js` | `runScrape()` | Main entry: runs all board scrapers and upserts |
-| `scripts/lib/scrape-context.js` | `isIncrementalScrape()` | Whether to skip listings already in the database |
+| `scripts/lib/page-utils.js` | `dismissConsentDialogs()` | Closes cookie banners before scraping |
+| `scripts/lib/page-utils.js` | `getScrapeTimeouts()` | Longer timeouts on GitHub Actions CI |
 | `scripts/lib/scrape-context.js` | `loadKnownUrlsByBoard()` | Loads existing URLs per board for incremental scrapes |
 | `scripts/scrape.js` | `scrapeBoard()` | Runs one board scraper; logs errors without stopping others |
 | `scripts/lib/supabase.js` | `createScraperSupabaseClient()` | Admin Supabase client for scraper |

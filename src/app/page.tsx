@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { AppNav } from "@/components/AppNav";
 import { BrowseNavControls } from "@/components/BrowseNavControls";
 import { ListingCard } from "@/components/ListingCard";
+import { ListingDeepLink } from "@/components/ListingDeepLink";
 import { ListingPagination } from "@/components/ListingPagination";
 import {
   ENTRIES_PER_PAGE,
@@ -103,12 +104,20 @@ function formatResultRange(
   return `Showing ${start.toLocaleString("de-DE")}–${end.toLocaleString("de-DE")} of ${total.toLocaleString("de-DE")} listing${total === 1 ? "" : "s"}`;
 }
 
+type HomeSearchParams = ListingFiltersState & {
+  listing?: string;
+};
+
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<ListingFiltersState>;
+  searchParams: Promise<HomeSearchParams>;
 }) {
   const params = await searchParams;
+  const listingId =
+    typeof params.listing === "string" && params.listing.trim()
+      ? params.listing.trim()
+      : null;
   const filters: ListingFiltersState = {
     q: params.q ?? "",
     board: params.board ?? "",
@@ -128,6 +137,29 @@ export default async function Home({
   } = await supabase.auth.getUser();
   const isSignedIn = Boolean(user);
   const entriesWithAuthors = await attachAuthorProfiles(supabase, entries);
+
+  let deepLinkEntries = entriesWithAuthors;
+
+  if (
+    listingId &&
+    !entriesWithAuthors.some((entry) => entry.id === listingId)
+  ) {
+    const { data: deepLinkRow } = await supabase
+      .from("entries")
+      .select("*")
+      .eq("id", listingId)
+      .maybeSingle();
+
+    if (deepLinkRow) {
+      const [deepLinkEntry] = await attachAuthorProfiles(supabase, [
+        deepLinkRow as Entry,
+      ]);
+
+      if (deepLinkEntry) {
+        deepLinkEntries = [deepLinkEntry, ...entriesWithAuthors];
+      }
+    }
+  }
 
   return (
     <div className="min-h-full bg-zinc-50">
@@ -189,6 +221,12 @@ export default async function Home({
           </>
         )}
       </main>
+
+      <ListingDeepLink
+        entries={deepLinkEntries}
+        listingId={listingId}
+        isSignedIn={isSignedIn}
+      />
     </div>
   );
 }

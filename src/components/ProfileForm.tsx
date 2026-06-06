@@ -65,6 +65,22 @@ export function ProfileForm({ userId, profile, email }: ProfileFormProps) {
         />
       </label>
 
+      <label className="flex flex-col gap-1.5 text-sm">
+        <span className="font-medium text-zinc-700">Contact email</span>
+        <input
+          type="email"
+          name="contact_email"
+          autoComplete="email"
+          defaultValue={profile?.contact_email ?? email}
+          placeholder={email}
+          className={inputClassName}
+        />
+        <span className="text-xs text-zinc-500">
+          Messages about your community listings are sent here. Leave as your
+          sign-in email or use another inbox you check.
+        </span>
+      </label>
+
       <fieldset className="flex flex-col gap-4">
         <legend className="text-sm font-medium text-zinc-700">
           Music links

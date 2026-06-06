@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { NavAuth } from "@/components/NavAuth";
+import { SiteLogo } from "@/components/SiteLogo";
 
 type AppNavProps = {
   active: "browse" | "submit";
@@ -30,8 +31,10 @@ export function AppNav({ active, sticky = false, children }: AppNavProps) {
       ].join(" ")}
     >
       <div className="mx-auto flex w-full min-w-0 max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6">
-        <div className="flex w-full min-w-0 items-center gap-2">
-          <div className="flex min-w-0 flex-1 gap-2">
+        <div className="flex w-full min-w-0 items-center gap-2 sm:gap-3">
+          <SiteLogo size="nav" />
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <div className="flex min-w-0 flex-1 gap-2">
             <Link href="/" className={tabClassName(active === "browse")}>
               <span className="sm:hidden">Browse</span>
               <span className="hidden sm:inline">Browse listings</span>
@@ -40,8 +43,9 @@ export function AppNav({ active, sticky = false, children }: AppNavProps) {
               <span className="sm:hidden">Submit</span>
               <span className="hidden sm:inline">Submit listing</span>
             </Link>
+            </div>
+            <NavAuth />
           </div>
-          <NavAuth />
         </div>
 
         {children ? (

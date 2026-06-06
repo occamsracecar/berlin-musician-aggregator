@@ -1,6 +1,11 @@
 "use server";
 
-import { sendListingMessageEmail } from "@/lib/email";
+import {
+  sendListingMessageConfirmationEmail,
+  sendListingMessageEmail,
+} from "@/lib/email";
+import { canReceiveListingMessages } from "@/lib/listings";
+import { getListingBrowseUrl } from "@/lib/site-url";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -12,7 +17,7 @@ export type SendListingMessageState = {
 const MAX_MESSAGE_LENGTH = 2000;
 
 /**
- * Stores a message and emails the listing owner (sender must be signed in).
+ * Stores a message and emails the community listing owner (sender must be signed in).
  */
 export async function sendListingMessage(
   _prevState: SendListingMessageState,
@@ -50,10 +55,10 @@ export async function sendListingMessage(
     .eq("id", entryId)
     .maybeSingle();
 
-  if (entryError || !entry?.created_by) {
+  if (entryError || !entry || !canReceiveListingMessages(entry)) {
     return {
       success: false,
-      message: "This listing cannot receive messages.",
+      message: "Only community listings posted here can receive messages.",
     };
   }
 
@@ -64,27 +69,56 @@ export async function sendListingMessage(
     };
   }
 
-  const { error: insertError } = await supabase.from("listing_messages").insert({
-    entry_id: entryId,
-    sender_id: user.id,
-    body,
-  });
+  const { data: inserted, error: insertError } = await supabase
+    .from("listing_messages")
+    .insert({
+      entry_id: entryId,
+      sender_id: user.id,
+      body,
+    })
+    .select("id")
+    .single();
 
-  if (insertError) {
+  if (insertError || !inserted) {
     return {
       success: false,
       message: "Could not send your message. Please try again.",
     };
   }
 
-  const admin = createSupabaseAdminClient();
-  const { data: ownerAuth, error: ownerError } =
-    await admin.auth.admin.getUserById(entry.created_by);
+  let admin;
 
-  if (ownerError || !ownerAuth.user?.email) {
+  try {
+    admin = createSupabaseAdminClient();
+  } catch {
+    await supabase.from("listing_messages").delete().eq("id", inserted.id);
+
     return {
       success: false,
-      message: "Message saved but the owner email could not be found.",
+      message:
+        "Messages are saved but email is not configured on the server (SUPABASE_SERVICE_ROLE_KEY).",
+    };
+  }
+
+  const [{ data: ownerAuth, error: ownerError }, { data: ownerProfile }] =
+    await Promise.all([
+      admin.auth.admin.getUserById(entry.created_by!),
+      admin
+        .from("profiles")
+        .select("display_name, contact_email")
+        .eq("id", entry.created_by!)
+        .maybeSingle(),
+    ]);
+
+  const ownerEmail =
+    ownerProfile?.contact_email?.trim() || ownerAuth?.user?.email || null;
+
+  if (ownerError || !ownerEmail) {
+    await supabase.from("listing_messages").delete().eq("id", inserted.id);
+
+    return {
+      success: false,
+      message: "Could not find the listing author's email address.",
     };
   }
 
@@ -94,15 +128,10 @@ export async function sendListingMessage(
     .eq("id", user.id)
     .maybeSingle();
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.VERCEL_URL ??
-    "http://localhost:3000";
-  const origin = siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`;
-  const listingUrl = `${origin}/?q=${encodeURIComponent(entry.title)}`;
+  const listingUrl = getListingBrowseUrl(entry.id);
 
   const emailResult = await sendListingMessageEmail({
-    to: ownerAuth.user.email,
+    to: ownerEmail,
     listingTitle: entry.title,
     senderLabel: senderProfile?.display_name ?? user.email,
     senderEmail: user.email,
@@ -111,14 +140,23 @@ export async function sendListingMessage(
   });
 
   if (!emailResult.ok) {
+    await supabase.from("listing_messages").delete().eq("id", inserted.id);
+
     return {
       success: false,
       message: emailResult.error,
     };
   }
 
+  await sendListingMessageConfirmationEmail({
+    to: user.email,
+    listingTitle: entry.title,
+    messageBody: body,
+  });
+
   return {
     success: true,
-    message: "Your message was sent. The listing author will receive it by email.",
+    message:
+      "Your message was sent. The listing author will receive it by email and can reply to you directly.",
   };
 }

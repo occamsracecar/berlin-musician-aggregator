@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ContactListingDialog } from "@/components/ContactListingDialog";
-import { isUserSubmittedListing } from "@/lib/listings";
+import { canReceiveListingMessages } from "@/lib/listings";
 import type { Entry } from "@/types/entry";
 
 type ListingContactActionsProps = {
@@ -18,19 +18,19 @@ export function ListingContactActions({
   isSignedIn,
 }: ListingContactActionsProps) {
   const [contactOpen, setContactOpen] = useState(false);
-  const isAppListing = isUserSubmittedListing(entry);
+  const canMessage = canReceiveListingMessages(entry);
   const isCommunityListing = entry.board_name === "community";
   const outboundUrl = isCommunityListing ? entry.contact_url : entry.original_url;
 
   return (
     <>
-      {isAppListing ? (
+      {canMessage ? (
         <button
           type="button"
           onClick={() => setContactOpen(true)}
           className="font-medium text-violet-600 hover:text-violet-800"
         >
-          Send message
+          Email author
         </button>
       ) : null}
 
@@ -43,11 +43,11 @@ export function ListingContactActions({
         >
           {isCommunityListing ? "Contact link →" : "View original listing →"}
         </a>
-      ) : isCommunityListing && !isAppListing ? (
+      ) : isCommunityListing && !canMessage ? (
         <span className="text-zinc-500">Community listing</span>
       ) : null}
 
-      {isAppListing ? (
+      {canMessage ? (
         <ContactListingDialog
           entry={entry}
           open={contactOpen}

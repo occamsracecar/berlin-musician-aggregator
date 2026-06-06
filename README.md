@@ -40,9 +40,16 @@ SCRAPE_BOARD=backstagepro.de npm run scrape
 
 Boards: `berlinmusiker.de`, `musiker-sucht.de`, `noisy-rooms.com`, `backstagepro.de`, `bandmix.de`.
 
+**Backstage PRO** is blocked on GitHub by Cloudflare — run it locally instead. See [docs/BACKSTAGE_LOCAL_SCRAPE.md](docs/BACKSTAGE_LOCAL_SCRAPE.md).
+
+```bash
+npm run scrape:backstage              # once, now
+npm run scrape:backstage:install      # run on screen unlock (once per day)
+```
+
 ## Daily automated scrape
 
-GitHub Actions runs **every day at 06:00 UTC** in **incremental** mode (new listings only).
+GitHub Actions runs **every day at 06:00 UTC** in **incremental** mode for all boards except Backstage (Cloudflare). **Backstage** runs on your Mac when you **unlock the screen** — `npm run scrape:backstage:install`.
 
 Manual run in GitHub: **Actions → Scrape musician listings → Run workflow**. Leave **full scrape** unchecked for a fast daily-style run; check it only when you need to refresh every listing.
 

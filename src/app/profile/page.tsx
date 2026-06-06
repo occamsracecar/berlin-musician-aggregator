@@ -1,4 +1,9 @@
 import { AppNav } from "@/components/AppNav";
+import { DeleteAccountSection } from "@/components/DeleteAccountSection";
+import {
+  buildProfileListingMessages,
+  ProfileMessagesSection,
+} from "@/components/ProfileMessagesSection";
 import { ProfileForm } from "@/components/ProfileForm";
 import { UserListingsSection } from "@/components/UserListingsSection";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -25,7 +30,7 @@ export default async function ProfilePage() {
     supabase
       .from("profiles")
       .select(
-        "id, display_name, avatar_url, soundcloud_url, youtube_url, bandcamp_url, spotify_url",
+        "id, display_name, contact_email, avatar_url, soundcloud_url, youtube_url, bandcamp_url, spotify_url",
       )
       .eq("id", user.id)
       .maybeSingle(),
@@ -38,6 +43,46 @@ export default async function ProfilePage() {
       .eq("board_name", "community")
       .order("published_at", { ascending: false }),
   ]);
+
+  const communityListings = (listings ?? []) as Entry[];
+  const entryIds = communityListings.map((listing) => listing.id);
+
+  let profileMessages = buildProfileListingMessages([], communityListings, new Map());
+
+  if (entryIds.length > 0) {
+    const { data: rawMessages } = await supabase
+      .from("listing_messages")
+      .select("id, body, created_at, entry_id, sender_id")
+      .in("entry_id", entryIds)
+      .order("created_at", { ascending: false })
+      .limit(50);
+
+    const senderIds = [
+      ...new Set((rawMessages ?? []).map((message) => message.sender_id)),
+    ];
+
+    const senderNamesById = new Map<string, string>();
+
+    if (senderIds.length > 0) {
+      const { data: senderProfiles } = await supabase
+        .from("profiles")
+        .select("id, display_name")
+        .in("id", senderIds);
+
+      for (const senderProfile of senderProfiles ?? []) {
+        senderNamesById.set(
+          senderProfile.id,
+          senderProfile.display_name?.trim() || "Someone",
+        );
+      }
+    }
+
+    profileMessages = buildProfileListingMessages(
+      rawMessages ?? [],
+      communityListings,
+      senderNamesById,
+    );
+  }
 
   return (
     <div className="min-h-full bg-zinc-50">
@@ -59,7 +104,11 @@ export default async function ProfilePage() {
           />
         </div>
 
-        <UserListingsSection listings={(listings ?? []) as Entry[]} />
+        <UserListingsSection listings={communityListings} />
+
+        <ProfileMessagesSection messages={profileMessages} />
+
+        <DeleteAccountSection />
       </main>
     </div>
   );

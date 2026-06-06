@@ -66,6 +66,15 @@
 | `src/components/ListingNewBadge.tsx` | `ListingNewBadge()` | Shiny badge for listings from the last 7 days |
 | `src/components/ListingPagination.tsx` | `ListingPagination()` | Previous/next page navigation for browse results |
 | `src/components/SiteLogo.tsx` | `SiteLogo()` | Site logo in nav and auth (`public/logo.png`) |
+| `src/components/SiteFooter.tsx` | `SiteFooter()` | Site-wide footer with legal page links |
+| `src/components/LegalPageShell.tsx` | `LegalPageShell()` | Shared layout for legal pages |
+| `src/components/LegalSection.tsx` | `LegalSection()` | Section heading block on legal pages |
+| `src/app/impressum/page.tsx` | `ImpressumPage()` | Impressum (legal notice) page |
+| `src/app/datenschutz/page.tsx` | `PrivacyPage()` | Privacy policy (GDPR) page |
+| `src/app/nutzungsbedingungen/page.tsx` | `TermsPage()` | Terms of use page |
+| `src/lib/legal-config.ts` | `getLegalContactEmail()` | Optional legal contact email from env |
+| `src/lib/legal-config.ts` | `LEGAL_SERVICE_NAME` | Site name on legal pages (no personal details) |
+| `src/lib/legal-config.ts` | `LEGAL_PAGE_LINKS` | Footer links to legal routes |
 | `src/lib/site-branding.ts` | `SITE_LOGO_SOURCES` | Public logo paths and alt text |
 | `src/components/AuthPageBrand.tsx` | `AuthPageBrand()` | Logo and heading on login page |
 | `src/components/AppNav.tsx` | `AppNav()` | Browse / Submit navigation tabs |
@@ -81,6 +90,14 @@
 
 | File | Symbol | Description |
 |------|--------|-------------|
+| `scripts/scrape-backstage.sh` | `already_ran_today()` | Whether Backstage scrape succeeded today (daily guard) |
+| `scripts/scrape-backstage.sh` | `mark_ran_today()` | Records successful Backstage scrape date |
+| `scripts/scrape-backstage.sh` | — | Backstage incremental scrape wrapper (unlock + manual) |
+| `scripts/backstage-unlock-watcher.swift` | `runScrapeWrapper()` | Spawns scrape on macOS screen unlock |
+| `scripts/backstage-unlock-watcher.swift` | `main()` | LaunchAgent entry: listens for unlock notifications |
+| `scripts/install-backstage-launch-agent.sh` | `compile_watcher()` | Builds Swift unlock watcher binary |
+| `scripts/install-backstage-launch-agent.sh` | `install_agent()` | macOS LaunchAgent: unlock watcher (KeepAlive) |
+| `scripts/install-backstage-launch-agent.sh` | `show_status()` | Watcher load state, last success date, log tail |
 | `scripts/scrape.js` | `runScrape()` | Main entry: runs all board scrapers and upserts |
 | `scripts/lib/page-utils.js` | `dismissConsentDialogs()` | Closes cookie banners before scraping |
 | `scripts/lib/page-utils.js` | `blockHeavyAssets()` | Skips images/fonts on CI for faster loads |
@@ -92,6 +109,7 @@
 | `scripts/lib/classify.js` | `detectGenres()` | Tags genres from listing text |
 | `scripts/lib/classify.js` | `scoreListingType()` | Weighted band vs musician signal scoring |
 | `scripts/lib/classify.js` | `detectListingType()` | Infers listing type from title and description |
+| `scripts/lib/date-utils.js` | `extractPublicationDateFromText()` | Parses dates embedded in Backstage feedhide text |
 | `scripts/lib/date-utils.js` | `parseBandmixActivityDate()` | Maps Bandmix “Aktiv …” labels to estimated last-active dates |
 | `scripts/lib/classify.js` | `classifyEntry()` | Adds genres and listing_type to entries |
 | `scripts/lib/parallel-enrich.js` | `enrichEntriesInParallel()` | Fetches full listing text in parallel browser tabs |
@@ -128,9 +146,11 @@
 | `supabase/migrations/20260601120000_add_search_blob.sql` | Adds space-insensitive `search_blob` for generous text search |
 | `supabase/migrations/20260602120000_user_profiles_and_messages.sql` | Profiles, `created_by`, listing messages, auth RLS |
 | `supabase/migrations/20260602140000_profile_social_and_avatars.sql` | Profile social URLs, avatar storage bucket |
+| `supabase/migrations/20260603120000_community_listing_email.sql` | Profile contact email, Resend messaging |
 
 ## Automation
 
 | File | Description |
 |------|-------------|
-| `.github/workflows/scrape.yml` | Daily cron (06:00 UTC) + manual run; scrapes all boards, 120 min timeout |
+| `.github/workflows/scrape.yml` | Daily cron (06:00 UTC) + manual; GitHub boards only (not Backstage — Cloudflare) |
+| `docs/BACKSTAGE_LOCAL_SCRAPE.md` | Local Backstage screen-unlock watcher setup for macOS |

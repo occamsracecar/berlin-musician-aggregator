@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { AppNav } from "@/components/AppNav";
 import { AuthForm } from "@/components/AuthForm";
+import { AuthPageBrand } from "@/components/AuthPageBrand";
 
 type LoginPageProps = {
   searchParams: Promise<{ next?: string; error?: string }>;
@@ -31,11 +32,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
       <main className="mx-auto max-w-md px-4 py-10 sm:px-6">
         <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-zinc-900">Sign in</h1>
-          <p className="mt-2 text-sm text-zinc-600">
-            Create an account to post listings and message other members. Only
-            signed-in users can send contact messages.
-          </p>
+          <AuthPageBrand />
 
           {errorMessage ? (
             <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">

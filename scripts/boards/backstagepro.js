@@ -1,4 +1,4 @@
-const { parseGermanListingDate } = require("../lib/date-utils");
+const { extractPublicationDateFromText } = require("../lib/date-utils");
 const { enrichEntriesInParallel } = require("../lib/parallel-enrich");
 const { isKnownListing } = require("../lib/scrape-context");
 const {
@@ -189,10 +189,14 @@ function extractBackstageproDetailText() {
 
   const details = sectionAfter("Details");
   const werdegang = sectionAfter("Musikalischer Werdegang");
+  const pub = document.body.innerText.match(
+    /veröffentlicht am\s+(\d{1,2}\.\s*\S+\s*\d{4})/i,
+  );
 
   return {
     details,
     werdegang,
+    publishedLabel: pub?.[1]?.trim() ?? null,
   };
 }
 
@@ -203,6 +207,12 @@ async function enrichBackstageproDetail(page, entry) {
   await loadBackstageproDetailPage(page, entry.original_url);
 
   const extra = await page.evaluate(extractBackstageproDetailText);
+  const publishedAt = extractPublicationDateFromText(extra.publishedLabel);
+
+  if (publishedAt) {
+    entry.published_at = publishedAt;
+  }
+
   const parts = [
     entry.description,
     extra.details || null,
@@ -269,6 +279,8 @@ async function scrapeBackstagepro(page, options = {}) {
     }
 
     let newOnPage = 0;
+    let refreshedOnPage = 0;
+    const refreshTopPage = incremental && pageIndex === 1;
 
     for (const item of items) {
       const originalUrl = normalizeListingUrl(item.href);
@@ -276,24 +288,37 @@ async function scrapeBackstagepro(page, options = {}) {
         continue;
       }
 
-      if (isKnownListing(knownUrls, incremental, originalUrl)) {
+      const isKnown = isKnownListing(knownUrls, incremental, originalUrl);
+
+      if (isKnown && !refreshTopPage) {
         continue;
       }
 
-      newOnPage += 1;
+      if (isKnown) {
+        refreshedOnPage += 1;
+      } else {
+        newOnPage += 1;
+      }
+
       entries.push({
         board_name: BOARD_NAME,
         title: item.title,
         description: buildDescription(item),
         original_url: originalUrl,
-        published_at: parseGermanListingDate(item.dateText),
+        published_at: extractPublicationDateFromText(item.dateText),
         listing_type_hint: parseRubrikHint(item.rubrik),
       });
     }
 
-    if (incremental && newOnPage === 0) {
+    if (incremental && newOnPage === 0 && refreshedOnPage === 0) {
       console.log(`[${BOARD_NAME}] index page ${pageIndex}: no new listings, stopping`);
       break;
+    }
+
+    if (refreshTopPage && refreshedOnPage > 0) {
+      console.log(
+        `[${BOARD_NAME}] index page 1: refreshing ${refreshedOnPage} top listings (dates/metadata)`,
+      );
     }
 
     pageIndex += 1;
@@ -301,7 +326,7 @@ async function scrapeBackstagepro(page, options = {}) {
 
   if (entries.length) {
     console.log(
-      `[${BOARD_NAME}] ${entries.length} new listings, fetching full text from detail pages...`,
+      `[${BOARD_NAME}] ${entries.length} listings, fetching full text from detail pages...`,
     );
 
     await enrichEntriesInParallel(page.context(), entries, enrichBackstageproDetail, {

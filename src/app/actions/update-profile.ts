@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { parseContactEmail } from "@/lib/profile-email";
 import {
   normalizeOptionalUrl,
   validateSocialUrl,
@@ -32,7 +33,14 @@ export async function updateProfile(
   }
 
   const displayName = String(formData.get("display_name") ?? "").trim();
+  const contactEmailRaw = String(formData.get("contact_email") ?? "");
   const avatarUrl = String(formData.get("avatar_url") ?? "").trim();
+
+  const contactEmailParsed = parseContactEmail(contactEmailRaw);
+
+  if (!contactEmailParsed.ok) {
+    return { success: false, message: contactEmailParsed.message };
+  }
 
   if (displayName.length > MAX_DISPLAY_NAME) {
     return {
@@ -69,6 +77,7 @@ export async function updateProfile(
   const { error } = await supabase.from("profiles").upsert({
     id: user.id,
     display_name: displayName || null,
+    contact_email: contactEmailParsed.value,
     avatar_url: normalizedAvatar,
     ...socialUpdates,
     updated_at: new Date().toISOString(),

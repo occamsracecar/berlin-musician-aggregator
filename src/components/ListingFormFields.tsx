@@ -97,7 +97,8 @@ export function ListingFormFields({
 
       {showProfileHint ? (
         <p className="text-sm text-zinc-600">
-          Signed-in members can message you by email from your listing.
+          Signed-in members can email you from your listing. Set your contact
+          email on your profile if you want messages in a different inbox.
         </p>
       ) : null}
     </>

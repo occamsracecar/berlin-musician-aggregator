@@ -1,6 +1,7 @@
 export type Profile = {
   id: string;
   display_name: string | null;
+  contact_email: string | null;
   avatar_url: string | null;
   soundcloud_url: string | null;
   youtube_url: string | null;

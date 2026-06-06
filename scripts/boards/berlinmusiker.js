@@ -5,7 +5,6 @@ const BOARD_NAME = "berlinmusiker.de";
 const BASE_URL = "https://www.berlinmusiker.de/anzeigen/start/anzeigen.html";
 const SUBCATS =
   "&subcat%5B%5D=5&subcat%5B%5D=6&subcat%5B%5D=7&subcat%5B%5D=11&subcat%5B%5D=12&subcat%5B%5D=13&text=";
-
 /**
  * Builds a paginated listing URL for a Berlinmusiker category.
  */

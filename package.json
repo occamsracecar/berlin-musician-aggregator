@@ -9,6 +9,10 @@
     "lint": "eslint",
     "scrape": "node scripts/scrape.js",
     "scrape:full": "SCRAPE_FULL=true node scripts/scrape.js",
+    "scrape:backstage": "SCRAPE_BOARD=backstagepro.de SCRAPE_INCREMENTAL=true node scripts/scrape.js",
+    "scrape:backstage:install": "bash scripts/install-backstage-launch-agent.sh install",
+    "scrape:backstage:status": "bash scripts/install-backstage-launch-agent.sh status",
+    "scrape:backstage:uninstall": "bash scripts/install-backstage-launch-agent.sh uninstall",
     "scrape:noisy-rooms": "SCRAPE_BOARD=noisy-rooms.com node scripts/scrape.js",
     "scrape:remaining": "SCRAPE_BOARD=berlinmusiker.de node scripts/scrape.js && SCRAPE_BOARD=musiker-sucht.de node scripts/scrape.js && SCRAPE_BOARD=backstagepro.de node scripts/scrape.js && SCRAPE_BOARD=bandmix.de node scripts/scrape.js"
   },

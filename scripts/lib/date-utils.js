@@ -74,6 +74,40 @@ function parseGermanListingDate(rawDate) {
   return null;
 }
 
+/**
+ * Pulls the best publication date from free-form Backstage text (feedhide, detail page).
+ * Prefers long German dates ("5. Juni 2026") over bare "02.05." fragments.
+ */
+function extractPublicationDateFromText(rawText) {
+  if (!rawText?.trim()) {
+    return null;
+  }
+
+  const text = rawText.trim();
+
+  const longMatch = text.match(
+    /(\d{1,2})\.\s*(Januar|Februar|März|Maerz|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s*(\d{4})/i,
+  );
+
+  if (longMatch) {
+    return parseGermanListingDate(
+      `${longMatch[1]}. ${longMatch[2]} ${longMatch[3]}`,
+    );
+  }
+
+  const fullMatch = text.match(/(\d{1,2}\.\d{1,2}\.\d{4})/);
+  if (fullMatch) {
+    return parseGermanListingDate(fullMatch[1]);
+  }
+
+  const shortMatch = text.match(/(\d{1,2}\.\d{1,2}\.?)(?!\d)/);
+  if (shortMatch) {
+    return parseGermanListingDate(shortMatch[1]);
+  }
+
+  return parseGermanListingDate(text);
+}
+
 /** Bandmix activity labels mapped to approximate days since last activity (+7d deprioritize). */
 const BANDMIX_ACTIVITY_DAYS_AGO = [
   { pattern: /innerhalb\s+24\s+stunden/i, daysAgo: 8 },
@@ -105,4 +139,8 @@ function parseBandmixActivityDate(rawActivity, referenceDate = new Date()) {
   return null;
 }
 
-module.exports = { parseGermanListingDate, parseBandmixActivityDate };
+module.exports = {
+  parseGermanListingDate,
+  parseBandmixActivityDate,
+  extractPublicationDateFromText,
+};

@@ -3,6 +3,10 @@
 import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+  deleteListing,
+  type DeleteListingState,
+} from "@/app/actions/delete-listing";
+import {
   updateListing,
   type UpdateListingState,
 } from "@/app/actions/update-listing";
@@ -10,7 +14,12 @@ import { ListingFormFields } from "@/components/ListingFormFields";
 import { getListingTypeLabel } from "@/lib/constants";
 import type { Entry } from "@/types/entry";
 
-const initialState: UpdateListingState = {
+const initialUpdateState: UpdateListingState = {
+  success: false,
+  message: "",
+};
+
+const initialDeleteState: DeleteListingState = {
   success: false,
   message: "",
 };
@@ -25,17 +34,29 @@ type UserListingEditorProps = {
 export function UserListingEditor({ entry }: UserListingEditorProps) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
-  const [state, formAction, isPending] = useActionState(
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [updateState, updateAction, isUpdatePending] = useActionState(
     updateListing,
-    initialState,
+    initialUpdateState,
+  );
+  const [deleteState, deleteAction, isDeletePending] = useActionState(
+    deleteListing,
+    initialDeleteState,
   );
 
   useEffect(() => {
-    if (state.success) {
+    if (updateState.success) {
       setEditing(false);
       router.refresh();
     }
-  }, [state.success, router]);
+  }, [updateState.success, router]);
+
+  useEffect(() => {
+    if (deleteState.success) {
+      setConfirmDelete(false);
+      router.refresh();
+    }
+  }, [deleteState.success, router]);
 
   const publishedDate = entry.published_at
     ? new Date(entry.published_at).toLocaleDateString("de-DE", {
@@ -49,7 +70,78 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
 
   return (
     <li className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-      {!editing ? (
+      {editing ? (
+        <form action={updateAction} className="flex flex-col gap-4">
+          <input type="hidden" name="entry_id" value={entry.id} />
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="font-semibold text-zinc-900">Edit listing</h3>
+            <button
+              type="button"
+              onClick={() => setEditing(false)}
+              className="text-sm font-medium text-zinc-500 hover:text-zinc-800"
+            >
+              Cancel
+            </button>
+          </div>
+          <ListingFormFields entry={entry} />
+          {updateState.message ? (
+            <p
+              className={`rounded-lg px-4 py-3 text-sm ${
+                updateState.success
+                  ? "bg-green-50 text-green-800"
+                  : "bg-red-50 text-red-800"
+              }`}
+            >
+              {updateState.message}
+            </p>
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="submit"
+              disabled={isUpdatePending}
+              className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
+            >
+              {isUpdatePending ? "Saving..." : "Save changes"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setEditing(false)}
+              className="rounded-lg border border-zinc-200 px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : confirmDelete ? (
+        <form action={deleteAction} className="flex flex-col gap-3">
+          <input type="hidden" name="entry_id" value={entry.id} />
+          <p className="text-sm text-zinc-700">
+            Delete <span className="font-medium">{entry.title}</span>? This cannot
+            be undone.
+          </p>
+          {deleteState.message && !deleteState.success ? (
+            <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
+              {deleteState.message}
+            </p>
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="submit"
+              disabled={isDeletePending}
+              className="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:opacity-60"
+            >
+              {isDeletePending ? "Deleting..." : "Yes, delete"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setConfirmDelete(false)}
+              className="rounded-lg border border-zinc-200 px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0 flex-1">
             <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
@@ -81,56 +173,29 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
               </div>
             ) : null}
           </div>
-          <button
-            type="button"
-            onClick={() => setEditing(true)}
-            className="shrink-0 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:border-violet-200 hover:text-violet-700"
-          >
-            Edit
-          </button>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setConfirmDelete(false);
+                setEditing(true);
+              }}
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:border-violet-200 hover:text-violet-700"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEditing(false);
+                setConfirmDelete(true);
+              }}
+              className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-700 transition hover:bg-red-50"
+            >
+              Delete
+            </button>
+          </div>
         </div>
-      ) : (
-        <form action={formAction} className="flex flex-col gap-4">
-          <input type="hidden" name="entry_id" value={entry.id} />
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="font-semibold text-zinc-900">Edit listing</h3>
-            <button
-              type="button"
-              onClick={() => setEditing(false)}
-              className="text-sm font-medium text-zinc-500 hover:text-zinc-800"
-            >
-              Cancel
-            </button>
-          </div>
-          <ListingFormFields entry={entry} />
-          {state.message ? (
-            <p
-              className={`rounded-lg px-4 py-3 text-sm ${
-                state.success
-                  ? "bg-green-50 text-green-800"
-                  : "bg-red-50 text-red-800"
-              }`}
-            >
-              {state.message}
-            </p>
-          ) : null}
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
-            >
-              {isPending ? "Saving..." : "Save changes"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setEditing(false)}
-              className="rounded-lg border border-zinc-200 px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
       )}
     </li>
   );

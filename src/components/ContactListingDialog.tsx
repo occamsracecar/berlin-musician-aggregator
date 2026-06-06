@@ -91,10 +91,14 @@ export function ContactListingDialog({
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <h2 id={titleId} className="text-lg font-semibold text-zinc-900">
-              Message listing author
+              Email listing author
             </h2>
             <p className="mt-1 text-sm text-zinc-600 line-clamp-2">
               {entry.title}
+            </p>
+            <p className="mt-2 text-xs text-zinc-500">
+              Your message is emailed to the author. They can reply directly to
+              your account email.
             </p>
           </div>
           <button
@@ -151,7 +155,7 @@ export function ContactListingDialog({
               disabled={isPending || state.success}
               className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
             >
-              {isPending ? "Sending..." : "Send message"}
+              {isPending ? "Sending..." : "Send email"}
             </button>
           </form>
         )}

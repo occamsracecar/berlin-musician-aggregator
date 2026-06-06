@@ -4,6 +4,7 @@ const { isKnownListing } = require("../lib/scrape-context");
 const {
   dismissConsentDialogs,
   getScrapeTimeouts,
+  isBotChallengePage,
 } = require("../lib/page-utils");
 
 const BOARD_NAME = "backstagepro.de";
@@ -45,6 +46,13 @@ async function loadBackstageproPage(page, url, attempt = 1) {
       timeout: navigationMs,
     });
     await dismissConsentDialogs(page);
+
+    if (await isBotChallengePage(page)) {
+      throw new Error(
+        "Blocked by Cloudflare bot check (common on GitHub Actions IPs)",
+      );
+    }
+
     return await waitForBackstageListings(page);
   } catch (error) {
     if (attempt >= maxAttempts) {

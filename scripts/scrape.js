@@ -124,13 +124,22 @@ async function runScrape() {
     }
 
     if (!scrapedEntries.length) {
-      if (failures.length) {
+      const boardsSucceeded = boardStats.filter((stat) => stat.ok).length;
+
+      if (boardsSucceeded === 0) {
         throw new Error(
-          `No listings scraped. Failures: ${failures.map((item) => item.board).join(", ")}`,
+          `All boards failed: ${failures.map((item) => `${item.board} (${item.message})`).join("; ")}`,
         );
       }
 
-      console.log("\nNo new listings found.");
+      if (failures.length) {
+        console.warn(
+          `\nNo new listings today. ${failures.length} board(s) had errors: ${failures.map((item) => item.board).join(", ")}`,
+        );
+      } else {
+        console.log("\nNo new listings found.");
+      }
+
       return;
     }
 

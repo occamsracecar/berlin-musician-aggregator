@@ -62,9 +62,23 @@ async function blockHeavyAssets(context) {
   });
 }
 
+/**
+ * Detects Cloudflare or bot-challenge interstitial pages.
+ */
+async function isBotChallengePage(page) {
+  const title = (await page.title().catch(() => "")).toLowerCase();
+
+  return (
+    title.includes("nur einen moment") ||
+    title.includes("just a moment") ||
+    title.includes("attention required")
+  );
+}
+
 module.exports = {
   isCiEnvironment,
   getScrapeTimeouts,
   dismissConsentDialogs,
   blockHeavyAssets,
+  isBotChallengePage,
 };

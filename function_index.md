@@ -83,7 +83,8 @@
 |------|--------|-------------|
 | `scripts/scrape.js` | `runScrape()` | Main entry: runs all board scrapers and upserts |
 | `scripts/lib/page-utils.js` | `dismissConsentDialogs()` | Closes cookie banners before scraping |
-| `scripts/lib/page-utils.js` | `getScrapeTimeouts()` | Longer timeouts on GitHub Actions CI |
+| `scripts/lib/page-utils.js` | `blockHeavyAssets()` | Skips images/fonts on CI for faster loads |
+| `scripts/lib/page-utils.js` | `isBotChallengePage()` | Detects Cloudflare interstitial pages |
 | `scripts/lib/scrape-context.js` | `loadKnownUrlsByBoard()` | Loads existing URLs per board for incremental scrapes |
 | `scripts/scrape.js` | `scrapeBoard()` | Runs one board scraper; logs errors without stopping others |
 | `scripts/lib/supabase.js` | `createScraperSupabaseClient()` | Admin Supabase client for scraper |

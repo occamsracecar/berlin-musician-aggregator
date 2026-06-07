@@ -1,5 +1,7 @@
 /** Footer and legal page link definitions. */
 export const LEGAL_PAGE_LINKS = [
+  { href: "/genres", label: "Genres" },
+  { href: "/faq", label: "FAQ" },
   { href: "/impressum", label: "Impressum" },
   { href: "/datenschutz", label: "Privacy" },
   { href: "/nutzungsbedingungen", label: "Terms" },

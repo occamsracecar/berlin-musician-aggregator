@@ -24,7 +24,7 @@
 | `src/lib/supabase/server.ts` | `createSupabaseServerClient()` | Cookie-based Supabase client for server/actions |
 | `src/lib/supabase/browser.ts` | `createSupabaseBrowserClient()` | Browser Supabase client for auth UI |
 | `src/lib/supabase/admin.ts` | `createSupabaseAdminClient()` | Service-role client for account deletion |
-| `src/lib/email.ts` | `sendListingMessageEmail()` | Emails listing owner (HTML + reply-to) |
+| `src/lib/email.ts` | `sendListingMessageEmail()` | Emails listing owner with site context, Reply-To, and reply mailto button |
 | `src/lib/email.ts` | `sendListingMessageConfirmationEmail()` | Sends sender a copy of their message |
 | `src/lib/email.ts` | `isEmailConfigured()` | Whether RESEND_API_KEY is set |
 | `src/lib/email.ts` | `sendListingMessageConfirmationEmail()` | Sends sender a copy of their message |
@@ -37,8 +37,7 @@
 | `src/lib/site-url.ts` | `shouldRedirectToCanonicalHost()` | Redirect only `*.vercel.app`, not www ↔ apex |
 | `src/lib/site-url.ts` | `buildOAuthCallbackRecoveryUrl()` | Fixes Supabase OAuth landing on `/` with `?code=` |
 | `src/lib/site-url.ts` | `getSiteOrigin()` | Public site origin for email links |
-| `src/lib/sitemap-urls.ts` | `getSitemapEntries()` | Sitemap URLs for static pages and listings |
-| `src/lib/sitemap-urls.ts` | `getStaticSitemapEntries()` | Homepage and legal routes for sitemap |
+| `src/lib/sitemap-urls.ts` | `getSitemapEntries()` | Sitemap URLs for genre hub and parent genre pages |
 | `src/app/robots.ts` | `robots()` | robots.txt generation |
 | `src/app/sitemap.ts` | `sitemap()` | XML sitemap for crawlers |
 | `src/lib/profile-email.ts` | `parseContactEmail()` | Validates profile contact email |
@@ -64,6 +63,15 @@
 | `src/lib/classify.ts` | `parseSubmittedGenres()` | Validates genre tags from submit form |
 | `src/lib/classify.ts` | `mergeListingGenres()` | Merges selected and auto-detected genre tags |
 | `src/lib/classify.ts` | `detectGenres()` | Tags genres from listing text on submit |
+| `src/lib/genre-pages.ts` | `getAllParentGenres()` | Parent genre SEO page definitions |
+| `src/lib/genre-pages.ts` | `getParentGenreBySlug()` | Resolves parent genre by URL slug |
+| `src/lib/genre-pages.ts` | `getParentGenrePath()` | Canonical path for a parent genre page |
+| `src/lib/genre-listings.ts` | `fetchGenreEntries()` | Paginated entries for a parent genre tag |
+| `src/lib/genre-listings.ts` | `fetchParentGenreCounts()` | Listing counts for all parent genres |
+| `src/lib/genre-listings.ts` | `buildGenrePageHref()` | Paginated URL for genre browse pages |
+| `src/components/GenrePagination.tsx` | `GenrePagination()` | Previous/next links on genre pages |
+| `src/app/genres/page.tsx` | `GenresHubPage()` | Hub linking to all parent genre pages |
+| `src/app/genre/[slug]/page.tsx` | `GenrePage()` | Parent genre category page with listings |
 | `src/lib/search.ts` | `parseSearchTokens()` | Normalizes query words for order-free search |
 | `src/lib/search.ts` | `buildSearchOrFilter()` | PostgREST OR filter for compact phrase or all words in any order |
 | `src/lib/constants.ts` | `getBoardLabel()` | Maps board slug to friendly label |
@@ -81,6 +89,8 @@
 | `src/components/SiteFooter.tsx` | `SiteFooter()` | Site-wide footer with legal page links |
 | `src/components/LegalPageShell.tsx` | `LegalPageShell()` | Shared layout for legal pages |
 | `src/components/LegalSection.tsx` | `LegalSection()` | Section heading block on legal pages |
+| `src/components/FaqItem.tsx` | `FaqItem()` | Single FAQ question-and-answer block |
+| `src/app/faq/page.tsx` | `FaqPage()` | Frequently asked questions page |
 | `src/app/impressum/page.tsx` | `ImpressumPage()` | Impressum (legal notice) page |
 | `src/app/datenschutz/page.tsx` | `PrivacyPage()` | Privacy policy (GDPR) page |
 | `src/app/nutzungsbedingungen/page.tsx` | `TermsPage()` | Terms of use page |

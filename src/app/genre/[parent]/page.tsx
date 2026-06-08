@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AppNav } from "@/components/AppNav";
 import { GenrePagination } from "@/components/GenrePagination";
+import { GenreSubgenreNav } from "@/components/GenreSubgenreNav";
 import { ListingCard } from "@/components/ListingCard";
 import { ENTRIES_PER_PAGE } from "@/lib/constants";
 import {
   fetchGenreEntries,
+  fetchSubgenreCountsForParent,
   formatGenreResultRange,
   parseGenrePage,
 } from "@/lib/genre-listings";
@@ -15,13 +17,14 @@ import {
   getParentGenreBySlug,
   getParentGenrePath,
 } from "@/lib/genre-pages";
+import { getSubgenresForParent } from "@/lib/genre-subgenres";
 import { attachAuthorProfiles } from "@/lib/profiles";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const revalidate = 3600;
 
 type GenrePageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ parent: string }>;
   searchParams: Promise<{ page?: string }>;
 };
 
@@ -29,7 +32,7 @@ type GenrePageProps = {
  * Pre-renders all parent genre category pages at build time.
  */
 export function generateStaticParams() {
-  return getAllParentGenres().map((genre) => ({ slug: genre.slug }));
+  return getAllParentGenres().map((genre) => ({ parent: genre.slug }));
 }
 
 /**
@@ -38,8 +41,8 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: GenrePageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const genre = getParentGenreBySlug(slug);
+  const { parent } = await params;
+  const genre = getParentGenreBySlug(parent);
 
   if (!genre) {
     return { title: "Genre not found" };
@@ -62,17 +65,19 @@ export default async function GenrePage({
   params,
   searchParams,
 }: GenrePageProps) {
-  const { slug } = await params;
+  const { parent } = await params;
   const query = await searchParams;
-  const genre = getParentGenreBySlug(slug);
+  const genre = getParentGenreBySlug(parent);
 
   if (!genre) {
     notFound();
   }
 
   const page = parseGenrePage(query.page);
-  const [{ entries, total }, supabase] = await Promise.all([
+  const subgenres = getSubgenresForParent(parent);
+  const [{ entries, total }, subgenreCounts, supabase] = await Promise.all([
     fetchGenreEntries(genre.genreTag, page),
+    fetchSubgenreCountsForParent(parent),
     createSupabaseServerClient(),
   ]);
   const {
@@ -103,6 +108,10 @@ export default async function GenrePage({
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        {subgenres.length > 0 ? (
+          <GenreSubgenreNav subgenres={subgenres} counts={subgenreCounts} />
+        ) : null}
+
         <p className="mb-4 text-sm text-zinc-500">
           {formatGenreResultRange(page, total, entriesWithAuthors.length)}
         </p>
@@ -137,7 +146,7 @@ export default async function GenrePage({
             </ul>
 
             <GenrePagination
-              slug={slug}
+              parentSlug={parent}
               page={page}
               total={total}
               pageSize={ENTRIES_PER_PAGE}

@@ -37,7 +37,7 @@
 | `src/lib/site-url.ts` | `shouldRedirectToCanonicalHost()` | Redirect only `*.vercel.app`, not www ↔ apex |
 | `src/lib/site-url.ts` | `buildOAuthCallbackRecoveryUrl()` | Fixes Supabase OAuth landing on `/` with `?code=` |
 | `src/lib/site-url.ts` | `getSiteOrigin()` | Public site origin for email links |
-| `src/lib/sitemap-urls.ts` | `getSitemapEntries()` | Sitemap URLs for genre hub and parent genre pages |
+| `src/lib/sitemap-urls.ts` | `getSitemapEntries()` | Sitemap URLs for genre hub, parents, and subgenres |
 | `src/app/robots.ts` | `robots()` | robots.txt generation |
 | `src/app/sitemap.ts` | `sitemap()` | XML sitemap for crawlers |
 | `src/lib/profile-email.ts` | `parseContactEmail()` | Validates profile contact email |
@@ -66,12 +66,22 @@
 | `src/lib/genre-pages.ts` | `getAllParentGenres()` | Parent genre SEO page definitions |
 | `src/lib/genre-pages.ts` | `getParentGenreBySlug()` | Resolves parent genre by URL slug |
 | `src/lib/genre-pages.ts` | `getParentGenrePath()` | Canonical path for a parent genre page |
+| `src/lib/genre-match.ts` | `normalizeSubgenreSlug()` | Avoids duplicate parent/sub URL segments |
+| `src/lib/genre-match.ts` | `compactSearchBlobText()` | Compacts text for search_blob keyword matching |
+| `src/lib/genre-subgenres.ts` | `getAllSubgenres()` | All subgenre SEO page definitions |
+| `src/lib/genre-subgenres.ts` | `getSubgenresForParent()` | Subgenre pages under one parent |
+| `src/lib/genre-subgenres.ts` | `getSubgenreBySlug()` | Resolves subgenre by parent + sub URL slugs |
 | `src/lib/genre-listings.ts` | `fetchGenreEntries()` | Paginated entries for a parent genre tag |
 | `src/lib/genre-listings.ts` | `fetchParentGenreCounts()` | Listing counts for all parent genres |
-| `src/lib/genre-listings.ts` | `buildGenrePageHref()` | Paginated URL for genre browse pages |
+| `src/lib/genre-listings.ts` | `buildGenrePageHref()` | Paginated URL for parent or subgenre pages |
+| `src/lib/genre-listings.ts` | `fetchSubgenreEntries()` | Paginated entries for parent tag + keywords |
+| `src/lib/genre-listings.ts` | `fetchSubgenreCountsForParent()` | Listing counts for subgenres on a parent page |
+| `src/lib/genre-listings.ts` | `buildSubgenreSearchFilter()` | PostgREST OR filter for subgenre keywords |
 | `src/components/GenrePagination.tsx` | `GenrePagination()` | Previous/next links on genre pages |
+| `src/components/GenreSubgenreNav.tsx` | `GenreSubgenreNav()` | Subgenre pill links on parent genre pages |
 | `src/app/genres/page.tsx` | `GenresHubPage()` | Hub linking to all parent genre pages |
-| `src/app/genre/[slug]/page.tsx` | `GenrePage()` | Parent genre category page with listings |
+| `src/app/genre/[parent]/page.tsx` | `GenrePage()` | Parent genre category page with listings |
+| `src/app/genre/[parent]/[subgenre]/page.tsx` | `SubgenrePage()` | Subgenre category page with listings |
 | `src/lib/search.ts` | `parseSearchTokens()` | Normalizes query words for order-free search |
 | `src/lib/search.ts` | `buildSearchOrFilter()` | PostgREST OR filter for compact phrase or all words in any order |
 | `src/lib/constants.ts` | `getBoardLabel()` | Maps board slug to friendly label |

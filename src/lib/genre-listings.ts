@@ -1,6 +1,10 @@
 import { ENTRIES_PER_PAGE, parseListingPage } from "@/lib/constants";
+import { compactSearchBlobText } from "@/lib/genre-match";
 import type { ParentGenrePage } from "@/lib/genre-pages";
-import { getAllParentGenres } from "@/lib/genre-pages";
+import { getAllParentGenres, getParentGenreBySlug } from "@/lib/genre-pages";
+import type { SubgenrePage } from "@/lib/genre-subgenres";
+import { getSubgenresForParent } from "@/lib/genre-subgenres";
+import { escapeIlikePattern } from "@/lib/search";
 import type { Entry } from "@/types/entry";
 
 type FetchGenreEntriesResult = {
@@ -9,14 +13,39 @@ type FetchGenreEntriesResult = {
 };
 
 /**
- * Builds a paginated URL for a parent genre browse page.
+ * Builds a PostgREST OR filter matching any subgenre keyword in search_blob.
  */
-export function buildGenrePageHref(slug: string, page: number): string {
-  if (page <= 1) {
-    return `/genre/${slug}`;
+export function buildSubgenreSearchFilter(keywords: string[]): string {
+  const clauses = new Set<string>();
+
+  for (const keyword of keywords) {
+    const compact = compactSearchBlobText(keyword);
+
+    if (compact) {
+      clauses.add(`search_blob.ilike.%${escapeIlikePattern(compact)}%`);
+    }
   }
 
-  return `/genre/${slug}?page=${page}`;
+  return [...clauses].join(",");
+}
+
+/**
+ * Builds a paginated URL for a parent or subgenre browse page.
+ */
+export function buildGenrePageHref(
+  parentSlug: string,
+  page: number,
+  subSlug?: string,
+): string {
+  const base = subSlug
+    ? `/genre/${parentSlug}/${subSlug}`
+    : `/genre/${parentSlug}`;
+
+  if (page <= 1) {
+    return base;
+  }
+
+  return `${base}?page=${page}`;
 }
 
 /**
@@ -72,6 +101,102 @@ export async function fetchGenreEntries(
     entries: (data ?? []) as Entry[],
     total: count ?? 0,
   };
+}
+
+/**
+ * Fetches paginated entries for a parent genre plus subgenre keywords.
+ */
+export async function fetchSubgenreEntries(
+  subgenre: SubgenrePage,
+  page: number,
+): Promise<FetchGenreEntriesResult> {
+  const parent = getParentGenreBySlug(subgenre.parentSlug);
+
+  if (!parent) {
+    return { entries: [], total: 0 };
+  }
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !anonKey) {
+    return { entries: [], total: 0 };
+  }
+
+  const { createSupabaseClient } = await import("@/lib/supabase/client");
+  const supabase = createSupabaseClient();
+  const from = (page - 1) * ENTRIES_PER_PAGE;
+  const to = from + ENTRIES_PER_PAGE - 1;
+  const keywordFilter = buildSubgenreSearchFilter(subgenre.keywords);
+
+  const { data, error, count } = await supabase
+    .from("entries")
+    .select("*", { count: "exact" })
+    .contains("genres", [parent.genreTag])
+    .or(keywordFilter)
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("board_priority", { ascending: true })
+    .range(from, to);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return {
+    entries: (data ?? []) as Entry[],
+    total: count ?? 0,
+  };
+}
+
+/**
+ * Returns listing counts for each subgenre under a parent genre.
+ */
+export async function fetchSubgenreCountsForParent(
+  parentSlug: string,
+): Promise<Record<string, number>> {
+  const subgenres = getSubgenresForParent(parentSlug);
+  const counts: Record<string, number> = {};
+
+  if (!subgenres.length) {
+    return counts;
+  }
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !anonKey) {
+    for (const subgenre of subgenres) {
+      counts[subgenre.slug] = 0;
+    }
+    return counts;
+  }
+
+  const parent = getParentGenreBySlug(parentSlug);
+
+  if (!parent) {
+    return counts;
+  }
+
+  const { createSupabaseClient } = await import("@/lib/supabase/client");
+  const supabase = createSupabaseClient();
+
+  await Promise.all(
+    subgenres.map(async (subgenre) => {
+      const { count, error } = await supabase
+        .from("entries")
+        .select("*", { count: "exact", head: true })
+        .contains("genres", [parent.genreTag])
+        .or(buildSubgenreSearchFilter(subgenre.keywords));
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      counts[subgenre.slug] = count ?? 0;
+    }),
+  );
+
+  return counts;
 }
 
 /**

@@ -2,20 +2,22 @@ import Link from "next/link";
 import { buildGenrePageHref } from "@/lib/genre-listings";
 
 type GenrePaginationProps = {
-  slug: string;
+  parentSlug: string;
   page: number;
   total: number;
   pageSize: number;
+  subSlug?: string;
 };
 
 /**
- * Renders previous/next page links for a parent genre listing grid.
+ * Renders previous/next page links for parent or subgenre listing grids.
  */
 export function GenrePagination({
-  slug,
+  parentSlug,
   page,
   total,
   pageSize,
+  subSlug,
 }: GenrePaginationProps) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
@@ -33,7 +35,7 @@ export function GenrePagination({
     >
       {hasPrevious ? (
         <Link
-          href={buildGenrePageHref(slug, page - 1)}
+          href={buildGenrePageHref(parentSlug, page - 1, subSlug)}
           className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:border-violet-200 hover:text-violet-700"
         >
           ← Previous
@@ -50,7 +52,7 @@ export function GenrePagination({
 
       {hasNext ? (
         <Link
-          href={buildGenrePageHref(slug, page + 1)}
+          href={buildGenrePageHref(parentSlug, page + 1, subSlug)}
           className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:border-violet-200 hover:text-violet-700"
         >
           Next →

@@ -4,6 +4,7 @@ export const BOARDS = [
   { value: "noisy-rooms.com", label: "Noisy Rooms" },
   { value: "backstagepro.de", label: "Backstage PRO" },
   { value: "bandmix.de", label: "Bandmix" },
+  { value: "mukken.com", label: "mukken" },
   { value: "community", label: "Community" },
 ] as const;
 
@@ -14,6 +15,7 @@ export const BOARD_SORT_PRIORITY: Record<string, number> = {
   "berlinmusiker.de": 3,
   community: 4,
   "musiker-sucht.de": 5,
+  "mukken.com": 6,
   "bandmix.de": 100,
 };
 

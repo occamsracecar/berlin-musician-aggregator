@@ -160,6 +160,12 @@
 | `scripts/boards/bandmix.js` | `loadBandmixPage()` | Loads Bandmix pages through Cloudflare |
 | `scripts/boards/bandmix.js` | `enrichBandmixDetail()` | Fetches full SUCHE/ÜBER text from profile pages |
 | `scripts/boards/bandmix.js` | `scrapeBandmix()` | Scrapes Berlin profiles from bandmix.de |
+| `scripts/boards/mukken.js` | `loadMukkenSearchPage()` | Loads Berlin search and reads mukken search hash |
+| `scripts/boards/mukken.js` | `parseProfileCards()` | Parses musician profiles from search-musicians API HTML |
+| `scripts/boards/mukken.js` | `parseTenderCards()` | Parses Berlin search ads from tender-offers API HTML |
+| `scripts/boards/mukken.js` | `enrichMukkenProfile()` | Fetches full bio from mukken profile pages |
+| `scripts/boards/mukken.js` | `enrichMukkenAd()` | Fetches full body from mukken /de/sa/ ad pages |
+| `scripts/boards/mukken.js` | `scrapeMukken()` | Scrapes Berlin profiles and search ads from mukken.com |
 | `scripts/boards/noisy-rooms.js` | `isTruncated()` | Detects index snippets that need detail-page enrichment |
 | `scripts/boards/noisy-rooms.js` | `extractNoisyRoomsDetailText()` | Parses full listing body from a detail page |
 | `scripts/boards/noisy-rooms.js` | `enrichNoisyRoomsDetail()` | Fetches full body from noisy-rooms detail pages |

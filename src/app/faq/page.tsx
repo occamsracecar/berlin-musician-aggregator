@@ -34,7 +34,7 @@ export default function FaqPage() {
           <p>
             It is a search directory for musician and band listings in Berlin.
             We aggregate public posts from boards such as Noisy Rooms, Backstage
-            PRO, Berlin Musiker, Musiker-sucht, and Bandmix, and we also host{" "}
+            PRO, Berlin Musiker, Musiker-sucht, Bandmix, and mukken, and we also host{" "}
             <strong>community listings</strong> posted directly on this site.
           </p>
         </FaqItem>

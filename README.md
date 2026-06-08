@@ -38,7 +38,7 @@ Scrape one board only:
 SCRAPE_BOARD=backstagepro.de npm run scrape
 ```
 
-Boards: `berlinmusiker.de`, `musiker-sucht.de`, `noisy-rooms.com`, `backstagepro.de`, `bandmix.de`.
+Boards: `berlinmusiker.de`, `musiker-sucht.de`, `noisy-rooms.com`, `backstagepro.de`, `bandmix.de`, `mukken.com`.
 
 **Backstage PRO** is blocked on GitHub by Cloudflare — run it locally instead. See [docs/BACKSTAGE_LOCAL_SCRAPE.md](docs/BACKSTAGE_LOCAL_SCRAPE.md).
 

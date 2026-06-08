@@ -4,6 +4,7 @@ const { scrapeMusikerSucht } = require("./boards/musiker-sucht");
 const { scrapeNoisyRooms } = require("./boards/noisy-rooms");
 const { scrapeBackstagepro } = require("./boards/backstagepro");
 const { scrapeBandmix } = require("./boards/bandmix");
+const { scrapeMukken } = require("./boards/mukken");
 const { classifyEntry } = require("./lib/classify");
 const {
   isIncrementalScrape,
@@ -22,6 +23,7 @@ const BOARD_SCRAPERS = [
   { id: "noisy-rooms.com", scrape: scrapeNoisyRooms },
   { id: "backstagepro.de", scrape: scrapeBackstagepro },
   { id: "bandmix.de", scrape: scrapeBandmix },
+  { id: "mukken.com", scrape: scrapeMukken },
 ];
 
 /**

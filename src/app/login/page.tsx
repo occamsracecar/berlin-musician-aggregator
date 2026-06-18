@@ -8,9 +8,9 @@ type LoginPageProps = {
 };
 
 const ERROR_MESSAGES: Record<string, string> = {
-  auth_callback: "Sign-in failed. Please try again.",
-  missing_code: "Sign-in link was invalid. Please try again.",
-  config: "Authentication is not configured.",
+  auth_callback: "Anmeldung fehlgeschlagen. Bitte versuche es erneut.",
+  missing_code: "Anmelde-Link war ungültig. Bitte versuche es erneut.",
+  config: "Authentifizierung ist nicht konfiguriert.",
 };
 
 /**
@@ -20,7 +20,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
   const nextPath = params.next ?? "/submit";
   const errorMessage = params.error
-    ? (ERROR_MESSAGES[params.error] ?? "Something went wrong.")
+    ? (ERROR_MESSAGES[params.error] ?? "Etwas ist schiefgelaufen.")
     : null;
   const host = (await headers()).get("host") ?? "";
   const isLocalDev =
@@ -42,13 +42,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
           {isLocalDev ? (
             <p className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-900">
-              Local dev: sign in from this tab ({host}). If Google sends you to
-              Vercel instead, add{" "}
+              Lokale Entwicklung: Melde dich in diesem Tab an ({host}). Wenn
+              Google dich stattdessen zu Vercel weiterleitet, füge{" "}
               <code className="rounded bg-amber-100 px-1">
                 http://localhost:3000/**
               </code>{" "}
-              under Supabase → Authentication → URL configuration → Redirect
-              URLs.
+              unter Supabase → Authentication → URL configuration → Redirect
+              URLs hinzu.
             </p>
           ) : null}
 

@@ -20,10 +20,11 @@ export function ProfileMessagesSection({ messages }: ProfileMessagesSectionProps
   if (messages.length === 0) {
     return (
       <section className="mt-8 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-zinc-900">Messages</h2>
+        <h2 className="text-lg font-semibold text-zinc-900">Nachrichten</h2>
         <p className="mt-2 text-sm text-zinc-600">
-          When someone emails you through a community listing, a copy appears
-          here. Replies go to your contact email inbox.
+          Wenn jemand dich über ein Community-Inserat per E-Mail kontaktiert,
+          erscheint hier eine Kopie. Antworten landen in deinem
+          Kontakt-E-Mail-Postfach.
         </p>
       </section>
     );
@@ -31,10 +32,10 @@ export function ProfileMessagesSection({ messages }: ProfileMessagesSectionProps
 
   return (
     <section className="mt-8 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-zinc-900">Messages</h2>
+      <h2 className="text-lg font-semibold text-zinc-900">Nachrichten</h2>
       <p className="mt-2 text-sm text-zinc-600">
-        Sent via your community listings. Reply from the email notification to
-        reach the sender.
+        Gesendet über deine Community-Inserate. Antworte auf die
+        E-Mail-Benachrichtigung, um den Absender zu erreichen.
       </p>
 
       <ul className="mt-4 flex flex-col gap-3">
@@ -91,7 +92,7 @@ export function buildProfileListingMessages(
     body: message.body,
     created_at: message.created_at,
     entry_id: message.entry_id,
-    entry_title: titleByEntryId.get(message.entry_id) ?? "Your listing",
-    sender_label: senderNamesById.get(message.sender_id) ?? "Someone",
+    entry_title: titleByEntryId.get(message.entry_id) ?? "Dein Inserat",
+    sender_label: senderNamesById.get(message.sender_id) ?? "Jemand",
   }));
 }

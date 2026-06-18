@@ -72,7 +72,7 @@ export default async function ProfilePage() {
       for (const senderProfile of senderProfiles ?? []) {
         senderNamesById.set(
           senderProfile.id,
-          senderProfile.display_name?.trim() || "Someone",
+          senderProfile.display_name?.trim() || "Jemand",
         );
       }
     }
@@ -90,9 +90,10 @@ export default async function ProfilePage() {
 
       <main className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-zinc-900">Your profile</h1>
+          <h1 className="text-2xl font-bold text-zinc-900">Dein Profil</h1>
           <p className="mt-2 text-sm text-zinc-600">
-            Your photo and music links are shown on every listing you publish.
+            Dein Foto und deine Musik-Links werden bei jedem Inserat angezeigt,
+            das du veröffentlichst.
           </p>
         </div>
 

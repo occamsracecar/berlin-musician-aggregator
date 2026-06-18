@@ -27,7 +27,7 @@ export async function submitListing(
   if (!user) {
     return {
       success: false,
-      message: "Sign in to publish a listing.",
+      message: "Melde dich an, um ein Inserat zu veröffentlichen.",
     };
   }
 
@@ -54,7 +54,7 @@ export async function submitListing(
   if (error) {
     return {
       success: false,
-      message: "Could not save your listing. Please try again.",
+      message: "Inserat konnte nicht gespeichert werden. Bitte versuche es erneut.",
     };
   }
 
@@ -64,6 +64,7 @@ export async function submitListing(
 
   return {
     success: true,
-    message: "Your listing was published. Others can message you by email.",
+    message:
+      "Dein Inserat wurde veröffentlicht. Andere können dir per E-Mail Nachrichten senden.",
   };
 }

@@ -44,7 +44,7 @@ export function ProfileForm({ userId, profile, email }: ProfileFormProps) {
       <input type="hidden" name="avatar_url" value={avatarUrl ?? ""} />
 
       <p className="text-sm text-zinc-600">
-        Signed in as <span className="font-medium text-zinc-800">{email}</span>
+        Angemeldet als <span className="font-medium text-zinc-800">{email}</span>
       </p>
 
       <ProfileAvatarUpload
@@ -54,19 +54,19 @@ export function ProfileForm({ userId, profile, email }: ProfileFormProps) {
       />
 
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium text-zinc-700">Display name</span>
+        <span className="font-medium text-zinc-700">Anzeigename</span>
         <input
           type="text"
           name="display_name"
           maxLength={80}
           defaultValue={profile?.display_name ?? ""}
-          placeholder="Your name or band name"
+          placeholder="Dein Name oder Bandname"
           className={inputClassName}
         />
       </label>
 
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium text-zinc-700">Contact email</span>
+        <span className="font-medium text-zinc-700">Kontakt-E-Mail</span>
         <input
           type="email"
           name="contact_email"
@@ -76,17 +76,19 @@ export function ProfileForm({ userId, profile, email }: ProfileFormProps) {
           className={inputClassName}
         />
         <span className="text-xs text-zinc-500">
-          Messages about your community listings are sent here. Leave as your
-          sign-in email or use another inbox you check.
+          Nachrichten zu deinen Community-Inseraten werden an diese Adresse
+          gesendet. Lass deine Anmelde-E-Mail stehen oder trage ein anderes
+          Postfach ein, das du regelmäßig prüfst.
         </span>
       </label>
 
       <fieldset className="flex flex-col gap-4">
         <legend className="text-sm font-medium text-zinc-700">
-          Music links
+          Musik-Links
         </legend>
         <p className="text-xs text-zinc-500">
-          These appear on all listings you post. Leave blank to hide.
+          Diese erscheinen bei allen Inseraten, die du veröffentlichst. Leer
+          lassen, um sie auszublenden.
         </p>
         {PROFILE_SOCIAL_FIELDS.map((field) => (
           <label key={field} className="flex flex-col gap-1.5 text-sm">
@@ -121,7 +123,7 @@ export function ProfileForm({ userId, profile, email }: ProfileFormProps) {
         disabled={isPending}
         className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
       >
-        {isPending ? "Saving..." : "Save profile"}
+        {isPending ? "Wird gespeichert…" : "Profil speichern"}
       </button>
     </form>
   );

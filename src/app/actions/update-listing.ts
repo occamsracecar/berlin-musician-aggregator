@@ -22,13 +22,13 @@ export async function updateListing(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { success: false, message: "Sign in to edit your listing." };
+    return { success: false, message: "Melde dich an, um dein Inserat zu bearbeiten." };
   }
 
   const entryId = String(formData.get("entry_id") ?? "").trim();
 
   if (!entryId) {
-    return { success: false, message: "Listing not found." };
+    return { success: false, message: "Inserat nicht gefunden." };
   }
 
   const parsed = parseListingFormData(formData);
@@ -46,13 +46,13 @@ export async function updateListing(
     .maybeSingle();
 
   if (fetchError || !existing) {
-    return { success: false, message: "Listing not found." };
+    return { success: false, message: "Inserat nicht gefunden." };
   }
 
   if (existing.created_by !== user.id || existing.board_name !== "community") {
     return {
       success: false,
-      message: "You can only edit your own community listings.",
+      message: "Du kannst nur deine eigenen Community-Inserate bearbeiten.",
     };
   }
 
@@ -70,7 +70,7 @@ export async function updateListing(
   if (error) {
     return {
       success: false,
-      message: "Could not save changes. Please try again.",
+      message: "Änderungen konnten nicht gespeichert werden. Bitte versuche es erneut.",
     };
   }
 
@@ -78,5 +78,5 @@ export async function updateListing(
   revalidatePath("/profile");
   revalidatePath("/submit");
 
-  return { success: true, message: "Listing updated." };
+  return { success: true, message: "Inserat aktualisiert." };
 }

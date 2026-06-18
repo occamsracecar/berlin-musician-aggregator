@@ -71,7 +71,7 @@ export function ProfileSocialIcons({
             target="_blank"
             rel="noopener noreferrer"
             role="listitem"
-            aria-label={`${label} profile`}
+            aria-label={`${label}-Profil`}
             title={label}
             className={`inline-flex ${iconSize} items-center justify-center rounded-full ${className} transition hover:opacity-90`}
             onClick={(event) => event.stopPropagation()}

@@ -26,7 +26,7 @@ export function ListingCard({ entry, isSignedIn }: ListingCardProps) {
         month: "2-digit",
         year: "numeric",
       })
-    : "Unknown date";
+    : "Unbekanntes Datum";
 
   const listingTypeLabel = getListingTypeLabel(entry.listing_type);
   const isNew = isRecentListing(entry.published_at);

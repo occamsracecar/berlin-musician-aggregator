@@ -91,14 +91,14 @@ export function ContactListingDialog({
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <h2 id={titleId} className="text-lg font-semibold text-zinc-900">
-              Email listing author
+              Inserat-Autor kontaktieren
             </h2>
             <p className="mt-1 text-sm text-zinc-600 line-clamp-2">
               {entry.title}
             </p>
             <p className="mt-2 text-xs text-zinc-500">
-              Your message is emailed to the author. They can reply directly to
-              your account email.
+              Deine Nachricht wird per E-Mail an den Autor gesendet. Er kann
+              direkt an deine Konto-E-Mail antworten.
             </p>
           </div>
           <button
@@ -107,33 +107,34 @@ export function ContactListingDialog({
             onClick={onClose}
             className="rounded-lg px-2 py-1 text-sm text-zinc-500 hover:bg-zinc-100"
           >
-            Close
+            Schließen
           </button>
         </div>
 
         {!isSignedIn ? (
           <div className="rounded-lg bg-violet-50 px-4 py-3 text-sm text-violet-900">
             <p className="mb-3">
-              Sign in to send a message. The author will receive it by email.
+              Melde dich an, um eine Nachricht zu senden. Der Autor erhält sie
+              per E-Mail.
             </p>
             <Link
               href={`/login?next=${encodeURIComponent("/")}`}
               className="font-medium text-violet-700 underline"
             >
-              Sign in or create account
+              Anmelden oder Konto erstellen
             </Link>
           </div>
         ) : (
           <form action={formAction} className="flex flex-col gap-4">
             <input type="hidden" name="entry_id" value={entry.id} />
             <label className="flex flex-col gap-1.5 text-sm">
-              <span className="font-medium text-zinc-700">Your message</span>
+              <span className="font-medium text-zinc-700">Deine Nachricht</span>
               <textarea
                 name="body"
                 required
                 rows={5}
                 maxLength={2000}
-                placeholder="Introduce yourself and what you are looking for..."
+                placeholder="Stelle dich vor und beschreibe, wonach du suchst…"
                 className={`${inputClassName} resize-y`}
               />
             </label>
@@ -155,7 +156,7 @@ export function ContactListingDialog({
               disabled={isPending || state.success}
               className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
             >
-              {isPending ? "Sending..." : "Send email"}
+              {isPending ? "Wird gesendet…" : "Nachricht senden"}
             </button>
           </form>
         )}

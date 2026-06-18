@@ -21,13 +21,13 @@ export async function deleteListing(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { success: false, message: "Sign in to delete your listing." };
+    return { success: false, message: "Melde dich an, um dein Inserat zu löschen." };
   }
 
   const entryId = String(formData.get("entry_id") ?? "").trim();
 
   if (!entryId) {
-    return { success: false, message: "Listing not found." };
+    return { success: false, message: "Inserat nicht gefunden." };
   }
 
   const { data: existing, error: fetchError } = await supabase
@@ -37,13 +37,13 @@ export async function deleteListing(
     .maybeSingle();
 
   if (fetchError || !existing) {
-    return { success: false, message: "Listing not found." };
+    return { success: false, message: "Inserat nicht gefunden." };
   }
 
   if (existing.created_by !== user.id || existing.board_name !== "community") {
     return {
       success: false,
-      message: "You can only delete your own community listings.",
+      message: "Du kannst nur deine eigenen Community-Inserate löschen.",
     };
   }
 
@@ -52,7 +52,7 @@ export async function deleteListing(
   if (error) {
     return {
       success: false,
-      message: "Could not delete listing. Please try again.",
+      message: "Inserat konnte nicht gelöscht werden. Bitte versuche es erneut.",
     };
   }
 
@@ -60,5 +60,5 @@ export async function deleteListing(
   revalidatePath("/profile");
   revalidatePath("/submit");
 
-  return { success: true, message: "Listing deleted." };
+  return { success: true, message: "Inserat gelöscht." };
 }

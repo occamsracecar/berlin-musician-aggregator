@@ -1,14 +1,16 @@
+import { SITE_NAME } from "@/lib/site-branding";
+
 /** Footer and legal page link definitions. */
 export const LEGAL_PAGE_LINKS = [
   { href: "/genres", label: "Genres" },
   { href: "/faq", label: "FAQ" },
   { href: "/impressum", label: "Impressum" },
-  { href: "/datenschutz", label: "Privacy" },
-  { href: "/nutzungsbedingungen", label: "Terms" },
+  { href: "/datenschutz", label: "Datenschutz" },
+  { href: "/nutzungsbedingungen", label: "Nutzungsbedingungen" },
 ] as const;
 
-/** Public site / service name used on legal pages (no personal operator details). */
-export const LEGAL_SERVICE_NAME = "Berlin Musician Listings";
+/** Public site / service name used on legal pages. */
+export const LEGAL_SERVICE_NAME = SITE_NAME;
 
 /**
  * Optional contact email for legal enquiries (server env only).

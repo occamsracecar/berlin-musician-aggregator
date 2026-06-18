@@ -45,7 +45,7 @@ export async function generateMetadata({
   const genre = getParentGenreBySlug(parent);
 
   if (!genre) {
-    return { title: "Genre not found" };
+    return { title: "Genre nicht gefunden" };
   }
 
   return {
@@ -119,18 +119,18 @@ export default async function GenrePage({
         {entriesWithAuthors.length === 0 ? (
           <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-10 text-center">
             <p className="text-sm text-zinc-600">
-              No listings tagged with {genre.genreTag} yet.
+              Noch keine Inserate mit dem Tag „{genre.genreTag}“.
             </p>
             <p className="mt-3 text-sm">
               <Link href="/" className="font-medium text-violet-600 hover:text-violet-800">
-                Browse all listings
+                Alle Inserate durchsuchen
               </Link>{" "}
-              or{" "}
+              oder{" "}
               <Link
                 href={getParentGenrePath("rock")}
                 className="font-medium text-violet-600 hover:text-violet-800"
               >
-                try another genre
+                anderes Genre ausprobieren
               </Link>
               .
             </p>
@@ -156,14 +156,14 @@ export default async function GenrePage({
 
         <p className="mt-8 text-sm text-zinc-500">
           <Link href="/genres" className="font-medium text-violet-600 hover:text-violet-800">
-            ← All genres
+            ← Alle Genres
           </Link>
           {" · "}
           <Link
             href={`/?genre=${encodeURIComponent(genre.genreTag)}`}
             className="font-medium text-violet-600 hover:text-violet-800"
           >
-            Open in main search
+            In der Suche öffnen
           </Link>
         </p>
       </main>

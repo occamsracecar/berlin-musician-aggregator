@@ -32,12 +32,12 @@ export function ProfileAvatarUpload({
    */
   async function uploadFile(file: File) {
     if (!ALLOWED_TYPES.includes(file.type)) {
-      setError("Use JPEG, PNG, WebP, or GIF.");
+      setError("Bitte JPEG, PNG, WebP oder GIF verwenden.");
       return;
     }
 
     if (file.size > MAX_BYTES) {
-      setError("Image must be 2 MB or smaller.");
+      setError("Das Bild darf maximal 2 MB groß sein.");
       return;
     }
 
@@ -54,7 +54,7 @@ export function ProfileAvatarUpload({
 
     if (uploadError) {
       setUploading(false);
-      setError("Upload failed. Please try again.");
+      setError("Upload fehlgeschlagen. Bitte versuche es erneut.");
       return;
     }
 
@@ -105,7 +105,7 @@ export function ProfileAvatarUpload({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-zinc-700">Profile image</span>
+      <span className="text-sm font-medium text-zinc-700">Profilbild</span>
       <div
         role="button"
         tabIndex={0}
@@ -128,22 +128,22 @@ export function ProfileAvatarUpload({
         {previewUrl ? (
           <Image
             src={previewUrl}
-            alt="Profile preview"
+            alt="Profilvorschau"
             width={96}
             height={96}
             className="size-24 rounded-full border border-zinc-200 object-cover"
           />
         ) : (
           <div className="flex size-24 items-center justify-center rounded-full bg-zinc-200 text-sm text-zinc-500">
-            Photo
+            Foto
           </div>
         )}
         <p className="text-center text-sm text-zinc-600">
           {uploading
-            ? "Uploading..."
-            : "Drag and drop an image here, or click to choose"}
+            ? "Wird hochgeladen…"
+            : "Bild hierher ziehen oder klicken, um auszuwählen"}
         </p>
-        <p className="text-xs text-zinc-400">JPEG, PNG, WebP or GIF · max 2 MB</p>
+        <p className="text-xs text-zinc-400">JPEG, PNG, WebP oder GIF · max. 2 MB</p>
       </div>
       <input
         ref={inputRef}
@@ -158,7 +158,7 @@ export function ProfileAvatarUpload({
           onClick={handleRemove}
           className="self-start text-sm font-medium text-zinc-600 hover:text-zinc-900"
         >
-          Remove photo
+          Foto entfernen
         </button>
       ) : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}

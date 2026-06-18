@@ -30,7 +30,7 @@ export function ListingContactActions({
           onClick={() => setContactOpen(true)}
           className="font-medium text-violet-600 hover:text-violet-800"
         >
-          Email author
+          Autor kontaktieren
         </button>
       ) : null}
 
@@ -41,10 +41,10 @@ export function ListingContactActions({
           rel="noopener noreferrer"
           className="font-medium text-violet-600 hover:text-violet-800"
         >
-          {isCommunityListing ? "Contact link →" : "View original listing →"}
+          {isCommunityListing ? "Kontakt-Link →" : "Original-Inserat ansehen →"}
         </a>
       ) : isCommunityListing && !canMessage ? (
-        <span className="text-zinc-500">Community listing</span>
+        <span className="text-zinc-500">Community-Inserat</span>
       ) : null}
 
       {canMessage ? (

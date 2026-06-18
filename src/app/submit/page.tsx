@@ -17,17 +17,19 @@ export default async function SubmitPage() {
       <header className="border-b border-zinc-200 bg-white">
         <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
           <p className="text-sm font-medium uppercase tracking-wide text-violet-600">
-            Berlin Musician Listings
+            Berlin Bandhub
           </p>
           <h1 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900">
-            Submit a listing
+            Inserat aufgeben
           </h1>
           <p className="mt-2 text-sm text-zinc-600">
-            Post as a signed-in member. Others can send you messages by email.
+            Als angemeldetes Mitglied veröffentlichen. Andere können dir per
+            E-Mail Nachrichten senden.
             {user?.email ? (
               <>
                 {" "}
-                Posting as <span className="font-medium">{user.email}</span>.
+                Veröffentlicht als{" "}
+                <span className="font-medium">{user.email}</span>.
               </>
             ) : null}
           </p>

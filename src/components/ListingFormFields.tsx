@@ -21,27 +21,27 @@ export function ListingFormFields({
   return (
     <>
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium text-zinc-700">Title</span>
+        <span className="font-medium text-zinc-700">Titel</span>
         <input
           type="text"
           name="title"
           required
           maxLength={200}
           defaultValue={entry?.title ?? ""}
-          placeholder="e.g. Rock band looking for drummer"
+          placeholder="z. B. Rockband sucht Schlagzeuger"
           className={inputClassName}
         />
       </label>
 
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium text-zinc-700">Description</span>
+        <span className="font-medium text-zinc-700">Beschreibung</span>
         <textarea
           name="description"
           required
           rows={8}
           maxLength={5000}
           defaultValue={entry?.description ?? ""}
-          placeholder="Describe what you are looking for, your style, rehearsal area, experience level..."
+          placeholder="Beschreibe, wonach du suchst, deinen Stil, Probenort, Erfahrungslevel…"
           className={`${inputClassName} resize-y`}
         />
       </label>
@@ -50,12 +50,12 @@ export function ListingFormFields({
         <legend className="font-medium text-zinc-700">
           Tags{" "}
           <span className="font-normal text-zinc-500">
-            (optional, up to {MAX_LISTING_GENRE_TAGS})
+            (optional, bis zu {MAX_LISTING_GENRE_TAGS})
           </span>
         </legend>
         <p className="text-xs text-zinc-500">
-          Pick genres that fit your listing. Matching tags from your description
-          may be added automatically.
+          Wähle Genres, die zu deinem Inserat passen. Passende Tags aus deiner
+          Beschreibung können automatisch ergänzt werden.
         </p>
         <div className="flex flex-wrap gap-2">
           {GENRES.map((genre) => (
@@ -77,7 +77,7 @@ export function ListingFormFields({
       </fieldset>
 
       <label className="flex flex-col gap-1.5 text-sm">
-        <span className="font-medium text-zinc-700">Listing type</span>
+        <span className="font-medium text-zinc-700">Inserattyp</span>
         <select
           name="listing_type"
           required
@@ -85,7 +85,7 @@ export function ListingFormFields({
           defaultValue={entry?.listing_type ?? ""}
         >
           <option value="" disabled>
-            Select one
+            Bitte wählen
           </option>
           {LISTING_TYPES.map((type) => (
             <option key={type.value} value={type.value}>
@@ -97,8 +97,9 @@ export function ListingFormFields({
 
       {showProfileHint ? (
         <p className="text-sm text-zinc-600">
-          Signed-in members can email you from your listing. Set your contact
-          email on your profile if you want messages in a different inbox.
+          Angemeldete Mitglieder können dich über dein Inserat per E-Mail
+          kontaktieren. Lege unter deinem Profil eine Kontakt-E-Mail fest, wenn
+          du Nachrichten in einem anderen Postfach erhalten möchtest.
         </p>
       ) : null}
     </>

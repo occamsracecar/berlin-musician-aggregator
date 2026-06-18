@@ -8,26 +8,25 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Berlin Musician Listings",
-  description:
-    "Privacy policy for Berlin Musician Listings — data we process and your rights.",
+  title: "Datenschutzerklärung",
+  description: `Datenschutzerklärung für ${LEGAL_SERVICE_NAME} — welche Daten wir verarbeiten und welche Rechte du hast.`,
 };
 
 /**
- * Privacy policy (Datenschutzerklärung) for GDPR compliance.
+ * Datenschutzerklärung zur Einhaltung der DSGVO.
  */
 export default function PrivacyPage() {
   const contactEmail = getLegalContactEmail();
 
   return (
-    <LegalPageShell title="Privacy Policy">
-      <p className="text-zinc-600">Last updated: June 2026</p>
+    <LegalPageShell title="Datenschutzerklärung">
+      <p className="text-zinc-600">Stand: Juni 2026</p>
 
-      <LegalSection title="1. Controller">
+      <LegalSection title="1. Verantwortlicher">
         <p>{LEGAL_SERVICE_NAME}</p>
         {contactEmail ? (
           <p>
-            Contact:{" "}
+            Kontakt:{" "}
             <a
               href={`mailto:${contactEmail}`}
               className="font-medium text-violet-600 hover:text-violet-800"
@@ -38,106 +37,115 @@ export default function PrivacyPage() {
         ) : null}
       </LegalSection>
 
-      <LegalSection title="2. What this site does">
+      <LegalSection title="2. Was diese Seite macht">
         <p>
-          Berlin Musician Listings aggregates publicly visible musician and band
-          listings from external boards and lets signed-in users post community
-          listings. We do not sell personal data.
+          {LEGAL_SERVICE_NAME} sammelt öffentlich sichtbare Musiker- und
+          Band-Inserate von externen Boards und ermöglicht angemeldeten
+          Nutzerinnen und Nutzern, Community-Inserate zu veröffentlichen. Wir
+          verkaufen keine personenbezogenen Daten.
         </p>
       </LegalSection>
 
-      <LegalSection title="3. Data we process">
+      <LegalSection title="3. Verarbeitete Daten">
         <ul className="list-disc space-y-2 pl-5">
           <li>
-            <strong>Account data</strong> — email address and profile details
-            you provide when you sign up (via Supabase Auth, including optional
-            Google sign-in).
+            <strong>Kontodaten</strong> — E-Mail-Adresse und Profilangaben, die
+            du bei der Registrierung angibst (über Supabase Auth, optional auch
+            per Google-Anmeldung).
           </li>
           <li>
-            <strong>Community listings</strong> — title, description, genres,
-            optional contact links, and avatar you upload.
+            <strong>Community-Inserate</strong> — Titel, Beschreibung, Genres,
+            optionale Kontaktlinks und hochgeladenes Profilbild.
           </li>
           <li>
-            <strong>Messages</strong> — when you contact a community listing
-            author, we store the message and send email via Resend.
+            <strong>Nachrichten</strong> — wenn du eine Autorin oder einen
+            Autor eines Community-Inserats kontaktierst, speichern wir die
+            Nachricht und versenden E-Mail über Resend.
           </li>
           <li>
-            <strong>Technical data</strong> — IP address, browser type, and
-            request logs processed by our host (Vercel) for security and
-            operation.
+            <strong>Technische Daten</strong> — IP-Adresse, Browsertyp und
+            Anfrageprotokolle, die unser Host (Vercel) zu Sicherheit und Betrieb
+            verarbeitet.
           </li>
           <li>
-            <strong>Scraped listings</strong> — text and metadata already
-            published on third-party musician boards; no additional personal
-            data is collected beyond what those sites publish.
+            <strong>Gescrapte Inserate</strong> — Text und Metadaten, die
+            bereits auf Drittanbieter-Musiker-Boards veröffentlicht sind; es
+            werden keine zusätzlichen personenbezogenen Daten über das hinaus
+            erhoben, was diese Seiten veröffentlichen.
           </li>
         </ul>
       </LegalSection>
 
-      <LegalSection title="4. Purposes and legal bases">
+      <LegalSection title="4. Zwecke und Rechtsgrundlagen">
         <ul className="list-disc space-y-2 pl-5">
           <li>
-            Providing the search and listing service (Art. 6(1)(b) GDPR —
-            contract / pre-contractual steps).
+            Bereitstellung des Such- und Inseratdienstes (Art. 6 Abs. 1 lit. b
+            DSGVO — Vertrag bzw. vorvertragliche Maßnahmen).
           </li>
           <li>
-            Sending contact messages you request (Art. 6(1)(b) GDPR).
+            Versand von Kontaktnachrichten auf deine Anfrage (Art. 6 Abs. 1
+            lit. b DSGVO).
           </li>
           <li>
-            Securing and operating the website (Art. 6(1)(f) GDPR — legitimate
-            interest).
+            Absicherung und Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO —
+            berechtigtes Interesse).
           </li>
         </ul>
       </LegalSection>
 
-      <LegalSection title="5. Processors and third parties">
+      <LegalSection title="5. Auftragsverarbeiter und Dritte">
         <ul className="list-disc space-y-2 pl-5">
           <li>
-            <strong>Supabase</strong> — authentication and database hosting.
+            <strong>Supabase</strong> — Authentifizierung und Datenbank-Hosting.
           </li>
           <li>
-            <strong>Vercel</strong> — website hosting.
+            <strong>Vercel</strong> — Website-Hosting.
           </li>
           <li>
-            <strong>Resend</strong> — transactional email for community listing
-            messages.
+            <strong>Resend</strong> — Transaktions-E-Mails für
+            Community-Inserat-Nachrichten.
           </li>
           <li>
-            <strong>Google</strong> — optional OAuth sign-in (if you choose it).
+            <strong>Google</strong> — optionale OAuth-Anmeldung (wenn du sie
+            wählst).
           </li>
         </ul>
         <p>
-          Each provider processes data under its own privacy policy. Data may be
-          processed outside the EU where providers use standard contractual
-          clauses or equivalent safeguards.
+          Jeder Anbieter verarbeitet Daten nach seiner eigenen
+          Datenschutzerklärung. Daten können außerhalb der EU verarbeitet
+          werden, sofern Anbieter Standardvertragsklauseln oder gleichwertige
+          Schutzmaßnahmen nutzen.
         </p>
       </LegalSection>
 
-      <LegalSection title="6. Cookies and local storage">
+      <LegalSection title="6. Cookies und lokaler Speicher">
         <p>
-          We use essential cookies and browser storage for sign-in sessions
-          (Supabase Auth). We do not use advertising or analytics cookies.
+          Wir verwenden notwendige Cookies und Browserspeicher für
+          Anmeldesitzungen (Supabase Auth). Wir setzen keine Werbe- oder
+          Analyse-Cookies ein.
         </p>
       </LegalSection>
 
-      <LegalSection title="7. Retention">
+      <LegalSection title="7. Speicherdauer">
         <p>
-          Account and listing data remain until you delete listings or your
-          account. Server logs are retained according to our host&apos;s
-          policies. Messages sent to listing authors are stored so authors can
-          read them in their profile inbox.
+          Konto- und Inseratdaten bleiben gespeichert, bis du Inserate oder dein
+          Konto löschst. Serverprotokolle werden gemäß den Richtlinien unseres
+          Hosts aufbewahrt. An Autorinnen und Autoren gesendete Nachrichten
+          werden gespeichert, damit sie im Profil-Posteingang gelesen werden
+          können.
         </p>
       </LegalSection>
 
-      <LegalSection title="8. Your rights">
+      <LegalSection title="8. Deine Rechte">
         <p>
-          Under the GDPR you may request access, rectification, erasure,
-          restriction, portability, and object to processing. You may also
-          lodge a complaint with a supervisory authority.
+          Nach der DSGVO kannst du Auskunft, Berichtigung, Löschung,
+          Einschränkung, Datenübertragbarkeit verlangen und der Verarbeitung
+          widersprechen. Du kannst außerdem Beschwerde bei einer
+          Aufsichtsbehörde einlegen.
           {contactEmail ? (
             <>
               {" "}
-              Contact:{" "}
+              Kontakt:{" "}
               <a
                 href={`mailto:${contactEmail}`}
                 className="font-medium text-violet-600 hover:text-violet-800"
@@ -148,7 +156,7 @@ export default function PrivacyPage() {
           ) : (
             <>
               {" "}
-              See our{" "}
+              Siehe unser{" "}
               <Link
                 href="/impressum"
                 className="font-medium text-violet-600 hover:text-violet-800"
@@ -160,15 +168,15 @@ export default function PrivacyPage() {
           )}
         </p>
         <p>
-          Signed-in users can delete individual community listings and their
-          entire account from the{" "}
+          Angemeldete Nutzerinnen und Nutzer können einzelne Community-Inserate
+          und das gesamte Konto auf der{" "}
           <Link
             href="/profile"
             className="font-medium text-violet-600 hover:text-violet-800"
           >
-            profile page
-          </Link>
-          .
+            Profilseite
+          </Link>{" "}
+          löschen.
         </p>
       </LegalSection>
     </LegalPageShell>

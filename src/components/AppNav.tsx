@@ -36,12 +36,12 @@ export function AppNav({ active, sticky = false, children }: AppNavProps) {
           <div className="flex min-w-0 flex-1 items-center gap-2">
             <div className="flex min-w-0 flex-1 gap-2">
             <Link href="/" className={tabClassName(active === "browse")}>
-              <span className="sm:hidden">Browse</span>
-              <span className="hidden sm:inline">Browse listings</span>
+              <span className="sm:hidden">Entdecken</span>
+              <span className="hidden sm:inline">Inserate durchsuchen</span>
             </Link>
             <Link href="/submit" className={tabClassName(active === "submit")}>
-              <span className="sm:hidden">Submit</span>
-              <span className="hidden sm:inline">Submit listing</span>
+              <span className="sm:hidden">Aufgeben</span>
+              <span className="hidden sm:inline">Inserat aufgeben</span>
             </Link>
             </div>
             <NavAuth />

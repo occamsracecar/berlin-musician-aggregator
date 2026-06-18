@@ -46,7 +46,7 @@ export function SiteLogo({
     <Link
       href="/"
       className="shrink-0 rounded-lg outline-none ring-violet-500 focus-visible:ring-2"
-      aria-label="Berlin Musicians home"
+      aria-label="Berlin Bandhub Startseite"
     >
       {image}
     </Link>

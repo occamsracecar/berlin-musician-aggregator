@@ -24,7 +24,7 @@ export async function deleteAccount(
   if (confirm !== CONFIRM_PHRASE) {
     return {
       success: false,
-      message: `Type ${CONFIRM_PHRASE} to confirm account deletion.`,
+      message: `Gib ${CONFIRM_PHRASE} ein, um die Kontolöschung zu bestätigen.`,
     };
   }
 
@@ -34,7 +34,7 @@ export async function deleteAccount(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { success: false, message: "Sign in to delete your account." };
+    return { success: false, message: "Melde dich an, um dein Konto zu löschen." };
   }
 
   let admin;
@@ -44,7 +44,7 @@ export async function deleteAccount(
   } catch {
     return {
       success: false,
-      message: "Account deletion is not configured. Contact support.",
+      message: "Kontolöschung ist nicht konfiguriert. Bitte wende dich an den Support.",
     };
   }
 
@@ -57,7 +57,7 @@ export async function deleteAccount(
   if (listingsError) {
     return {
       success: false,
-      message: "Could not remove your listings. Please try again.",
+      message: "Deine Inserate konnten nicht entfernt werden. Bitte versuche es erneut.",
     };
   }
 
@@ -77,7 +77,7 @@ export async function deleteAccount(
   if (deleteUserError) {
     return {
       success: false,
-      message: "Could not delete your account. Please try again.",
+      message: "Konto konnte nicht gelöscht werden. Bitte versuche es erneut.",
     };
   }
 

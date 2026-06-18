@@ -18,128 +18,128 @@ export const PARENT_GENRE_PAGES: ParentGenrePage[] = [
   {
     slug: "rock",
     genreTag: "Rock",
-    title: "Rock musicians & bands in Berlin",
+    title: "Rock-Musiker & Bands in Berlin",
     metaDescription:
-      "Browse rock listings in Berlin — alternative, classic rock, indie, garage, and more. Bands seeking musicians and musicians looking for bands.",
+      "Rock-Anzeigen in Berlin — Alternative, Classic Rock, Indie, Garage und mehr. Bands suchen Musiker, Musiker suchen Bands.",
     intro:
-      "Find rock musicians, bands, and projects in Berlin. Listings include alternative, classic rock, indie, psychedelic, shoegaze, and garage bands — both bands looking for members and musicians looking to join a group.",
+      "Finde Rock-Musiker, Bands und Projekte in Berlin. Anzeigen zu Alternative, Classic Rock, Indie, Psychedelic, Shoegaze und Garage — Bands auf Mitglieder-Suche und Musiker, die einer Gruppe beitreten wollen.",
   },
   {
     slug: "metal",
     genreTag: "Metal",
-    title: "Metal musicians & bands in Berlin",
+    title: "Metal-Musiker & Bands in Berlin",
     metaDescription:
-      "Metal band listings in Berlin — thrash, death, black, doom, metalcore, and more. Find musicians or join a metal band in Berlin.",
+      "Metal-Anzeigen in Berlin — Thrash, Death, Black, Doom, Metalcore und mehr. Musiker finden oder einer Metal-Band beitreten.",
     intro:
-      "Berlin has an active metal scene. Browse bands and musicians tagged with metal — from thrash and death metal to doom, black metal, metalcore, and crossover projects across the city.",
+      "Berlin hat eine aktive Metal-Szene. Durchsuche Bands und Musiker mit Metal-Tag — von Thrash und Death Metal bis Doom, Black Metal, Metalcore und Crossover-Projekten in der Stadt.",
   },
   {
     slug: "punk",
     genreTag: "Punk",
-    title: "Punk musicians & bands in Berlin",
+    title: "Punk-Musiker & Bands in Berlin",
     metaDescription:
-      "Punk and hardcore listings in Berlin — bands and musicians seeking collaborators. Post-punk, grunge, emo, and more.",
+      "Punk- und Hardcore-Anzeigen in Berlin — Bands und Musiker auf der Suche nach Mitspielern. Post-Punk, Grunge, Emo und mehr.",
     intro:
-      "Punk, hardcore, post-punk, grunge, and related listings from Berlin's musician boards. Find a band, fill a lineup slot, or connect with other punk musicians in the city.",
+      "Punk, Hardcore, Post-Punk, Grunge und verwandte Anzeigen aus Berlins Musikerbörsen. Finde eine Band, besetze eine Position oder vernetze dich mit anderen Punk-Musikern.",
   },
   {
     slug: "pop",
     genreTag: "Pop",
-    title: "Pop musicians & bands in Berlin",
+    title: "Pop-Musiker & Bands in Berlin",
     metaDescription:
-      "Pop musician listings in Berlin — cover bands, indie pop, schlager, and session musicians looking for projects.",
+      "Pop-Anzeigen in Berlin — Coverbands, Indie Pop, Schlager und Session-Musiker auf Projektsuche.",
     intro:
-      "Pop and mainstream-leaning projects in Berlin, including cover bands, indie pop acts, schlager groups, and musicians open to pop-oriented collaborations.",
+      "Pop- und mainstreamnahe Projekte in Berlin, darunter Coverbands, Indie-Pop-Acts, Schlager-Gruppen und Musiker für pop-orientierte Zusammenarbeit.",
   },
   {
     slug: "blues",
     genreTag: "Blues",
-    title: "Blues musicians in Berlin",
+    title: "Blues-Musiker in Berlin",
     metaDescription:
-      "Blues musician and band listings in Berlin. Find guitarists, vocalists, harmonica players, and blues bands.",
+      "Blues-Musiker und Band-Anzeigen in Berlin. Gitarristen, Sänger, Mundharmonika-Spieler und Blues-Bands finden.",
     intro:
-      "Blues musicians, bands, and jam projects in Berlin. Listings cover traditional blues, rhythm and blues, and blues-rock collaborations across the local scene.",
+      "Blues-Musiker, Bands und Jam-Projekte in Berlin. Anzeigen zu traditionellem Blues, Rhythm and Blues und Blues-Rock in der lokalen Szene.",
   },
   {
     slug: "funk-soul",
     genreTag: "Funk / Soul",
-    title: "Funk & soul musicians in Berlin",
+    title: "Funk- & Soul-Musiker in Berlin",
     metaDescription:
-      "Funk, soul, and disco musician listings in Berlin. Find horn sections, rhythm sections, vocalists, and bands.",
+      "Funk-, Soul- und Disco-Anzeigen in Berlin. Bläser, Rhythmusgruppen, Sänger und Bands finden.",
     intro:
-      "Funk, soul, R&B, disco, and neo-soul listings from Berlin — bands seeking musicians and players looking for groove-oriented projects.",
+      "Funk-, Soul-, R&B-, Disco- und Neo-Soul-Anzeigen aus Berlin — Bands suchen Musiker, Musiker suchen groove-orientierte Projekte.",
   },
   {
     slug: "electronic",
     genreTag: "Electronic",
-    title: "Electronic musicians in Berlin",
+    title: "Electronic-Musiker in Berlin",
     metaDescription:
-      "Electronic music listings in Berlin — techno, house, synth, ambient, and live electronic acts seeking collaborators.",
+      "Electronic-Anzeigen in Berlin — Techno, House, Synth, Ambient und Live-Electronic-Acts auf Mitspielersuche.",
     intro:
-      "Electronic musicians and live acts in Berlin. Browse listings tagged with techno, house, synth, ambient, EDM, and other electronic projects — a natural fit for the city's club and producer culture.",
+      "Electronic-Musiker und Live-Acts in Berlin. Anzeigen zu Techno, House, Synth, Ambient, EDM und anderen elektronischen Projekten — passend zur Club- und Producer-Kultur der Stadt.",
   },
   {
     slug: "jazz",
     genreTag: "Jazz",
-    title: "Jazz musicians in Berlin",
+    title: "Jazz-Musiker in Berlin",
     metaDescription:
-      "Jazz musician listings in Berlin — trios, big bands, fusion projects, and session players seeking gigs and collaborators.",
+      "Jazz-Anzeigen in Berlin — Trios, Bigbands, Fusion-Projekte und Session-Musiker auf Gigsuche.",
     intro:
-      "Jazz listings in Berlin, including fusion, swing, bossa, big band, and small-group projects. Musicians and ensembles looking for horns, rhythm sections, vocalists, and more.",
+      "Jazz-Anzeigen in Berlin, darunter Fusion, Swing, Bossa, Bigband und Kleinformations-Projekte. Musiker und Ensembles suchen Bläser, Rhythmusgruppen, Sänger und mehr.",
   },
   {
     slug: "folk-acoustic",
     genreTag: "Folk / Acoustic",
-    title: "Folk & acoustic musicians in Berlin",
+    title: "Folk- & Akustik-Musiker in Berlin",
     metaDescription:
-      "Folk, acoustic, country, and singer-songwriter listings in Berlin. Find duos, bands, and collaborators.",
+      "Folk-, Akustik-, Country- und Singer-Songwriter-Anzeigen in Berlin. Duos, Bands und Mitspieler finden.",
     intro:
-      "Folk, acoustic, country, bluegrass, and singer-songwriter listings from Berlin — ideal for intimate projects, open mics, and acoustic collaborations.",
+      "Folk-, Akustik-, Country-, Bluegrass- und Singer-Songwriter-Anzeigen aus Berlin — für intime Projekte, Open Mics und akustische Zusammenarbeit.",
   },
   {
     slug: "hip-hop",
     genreTag: "Hip-Hop",
-    title: "Hip-hop & rap musicians in Berlin",
+    title: "Hip-Hop- & Rap-Musiker in Berlin",
     metaDescription:
-      "Hip-hop and rap listings in Berlin — MCs, producers, beatmakers, and live acts seeking collaborators.",
+      "Hip-Hop- und Rap-Anzeigen in Berlin — MCs, Producer, Beatmaker und Live-Acts auf Mitspielersuche.",
     intro:
-      "Hip-hop, rap, and beatmaker listings in Berlin. Find MCs, producers, DJs, and live hip-hop acts looking for collaborators in the city.",
+      "Hip-Hop-, Rap- und Beatmaker-Anzeigen in Berlin. Finde MCs, Producer, DJs und Live-Hip-Hop-Acts auf der Suche nach Kollaborationen.",
   },
   {
     slug: "classical",
     genreTag: "Classical",
-    title: "Classical musicians in Berlin",
+    title: "Klassik-Musiker in Berlin",
     metaDescription:
-      "Classical musician listings in Berlin — orchestra, choir, opera, and chamber musicians seeking projects.",
+      "Klassik-Anzeigen in Berlin — Orchester, Chor, Oper und Kammer-Musiker auf Projektsuche.",
     intro:
-      "Classical and orchestral listings in Berlin, including choir, opera, chamber music, and Klassik projects. Musicians seeking ensembles and groups looking for players.",
+      "Klassik- und Orchester-Anzeigen in Berlin, darunter Chor, Oper, Kammermusik und Klassik-Projekte. Musiker suchen Ensembles, Gruppen suchen Mitspieler.",
   },
   {
     slug: "reggae",
     genreTag: "Reggae",
-    title: "Reggae & ska musicians in Berlin",
+    title: "Reggae- & Ska-Musiker in Berlin",
     metaDescription:
-      "Reggae, ska, and dub musician listings in Berlin. Find bands and session players.",
+      "Reggae-, Ska- und Dub-Anzeigen in Berlin. Bands und Session-Musiker finden.",
     intro:
-      "Reggae, ska, and dub listings from Berlin's musician community — bands seeking members and musicians looking for reggae-oriented projects.",
+      "Reggae-, Ska- und Dub-Anzeigen aus Berlins Musiker-Community — Bands suchen Mitglieder, Musiker suchen Reggae-orientierte Projekte.",
   },
   {
     slug: "latin",
     genreTag: "Latin",
-    title: "Latin musicians in Berlin",
+    title: "Latin-Musiker in Berlin",
     metaDescription:
-      "Latin music listings in Berlin — salsa, cumbia, samba, and Latin jazz musicians and bands.",
+      "Latin-Anzeigen in Berlin — Salsa, Cumbia, Samba und Latin Jazz. Musiker und Bands finden.",
     intro:
-      "Latin music listings in Berlin, covering salsa, cumbia, samba, Latin jazz, and other Latin-oriented bands and musicians.",
+      "Latin-Musik-Anzeigen in Berlin — Salsa, Cumbia, Samba, Latin Jazz und andere latin-orientierte Bands und Musiker.",
   },
   {
     slug: "world",
     genreTag: "World",
-    title: "World music musicians in Berlin",
+    title: "Weltmusik-Musiker in Berlin",
     metaDescription:
-      "World music listings in Berlin — Balkan, klezmer, Afrobeat, and international musicians seeking collaborators.",
+      "Weltmusik-Anzeigen in Berlin — Balkan, Klezmer, Afrobeat und internationale Musiker auf Mitspielersuche.",
     intro:
-      "World and international music listings in Berlin, including Balkan, klezmer, Afrobeat, and other global styles represented in the local musician community.",
+      "Weltmusik- und internationale Anzeigen in Berlin, darunter Balkan, Klezmer, Afrobeat und andere globale Stilrichtungen in der lokalen Musikerszene.",
   },
 ];
 

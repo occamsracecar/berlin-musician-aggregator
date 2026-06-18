@@ -1,98 +1,103 @@
 import Link from "next/link";
 import { LegalPageShell } from "@/components/LegalPageShell";
 import { LegalSection } from "@/components/LegalSection";
-import { getLegalContactEmail } from "@/lib/legal-config";
+import { getLegalContactEmail, LEGAL_SERVICE_NAME } from "@/lib/legal-config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Use | Berlin Musician Listings",
-  description: "Terms of use for Berlin Musician Listings.",
+  title: "Nutzungsbedingungen",
+  description: `Nutzungsbedingungen für ${LEGAL_SERVICE_NAME}.`,
 };
 
 /**
- * Terms of use for community listings and aggregated content.
+ * Nutzungsbedingungen für Community-Inserate und aggregierte Inhalte.
  */
 export default function TermsPage() {
   const contactEmail = getLegalContactEmail();
 
   return (
-    <LegalPageShell title="Terms of Use">
-      <p className="text-zinc-600">Last updated: June 2026</p>
+    <LegalPageShell title="Nutzungsbedingungen">
+      <p className="text-zinc-600">Stand: Juni 2026</p>
 
-      <LegalSection title="1. Scope">
+      <LegalSection title="1. Geltungsbereich">
         <p>
-          These terms apply to your use of Berlin Musician Listings. By creating
-          an account or posting a community listing, you agree to them.
+          Diese Nutzungsbedingungen gelten für deine Nutzung von{" "}
+          {LEGAL_SERVICE_NAME}. Mit der Kontoerstellung oder Veröffentlichung
+          eines Community-Inserats stimmst du ihnen zu.
         </p>
       </LegalSection>
 
-      <LegalSection title="2. Aggregated listings">
+      <LegalSection title="2. Aggregierte Inserate">
         <p>
-          Most listings are collected automatically from public musician boards
-          (for example Berlinmusiker, Backstage PRO, Noisy Rooms). We are not the
-          publisher of those listings. Links may take you to third-party sites
-          with their own terms. We do not guarantee that aggregated information
-          is complete, current, or accurate.
+          Die meisten Inserate werden automatisch von öffentlichen
+          Musiker-Boards gesammelt (z. B. Berlinmusiker, Backstage PRO, Noisy
+          Rooms). Wir sind nicht Herausgeber dieser Inserate. Links können zu
+          Drittanbieter-Seiten mit eigenen Bedingungen führen. Wir garantieren
+          nicht, dass aggregierte Informationen vollständig, aktuell oder
+          richtig sind.
         </p>
       </LegalSection>
 
-      <LegalSection title="3. Community listings">
+      <LegalSection title="3. Community-Inserate">
         <p>
-          When you submit a listing while signed in, you confirm that you have
-          the right to publish the content and that it is lawful. You are
-          responsible for what you post, including contact details and links you
-          add.
+          Wenn du angemeldet ein Inserat veröffentlichst, bestätigst du, dass
+          du berechtigt bist, die Inhalte zu veröffentlichen, und dass sie
+          rechtmäßig sind. Du bist für deine Beiträge verantwortlich,
+          einschließlich Kontaktdaten und Links.
         </p>
         <p>
-          Do not post illegal content, spam, hate speech, or misleading
-          information. We may remove listings or suspend accounts that violate
-          these rules or applicable law.
-        </p>
-      </LegalSection>
-
-      <LegalSection title="4. Messaging">
-        <p>
-          The in-app message feature sends email to community listing authors
-          via our mail provider. Use it only for genuine enquiries about a
-          listing. Misuse may result in account termination.
+          Veröffentliche keine illegalen Inhalte, keinen Spam, keine
+          Hassrede und keine irreführenden Angaben. Wir können Inserate
+          entfernen oder Konten sperren, die gegen diese Regeln oder geltendes
+          Recht verstoßen.
         </p>
       </LegalSection>
 
-      <LegalSection title="5. Accounts">
+      <LegalSection title="4. Nachrichten">
         <p>
-          Keep your login credentials secure. You may delete your account and
-          associated listings at any time from your{" "}
+          Die Nachrichtenfunktion sendet E-Mails an Autorinnen und Autoren von
+          Community-Inseraten über unseren E-Mail-Anbieter. Nutze sie nur für
+          echte Anfragen zu einem Inserat. Missbrauch kann zur Sperrung des
+          Kontos führen.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="5. Konten">
+        <p>
+          Bewahre deine Zugangsdaten sicher auf. Du kannst dein Konto und
+          zugehörige Inserate jederzeit in deinem{" "}
           <Link
             href="/profile"
             className="font-medium text-violet-600 hover:text-violet-800"
           >
-            profile
-          </Link>
-          .
+            Profil
+          </Link>{" "}
+          löschen.
         </p>
       </LegalSection>
 
-      <LegalSection title="6. Availability">
+      <LegalSection title="6. Verfügbarkeit">
         <p>
-          We provide the service &quot;as is&quot; without warranty. We may
-          change features, pause scraping, or discontinue the service with
-          reasonable notice where possible.
+          Wir stellen den Dienst ohne Gewährleistung bereit („wie besehen“). Wir
+          können Funktionen ändern, das Scraping pausieren oder den Dienst
+          einstellen — soweit möglich mit angemessener Vorankündigung.
         </p>
       </LegalSection>
 
-      <LegalSection title="7. Liability">
+      <LegalSection title="7. Haftung">
         <p>
-          We are liable without limitation for intent and gross negligence, and
-          for injury to life, body, or health. Otherwise liability is limited to
-          foreseeable, typical damage arising from a material breach of essential
-          contractual obligations. Liability for indirect damage and lost profit
-          is excluded where permitted by law.
+          Wir haften unbeschränkt bei Vorsatz und grober Fahrlässigkeit sowie
+          bei Verletzung von Leben, Körper oder Gesundheit. Im Übrigen ist die
+          Haftung auf vorhersehbare, typische Schäden bei wesentlicher
+          Verletzung wesentlicher Vertragspflichten beschränkt. Die Haftung für
+          mittelbare Schäden und entgangenen Gewinn ist ausgeschlossen, soweit
+          gesetzlich zulässig.
         </p>
       </LegalSection>
 
-      <LegalSection title="8. Contact">
+      <LegalSection title="8. Kontakt">
         <p>
-          Questions about these terms:{" "}
+          Fragen zu diesen Nutzungsbedingungen:{" "}
           {contactEmail ? (
             <a
               href={`mailto:${contactEmail}`}

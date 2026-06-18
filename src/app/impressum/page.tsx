@@ -4,12 +4,12 @@ import { getLegalContactEmail, LEGAL_SERVICE_NAME } from "@/lib/legal-config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Impressum | Berlin Musician Listings",
-  description: "Legal notice for Berlin Musician Listings.",
+  title: "Impressum",
+  description: `Impressum und rechtliche Angaben zu ${LEGAL_SERVICE_NAME}.`,
 };
 
 /**
- * Impressum (legal notice) page — site name only, no personal operator details.
+ * Impressum — nur Seitenname, keine persönlichen Betreiberangaben.
  */
 export default function ImpressumPage() {
   const contactEmail = getLegalContactEmail();
@@ -17,22 +17,22 @@ export default function ImpressumPage() {
   return (
     <LegalPageShell title="Impressum">
       <p className="text-zinc-600">
-        Information pursuant to § 5 TMG (Telemediengesetz) and § 18 MStV.
+        Angaben gemäß § 5 TMG (Telemediengesetz) und § 18 MStV.
       </p>
 
-      <LegalSection title="Service provider">
+      <LegalSection title="Diensteanbieter">
         <p>{LEGAL_SERVICE_NAME}</p>
         <p className="text-zinc-600">
-          A musician listing aggregator for Berlin. Community listings are
-          posted by registered users; scraped listings are sourced from public
-          third-party boards.
+          Ein Aggregator für Musiker-Inserate in Berlin. Community-Inserate
+          werden von registrierten Nutzerinnen und Nutzern veröffentlicht;
+          aggregierte Inserate stammen von öffentlichen Drittanbieter-Boards.
         </p>
       </LegalSection>
 
-      <LegalSection title="Contact">
+      <LegalSection title="Kontakt">
         {contactEmail ? (
           <p>
-            Email:{" "}
+            E-Mail:{" "}
             <a
               href={`mailto:${contactEmail}`}
               className="font-medium text-violet-600 hover:text-violet-800"
@@ -42,31 +42,32 @@ export default function ImpressumPage() {
           </p>
         ) : (
           <p>
-            For community listings, use the in-app message feature on a listing.
-            For legal enquiries about this website, please use the contact
-            options published on the site when available.
+            Für Community-Inserate nutze die Nachrichtenfunktion direkt beim
+            Inserat. Für rechtliche Anfragen zu dieser Website verwende die
+            Kontaktmöglichkeiten, sobald sie auf der Seite veröffentlicht sind.
           </p>
         )}
       </LegalSection>
 
-      <LegalSection title="Responsible for content (§ 18 Abs. 2 MStV)">
+      <LegalSection title="Verantwortlich für den Inhalt (§ 18 Abs. 2 MStV)">
         <p>{LEGAL_SERVICE_NAME}</p>
       </LegalSection>
 
-      <LegalSection title="Liability for content">
+      <LegalSection title="Haftung für Inhalte">
         <p>
-          We compile publicly available musician listings from third-party
-          boards. We do not guarantee completeness, accuracy, or timeliness of
-          aggregated content. Obligations to remove or block use of information
-          under general law remain unaffected.
+          Wir stellen öffentlich zugängliche Musiker-Inserate von
+          Drittanbieter-Boards zusammen. Für Vollständigkeit, Richtigkeit und
+          Aktualität aggregierter Inhalte übernehmen wir keine Gewähr.
+          Verpflichtungen zur Entfernung oder Sperrung der Nutzung von
+          Informationen nach den allgemeinen Gesetzen bleiben unberührt.
         </p>
       </LegalSection>
 
-      <LegalSection title="Liability for links">
+      <LegalSection title="Haftung für Links">
         <p>
-          This site contains links to external websites. We have no influence
-          over their content and assume no liability. The respective provider is
-          responsible for linked pages.
+          Diese Seite enthält Links zu externen Websites. Auf deren Inhalte
+          haben wir keinen Einfluss und übernehmen keine Haftung. Für die
+          verlinkten Seiten ist jeweils der jeweilige Anbieter verantwortlich.
         </p>
       </LegalSection>
     </LegalPageShell>

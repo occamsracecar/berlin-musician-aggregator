@@ -31,7 +31,7 @@ export function ListingPagination({
 
   return (
     <nav
-      aria-label="Listing pages"
+      aria-label="Inserat-Seiten"
       className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-6"
     >
       {hasPrevious ? (
@@ -39,16 +39,16 @@ export function ListingPagination({
           href={buildBrowseHref(filters, page - 1)}
           className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:border-violet-200 hover:text-violet-700"
         >
-          ← Previous
+          ← Zurück
         </Link>
       ) : (
         <span className="rounded-lg border border-transparent px-4 py-2 text-sm text-zinc-400">
-          ← Previous
+          ← Zurück
         </span>
       )}
 
       <p className="text-sm text-zinc-500">
-        Page {page} of {totalPages}
+        Seite {page} von {totalPages}
       </p>
 
       {hasNext ? (
@@ -56,11 +56,11 @@ export function ListingPagination({
           href={buildBrowseHref(filters, page + 1)}
           className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:border-violet-200 hover:text-violet-700"
         >
-          Next →
+          Weiter →
         </Link>
       ) : (
         <span className="rounded-lg border border-transparent px-4 py-2 text-sm text-zinc-400">
-          Next →
+          Weiter →
         </span>
       )}
     </nav>

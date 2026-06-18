@@ -26,7 +26,7 @@ export function parseListingFormData(
   if (!title || title.length > LISTING_FORM_LIMITS.maxTitle) {
     return {
       ok: false,
-      message: `Please enter a title up to ${LISTING_FORM_LIMITS.maxTitle} characters.`,
+      message: `Bitte gib einen Titel mit maximal ${LISTING_FORM_LIMITS.maxTitle} Zeichen ein.`,
     };
   }
 
@@ -36,14 +36,14 @@ export function parseListingFormData(
   ) {
     return {
       ok: false,
-      message: `Please enter a description up to ${LISTING_FORM_LIMITS.maxDescription} characters.`,
+      message: `Bitte gib eine Beschreibung mit maximal ${LISTING_FORM_LIMITS.maxDescription} Zeichen ein.`,
     };
   }
 
   if (!["band_seeking", "musician_seeking"].includes(listingType)) {
     return {
       ok: false,
-      message: "Please select a listing type.",
+      message: "Bitte wähle einen Inserattyp.",
     };
   }
 

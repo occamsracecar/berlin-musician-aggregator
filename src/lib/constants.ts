@@ -19,6 +19,7 @@ export const BOARD_SORT_PRIORITY: Record<string, number> = {
   "bandmix.de": 100,
 };
 
+/** Genre tags stored in DB — labels match filter values. */
 export const GENRES = [
   "Metal",
   "Punk",
@@ -37,19 +38,19 @@ export const GENRES = [
 ] as const;
 
 export const LISTING_TYPES = [
-  { value: "band_seeking", label: "Band looking for musician" },
-  { value: "musician_seeking", label: "Musician looking for band" },
+  { value: "band_seeking", label: "Band sucht Musiker" },
+  { value: "musician_seeking", label: "Musiker sucht Band" },
 ] as const;
 
 export const SORT_OPTIONS = [
-  { value: "newest", label: "Newest first" },
-  { value: "oldest", label: "Oldest first" },
+  { value: "newest", label: "Neueste zuerst" },
+  { value: "oldest", label: "Älteste zuerst" },
 ] as const;
 
 export const TIME_FILTER_OPTIONS = [
-  { value: "all", label: "All time" },
-  { value: "month", label: "This month" },
-  { value: "year", label: "This year" },
+  { value: "all", label: "Alle Zeiträume" },
+  { value: "month", label: "Dieser Monat" },
+  { value: "year", label: "Dieses Jahr" },
 ] as const;
 
 export const ENTRIES_PER_PAGE = 50;

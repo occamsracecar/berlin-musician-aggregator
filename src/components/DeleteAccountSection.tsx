@@ -22,16 +22,17 @@ export function DeleteAccountSection() {
 
   return (
     <section className="mt-8 rounded-xl border border-red-200 bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-zinc-900">Delete account</h2>
+      <h2 className="text-lg font-semibold text-zinc-900">Konto löschen</h2>
       <p className="mt-2 text-sm text-zinc-600">
-        Permanently removes your profile, avatar, community listings, and sign-in.
-        This cannot be undone.
+        Entfernt dauerhaft dein Profil, Avatar, Community-Inserate und dein
+        Login. Das kann nicht rückgängig gemacht werden.
       </p>
 
       <form action={formAction} className="mt-4 flex flex-col gap-3">
         <label className="flex flex-col gap-1.5 text-sm">
           <span className="font-medium text-zinc-700">
-            Type <span className="font-mono text-red-700">DELETE</span> to confirm
+            Gib <span className="font-mono text-red-700">DELETE</span> ein, um
+            zu bestätigen
           </span>
           <input
             type="text"
@@ -53,7 +54,7 @@ export function DeleteAccountSection() {
           disabled={isPending}
           className="w-fit rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-800 transition hover:bg-red-100 disabled:opacity-60"
         >
-          {isPending ? "Deleting account..." : "Delete my account"}
+          {isPending ? "Konto wird gelöscht…" : "Mein Konto löschen"}
         </button>
       </form>
     </section>

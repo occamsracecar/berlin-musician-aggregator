@@ -64,7 +64,7 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
         month: "2-digit",
         year: "numeric",
       })
-    : "Unknown date";
+    : "Unbekanntes Datum";
 
   const listingTypeLabel = getListingTypeLabel(entry.listing_type);
 
@@ -74,13 +74,13 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
         <form action={updateAction} className="flex flex-col gap-4">
           <input type="hidden" name="entry_id" value={entry.id} />
           <div className="flex items-center justify-between gap-2">
-            <h3 className="font-semibold text-zinc-900">Edit listing</h3>
+            <h3 className="font-semibold text-zinc-900">Inserat bearbeiten</h3>
             <button
               type="button"
               onClick={() => setEditing(false)}
               className="text-sm font-medium text-zinc-500 hover:text-zinc-800"
             >
-              Cancel
+              Abbrechen
             </button>
           </div>
           <ListingFormFields entry={entry} />
@@ -101,14 +101,14 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
               disabled={isUpdatePending}
               className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
             >
-              {isUpdatePending ? "Saving..." : "Save changes"}
+              {isUpdatePending ? "Wird gespeichert…" : "Änderungen speichern"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
               className="rounded-lg border border-zinc-200 px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
             >
-              Cancel
+              Abbrechen
             </button>
           </div>
         </form>
@@ -116,8 +116,8 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
         <form action={deleteAction} className="flex flex-col gap-3">
           <input type="hidden" name="entry_id" value={entry.id} />
           <p className="text-sm text-zinc-700">
-            Delete <span className="font-medium">{entry.title}</span>? This cannot
-            be undone.
+            <span className="font-medium">{entry.title}</span> löschen? Das kann
+            nicht rückgängig gemacht werden.
           </p>
           {deleteState.message && !deleteState.success ? (
             <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
@@ -130,14 +130,14 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
               disabled={isDeletePending}
               className="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:opacity-60"
             >
-              {isDeletePending ? "Deleting..." : "Yes, delete"}
+              {isDeletePending ? "Wird gelöscht…" : "Ja, löschen"}
             </button>
             <button
               type="button"
               onClick={() => setConfirmDelete(false)}
               className="rounded-lg border border-zinc-200 px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
             >
-              Cancel
+              Abbrechen
             </button>
           </div>
         </form>
@@ -182,7 +182,7 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
               }}
               className="rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:border-violet-200 hover:text-violet-700"
             >
-              Edit
+              Bearbeiten
             </button>
             <button
               type="button"
@@ -192,7 +192,7 @@ export function UserListingEditor({ entry }: UserListingEditorProps) {
               }}
               className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-700 transition hover:bg-red-50"
             >
-              Delete
+              Löschen
             </button>
           </div>
         </div>

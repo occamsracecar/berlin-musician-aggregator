@@ -29,7 +29,7 @@ export async function updateProfile(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { success: false, message: "Sign in to edit your profile." };
+    return { success: false, message: "Melde dich an, um dein Profil zu bearbeiten." };
   }
 
   const displayName = String(formData.get("display_name") ?? "").trim();
@@ -45,7 +45,7 @@ export async function updateProfile(
   if (displayName.length > MAX_DISPLAY_NAME) {
     return {
       success: false,
-      message: `Display name must be ${MAX_DISPLAY_NAME} characters or fewer.`,
+      message: `Der Anzeigename darf maximal ${MAX_DISPLAY_NAME} Zeichen lang sein.`,
     };
   }
 
@@ -59,7 +59,7 @@ export async function updateProfile(
       const label = field.replace("_url", "").replace("_", " ");
       return {
         success: false,
-        message: `Please enter a valid ${label} URL.`,
+        message: `Bitte gib eine gültige ${label}-URL ein.`,
       };
     }
 
@@ -71,7 +71,7 @@ export async function updateProfile(
     : null;
 
   if (avatarUrl && !normalizedAvatar) {
-    return { success: false, message: "Avatar URL is invalid." };
+    return { success: false, message: "Die Avatar-URL ist ungültig." };
   }
 
   const { error } = await supabase.from("profiles").upsert({
@@ -86,12 +86,12 @@ export async function updateProfile(
   if (error) {
     return {
       success: false,
-      message: "Could not save your profile. Please try again.",
+      message: "Profil konnte nicht gespeichert werden. Bitte versuche es erneut.",
     };
   }
 
   revalidatePath("/profile");
   revalidatePath("/");
 
-  return { success: true, message: "Profile saved." };
+  return { success: true, message: "Profil gespeichert." };
 }

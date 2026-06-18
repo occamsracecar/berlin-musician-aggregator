@@ -28,10 +28,10 @@ type SubgenreSeed = {
  */
 function buildSubgenreSeo(name: string, intro: string, metaDescription?: string) {
   return {
-    title: `${name} musicians & bands in Berlin`,
+    title: `${name} – Musiker & Bands in Berlin`,
     metaDescription:
       metaDescription ??
-      `Browse ${name.toLowerCase()} musician and band listings in Berlin. Bands seeking members and musicians looking for projects.`,
+      `Anzeigen für ${name.toLowerCase()} in Berlin: Bands und Musiker auf der Suche nach Projekten und Bandmitgliedern.`,
     intro,
   };
 }
@@ -60,219 +60,219 @@ function createSubgenre(parentSlug: string, seed: SubgenreSeed): SubgenrePage {
 const ROCK_SUBGENRES: SubgenreSeed[] = [
   {
     slug: "alternative",
-    name: "Alternative rock",
+    name: "Alternative Rock",
     keywords: ["alternative", "alternative rock"],
     intro:
-      "Alternative and alt-rock listings in Berlin — indie-leaning bands and musicians seeking collaborators outside the mainstream.",
+      "Alternative- und Alt-Rock-Anzeigen in Berlin — indie-orientierte Bands und Musiker auf der Suche nach Kollaborationen abseits des Mainstreams.",
   },
   {
     slug: "classic-rock",
-    name: "Classic rock",
+    name: "Classic Rock",
     keywords: ["classic rock"],
     intro:
-      "Classic rock bands and musicians in Berlin looking for guitarists, vocalists, drummers, and other players for rock-oriented projects.",
+      "Classic-Rock-Bands und Musiker in Berlin auf der Suche nach Gitarristen, Sängern, Schlagzeugern und weiteren Spielern für rockorientierte Projekte.",
   },
   {
     slug: "psychedelic",
-    name: "Psychedelic rock",
+    name: "Psychedelic Rock",
     keywords: ["psychedelic", "psychedelic rock"],
     intro:
-      "Psychedelic rock projects in Berlin — bands and musicians drawn to expansive, experimental, or retro-psych sounds.",
+      "Psychedelic-Rock-Projekte in Berlin — Bands und Musiker mit Hang zu expansiven, experimentellen oder retro-psychischen Klängen.",
   },
   {
     slug: "shoegaze",
     name: "Shoegaze",
     keywords: ["shoegaze"],
     intro:
-      "Shoegaze and dream-pop leaning listings in Berlin. Find guitarists, vocalists, and bands chasing layered, atmospheric rock.",
+      "Shoegaze- und Dream-Pop-orientierte Anzeigen in Berlin. Finde Gitarristen, Sänger und Bands, die nach geschichteten, atmosphärischen Rock-Klängen suchen.",
   },
   {
     slug: "indie-rock",
-    name: "Indie rock",
+    name: "Indie Rock",
     keywords: ["indie rock"],
     intro:
-      "Indie rock musicians and bands in Berlin — smaller-room projects, DIY bands, and collaborators building independent rock lineups.",
+      "Indie-Rock-Musiker und Bands in Berlin — kleinere Projekte, DIY-Bands und Kollaborateure, die unabhängige Rock-Line-ups aufbauen.",
   },
   {
     slug: "hard-rock",
-    name: "Hard rock",
+    name: "Hard Rock",
     keywords: ["hard rock"],
     intro:
-      "Hard rock bands and players in Berlin seeking powerful vocals, heavy guitars, and driving rhythm sections.",
+      "Hard-Rock-Bands und Musiker in Berlin auf der Suche nach kraftvollen Stimmen, schweren Gitarren und treibenden Rhythmussektionen.",
   },
   {
     slug: "garage-rock",
-    name: "Garage rock",
+    name: "Garage Rock",
     keywords: ["garage rock", "garage"],
     intro:
-      "Garage rock listings in Berlin — raw, energetic bands and musicians looking for fast, loud, and straightforward collaborations.",
+      "Garage-Rock-Anzeigen in Berlin — rohe, energiegeladene Bands und Musiker auf der Suche nach schnellen, lauten und unkomplizierten Kollaborationen.",
   },
   {
     slug: "post-rock",
-    name: "Post-rock",
+    name: "Post-Rock",
     keywords: ["post-rock", "post rock"],
     intro:
-      "Post-rock and instrumental rock projects in Berlin seeking patient, cinematic, or experimental band setups.",
+      "Post-Rock- und instrumentelle Rock-Projekte in Berlin auf der Suche nach geduldigen, cineastischen oder experimentellen Band-Setups.",
   },
   {
     slug: "rockabilly",
     name: "Rockabilly",
     keywords: ["rockabilly"],
     intro:
-      "Rockabilly musicians and bands in Berlin — upright bass, twangy guitar, and vintage rock 'n' roll lineups.",
+      "Rockabilly-Musiker und Bands in Berlin — Kontrabass, twangige Gitarre und vintage Rock-'n'-Roll-Line-ups.",
   },
   {
     slug: "progressive-rock",
-    name: "Progressive rock",
+    name: "Progressive Rock",
     keywords: ["progressive rock", "prog rock"],
     intro:
-      "Progressive rock listings in Berlin — musicians interested in complex arrangements, odd meters, and ambitious rock projects.",
+      "Progressive-Rock-Anzeigen in Berlin — Musiker mit Interesse an komplexen Arrangements, ungeraden Taktarten und ambitionierten Rock-Projekten.",
   },
 ];
 
 const METAL_SUBGENRES: SubgenreSeed[] = [
   {
     slug: "heavy-metal",
-    name: "Heavy metal",
+    name: "Heavy Metal",
     keywords: ["heavy metal"],
     intro:
-      "Heavy metal bands and musicians in Berlin looking for members across the classic and modern metal spectrum.",
+      "Heavy-Metal-Bands und Musiker in Berlin auf der Suche nach Mitgliedern im klassischen und modernen Metal-Spektrum.",
   },
   {
     slug: "hardcore",
     name: "Hardcore",
     keywords: ["hardcore"],
     intro:
-      "Hardcore listings in Berlin — fast, aggressive bands and musicians with crossover appeal to metal and punk.",
+      "Hardcore-Anzeigen in Berlin — schnelle, aggressive Bands und Musiker mit Crossover-Appeal zu Metal und Punk.",
   },
   {
     slug: "metalcore",
     name: "Metalcore",
     keywords: ["metalcore"],
     intro:
-      "Metalcore projects in Berlin combining heavy riffing with hardcore energy. Vocalists, guitarists, and drummers wanted.",
+      "Metalcore-Projekte in Berlin, die schwere Riffs mit Hardcore-Energie verbinden. Gesucht: Sänger, Gitarristen und Schlagzeuger.",
   },
   {
     slug: "death-metal",
-    name: "Death metal",
+    name: "Death Metal",
     keywords: ["death metal"],
     intro:
-      "Death metal bands and musicians in Berlin seeking technical players, growling vocalists, and extreme metal collaborators.",
+      "Death-Metal-Bands und Musiker in Berlin auf der Suche nach technischen Spielern, Growl-Sängern und Extreme-Metal-Kollaborateuren.",
   },
   {
     slug: "black-metal",
-    name: "Black metal",
+    name: "Black Metal",
     keywords: ["black metal"],
     intro:
-      "Black metal listings in Berlin — raw, atmospheric, or symphonic projects looking for dedicated underground musicians.",
+      "Black-Metal-Anzeigen in Berlin — rohe, atmosphärische oder symphonische Projekte auf der Suche nach engagierten Underground-Musikern.",
   },
   {
     slug: "thrash-metal",
-    name: "Thrash metal",
+    name: "Thrash Metal",
     keywords: ["thrash metal", "thrash", "crossover thrash"],
     intro:
-      "Thrash and crossover thrash listings in Berlin — speed, aggression, and classic Bay Area-inspired metal projects.",
+      "Thrash- und Crossover-Thrash-Anzeigen in Berlin — Speed, Aggression und klassisch inspirierte Bay-Area-Metal-Projekte.",
   },
   {
     slug: "doom-metal",
-    name: "Doom metal",
+    name: "Doom Metal",
     keywords: ["doom metal", "doom"],
     intro:
-      "Doom metal musicians in Berlin — slow, heavy bands looking for riff-focused guitarists, vocalists, and rhythm sections.",
+      "Doom-Metal-Musiker in Berlin — langsame, schwere Bands auf der Suche nach rifforientierten Gitarristen, Sängern und Rhythmussektionen.",
   },
   {
     slug: "groove-metal",
-    name: "Groove metal",
+    name: "Groove Metal",
     keywords: ["groove metal", "groove"],
     intro:
-      "Groove metal listings in Berlin — mid-tempo heavy bands seeking tight, punchy players and strong vocalists.",
+      "Groove-Metal-Anzeigen in Berlin — midtempo schwere Bands auf der Suche nach straffen, druckvollen Spielern und starken Sängern.",
   },
   {
     slug: "crossover",
-    name: "Crossover thrash",
+    name: "Crossover Thrash",
     keywords: ["crossover"],
     intro:
-      "Crossover thrash projects in Berlin blending metal and punk attitudes into high-energy live bands.",
+      "Crossover-Thrash-Projekte in Berlin, die Metal- und Punk-Attitüde zu energiegeladenen Live-Bands verbinden.",
   },
   {
     slug: "symphonic-metal",
-    name: "Symphonic metal",
+    name: "Symphonic Metal",
     keywords: ["symphonic metal", "symphonic"],
     intro:
-      "Symphonic metal listings in Berlin — dramatic vocals, layered arrangements, and heavy orchestrated rock-metal projects.",
+      "Symphonic-Metal-Anzeigen in Berlin — dramatische Stimmen, geschichtete Arrangements und schwer orchestrale Rock-Metal-Projekte.",
   },
   {
     slug: "sludge",
-    name: "Sludge metal",
+    name: "Sludge Metal",
     keywords: ["sludge"],
     intro:
-      "Sludge metal bands and musicians in Berlin pursuing thick riffs, slow grooves, and abrasive underground sounds.",
+      "Sludge-Metal-Bands und Musiker in Berlin mit Hang zu dicken Riffs, langsamen Grooves und abrasiven Underground-Klängen.",
   },
   {
     slug: "industrial-metal",
-    name: "Industrial metal",
+    name: "Industrial Metal",
     keywords: ["industrial metal", "industrial"],
     intro:
-      "Industrial metal listings in Berlin — mechanical, electronic-leaning heavy projects seeking committed collaborators.",
+      "Industrial-Metal-Anzeigen in Berlin — mechanische, elektronisch orientierte Heavy-Projekte auf der Suche nach engagierten Kollaborateuren.",
   },
   {
     slug: "power-metal",
-    name: "Power metal",
+    name: "Power Metal",
     keywords: ["power metal"],
     intro:
-      "Power metal musicians in Berlin — melodic vocals, fast picking, and anthemic heavy metal band projects.",
+      "Power-Metal-Musiker in Berlin — melodische Stimmen, schnelles Picking und hymnische Heavy-Metal-Bandprojekte.",
   },
 ];
 
 const PUNK_SUBGENRES: SubgenreSeed[] = [
   {
     slug: "punk-rock",
-    name: "Punk rock",
+    name: "Punk Rock",
     keywords: ["punk rock", "punkrock"],
     intro:
-      "Punk rock bands and musicians in Berlin — loud, direct, and fast projects looking for committed players.",
+      "Punk-Rock-Bands und Musiker in Berlin — laute, direkte und schnelle Projekte auf der Suche nach engagierten Spielern.",
   },
   {
     slug: "punk",
     name: "Punk",
     keywords: ["punk"],
     intro:
-      "General punk listings in Berlin spanning DIY bands, basement projects, and musicians looking for punk-oriented collaborators.",
+      "Allgemeine Punk-Anzeigen in Berlin — DIY-Bands, Kellerprojekte und Musiker auf der Suche nach punkorientierten Kollaborateuren.",
   },
   {
     slug: "grunge",
     name: "Grunge",
     keywords: ["grunge"],
     intro:
-      "Grunge-influenced listings in Berlin — 90s-inspired rock bands and musicians chasing heavy, melodic, and raw sounds.",
+      "Grunge-inspirierte Anzeigen in Berlin — 90er-orientierte Rock-Bands und Musiker auf der Suche nach schweren, melodischen und rohen Klängen.",
   },
   {
     slug: "post-punk",
-    name: "Post-punk",
+    name: "Post-Punk",
     keywords: ["post-punk", "post punk"],
     intro:
-      "Post-punk projects in Berlin — angular guitars, driving bass, and art-school energy in live band setups.",
+      "Post-Punk-Projekte in Berlin — kantige Gitarren, treibender Bass und Art-School-Energie in Live-Band-Setups.",
   },
   {
     slug: "emo",
     name: "Emo",
     keywords: ["emo"],
     intro:
-      "Emo and emotionally driven punk-rock listings in Berlin seeking vocalists, guitarists, and tight rhythm sections.",
+      "Emo- und emotional getriebene Punk-Rock-Anzeigen in Berlin auf der Suche nach Sängern, Gitarristen und straffen Rhythmussektionen.",
   },
   {
     slug: "hardcore-punk",
-    name: "Hardcore punk",
+    name: "Hardcore Punk",
     keywords: ["hardcore punk"],
     intro:
-      "Hardcore punk bands in Berlin — short, fast, and intense projects looking for reliable live musicians.",
+      "Hardcore-Punk-Bands in Berlin — kurze, schnelle und intensive Projekte auf der Suche nach zuverlässigen Live-Musikern.",
   },
   {
     slug: "screamo",
     name: "Screamo",
     keywords: ["screamo"],
     intro:
-      "Screamo and chaotic punk listings in Berlin for musicians drawn to intense vocals and dynamic song structures.",
+      "Screamo- und chaotische Punk-Anzeigen in Berlin für Musiker mit Hang zu intensiven Vocals und dynamischen Songstrukturen.",
   },
 ];
 
@@ -282,42 +282,42 @@ const ELECTRONIC_SUBGENRES: SubgenreSeed[] = [
     name: "Synth",
     keywords: ["synth", "synthesizer"],
     intro:
-      "Synth-focused musicians and live electronic acts in Berlin seeking collaborators for hardware and hybrid setups.",
+      "Synth-orientierte Musiker und Live-Elektronik-Acts in Berlin auf der Suche nach Kollaborateuren für Hardware- und Hybrid-Setups.",
   },
   {
     slug: "house",
     name: "House",
     keywords: ["house", "deep house"],
     intro:
-      "House music listings in Berlin — DJs, producers, and live acts looking for club-oriented collaborations.",
+      "House-Musik-Anzeigen in Berlin — DJs, Produzenten und Live-Acts auf der Suche nach cluborientierten Kollaborationen.",
   },
   {
     slug: "electro",
     name: "Electro",
     keywords: ["electro", "electronica"],
     intro:
-      "Electro and electronica musicians in Berlin building dancefloor-oriented or experimental electronic projects.",
+      "Electro- und Electronica-Musiker in Berlin, die dancefloororientierte oder experimentelle elektronische Projekte aufbauen.",
   },
   {
     slug: "ambient",
     name: "Ambient",
     keywords: ["ambient"],
     intro:
-      "Ambient and atmospheric electronic listings in Berlin — sound designers, producers, and live acts seeking collaborators.",
+      "Ambient- und atmosphärische Elektronik-Anzeigen in Berlin — Sounddesigner, Produzenten und Live-Acts auf der Suche nach Kollaborateuren.",
   },
   {
     slug: "techno",
     name: "Techno",
     keywords: ["techno", "industrial techno"],
     intro:
-      "Techno producers and live acts in Berlin — the city's club culture makes this one of the strongest electronic scenes here.",
+      "Techno-Produzenten und Live-Acts in Berlin — die Clubkultur der Stadt macht dies zu einer der stärksten elektronischen Szenen hier.",
   },
   {
     slug: "edm",
     name: "EDM",
     keywords: ["edm"],
     intro:
-      "EDM-oriented musicians and producers in Berlin looking for festival-ready or high-energy electronic collaborations.",
+      "EDM-orientierte Musiker und Produzenten in Berlin auf der Suche nach festivalreifen oder energiegeladenen elektronischen Kollaborationen.",
   },
 ];
 
@@ -327,21 +327,21 @@ const JAZZ_SUBGENRES: SubgenreSeed[] = [
     name: "Jazz",
     keywords: ["jazz"],
     intro:
-      "Jazz-focused listings in Berlin — trios, quartets, singers, and instrumentalists looking for standards, originals, and gigs.",
+      "Jazz-orientierte Anzeigen in Berlin — Trios, Quartette, Sänger und Instrumentalisten auf der Suche nach Standards, Eigenkompositionen und Gigs.",
   },
   {
     slug: "fusion",
-    name: "Jazz fusion",
+    name: "Jazz Fusion",
     keywords: ["fusion", "jazz fusion"],
     intro:
-      "Jazz fusion projects in Berlin blending improvisation with funk, rock, and contemporary harmony.",
+      "Jazz-Fusion-Projekte in Berlin, die Improvisation mit Funk, Rock und zeitgenössischer Harmonie verbinden.",
   },
   {
     slug: "swing",
     name: "Swing",
     keywords: ["swing", "big band"],
     intro:
-      "Swing and big-band leaning jazz listings in Berlin — horns, rhythm sections, and vocalists for danceable jazz projects.",
+      "Swing- und Big-Band-orientierte Jazz-Anzeigen in Berlin — Bläser, Rhythmussektionen und Sänger für tanzbare Jazz-Projekte.",
   },
 ];
 
@@ -351,35 +351,35 @@ const POP_SUBGENRES: SubgenreSeed[] = [
     name: "Pop",
     keywords: ["pop"],
     intro:
-      "Pop-oriented musicians and bands in Berlin — chart-leaning, melodic, and mainstream-accessible projects seeking members.",
+      "Pop-orientierte Musiker und Bands in Berlin — chartnahe, melodische und mainstreamtaugliche Projekte auf der Suche nach Mitgliedern.",
   },
   {
     slug: "cover-band",
-    name: "Cover band",
+    name: "Coverband",
     keywords: ["cover band", "cover-duo", "cover duo"],
     intro:
-      "Cover bands and function musicians in Berlin looking for reliable players for gigs, weddings, and club dates.",
+      "Coverbands und Eventmusiker in Berlin auf der Suche nach zuverlässigen Spielern für Gigs, Hochzeiten und Clubauftritte.",
   },
   {
     slug: "schlager",
     name: "Schlager",
     keywords: ["schlager"],
     intro:
-      "Schlager and German-language pop listings in Berlin — live bands and entertainers seeking gig-ready lineups.",
+      "Schlager- und deutschsprachige Pop-Anzeigen in Berlin — Live-Bands und Entertainer auf der Suche nach gigreifen Line-ups.",
   },
   {
     slug: "indie-pop",
-    name: "Indie pop",
+    name: "Indie Pop",
     keywords: ["indie pop"],
     intro:
-      "Indie pop musicians in Berlin building melodic, accessible songs with a DIY or small-label spirit.",
+      "Indie-Pop-Musiker in Berlin, die melodische, zugängliche Songs mit DIY- oder Kleinstlabel-Geist schreiben.",
   },
   {
     slug: "synth-pop",
-    name: "Synth pop",
+    name: "Synth Pop",
     keywords: ["synth pop"],
     intro:
-      "Synth pop projects in Berlin — electronic pop bands and producers looking for vocalists and live players.",
+      "Synth-Pop-Projekte in Berlin — elektronische Pop-Bands und Produzenten auf der Suche nach Sängern und Live-Musikern.",
   },
 ];
 
@@ -389,38 +389,38 @@ const FUNK_SOUL_SUBGENRES: SubgenreSeed[] = [
     name: "Funk",
     keywords: ["funk"],
     intro:
-      "Funk musicians in Berlin — horn sections, rhythm players, and groove-focused bands looking for tight lineups.",
+      "Funk-Musiker in Berlin — Bläsersektionen, Rhythmusspieler und grooveorientierte Bands auf der Suche nach straffen Line-ups.",
   },
   {
     slug: "soul",
     name: "Soul",
     keywords: ["soul"],
     intro:
-      "Soul singers and bands in Berlin seeking committed players for powerful vocals and groove-based arrangements.",
+      "Soul-Sänger und Bands in Berlin auf der Suche nach engagierten Spielern für kraftvolle Vocals und groovebasierte Arrangements.",
   },
   {
     slug: "rnb",
     name: "R&B",
     keywords: ["rnb", "r&b", "neo soul", "neosoul"],
     intro:
-      "R&B and neo-soul listings in Berlin — vocal-led projects looking for keys, bass, drums, and backing musicians.",
+      "R&B- und Neo-Soul-Anzeigen in Berlin — gesangsführte Projekte auf der Suche nach Keys, Bass, Schlagzeug und Begleitmusikern.",
   },
   {
     slug: "disco",
     name: "Disco",
     keywords: ["disco"],
     intro:
-      "Disco and dance-oriented funk-soul listings in Berlin for live bands and party-focused collaborations.",
+      "Disco- und tanzorientierte Funk-Soul-Anzeigen in Berlin für Live-Bands und partyorientierte Kollaborationen.",
   },
 ];
 
 const HIP_HOP_SUBGENRES: SubgenreSeed[] = [
   {
     slug: "rap",
-    name: "Rap & hip-hop",
+    name: "Rap & Hip-Hop",
     keywords: ["rap", "hip hop", "hip-hop", "hiphop"],
     intro:
-      "Rap and hip-hop listings in Berlin — MCs, producers, beatmakers, and live acts seeking collaborators.",
+      "Rap- und Hip-Hop-Anzeigen in Berlin — MCs, Produzenten, Beatmaker und Live-Acts auf der Suche nach Kollaborateuren.",
   },
 ];
 
@@ -430,59 +430,59 @@ const FOLK_ACOUSTIC_SUBGENRES: SubgenreSeed[] = [
     name: "Folk",
     keywords: ["folk"],
     intro:
-      "Folk musicians and bands in Berlin — trad and contemporary folk projects, duos, and acoustic ensembles.",
+      "Folk-Musiker und Bands in Berlin — traditionelle und zeitgenössische Folk-Projekte, Duos und akustische Ensembles.",
   },
   {
     slug: "acoustic",
-    name: "Acoustic",
+    name: "Akustik",
     keywords: ["acoustic"],
     intro:
-      "Acoustic-focused listings in Berlin for unplugged bands, intimate gigs, and singer-instrumentalist collaborations.",
+      "Akustik-orientierte Anzeigen in Berlin für unplugged Bands, intime Gigs und Singer-Songwriter-Kollaborationen.",
   },
   {
     slug: "country",
     name: "Country",
     keywords: ["country"],
     intro:
-      "Country and Americana-leaning musicians in Berlin looking for pedal steel, fiddle, guitar, and vocal collaborators.",
+      "Country- und Americana-orientierte Musiker in Berlin auf der Suche nach Pedal-Steel, Fiddle, Gitarre und Gesangskollaborateuren.",
   },
   {
     slug: "singer-songwriter",
-    name: "Singer-songwriter",
+    name: "Singer-Songwriter",
     keywords: ["singer-songwriter", "singer songwriter"],
     intro:
-      "Singer-songwriter listings in Berlin — solo artists and small groups looking for harmony singers or light accompaniment.",
+      "Singer-Songwriter-Anzeigen in Berlin — Solokünstler und kleine Gruppen auf der Suche nach Background-Gesang oder leichter Begleitung.",
   },
   {
     slug: "bluegrass",
     name: "Bluegrass",
     keywords: ["bluegrass"],
     intro:
-      "Bluegrass musicians in Berlin seeking banjo, mandolin, fiddle, and tight vocal harmony projects.",
+      "Bluegrass-Musiker in Berlin auf der Suche nach Banjo, Mandoline, Fiddle und Projekten mit engen Gesangsharmonien.",
   },
 ];
 
 const CLASSICAL_SUBGENRES: SubgenreSeed[] = [
   {
     slug: "orchestra",
-    name: "Orchestra",
+    name: "Orchester",
     keywords: ["orchestra", "orchester"],
     intro:
-      "Orchestra and orchestral musician listings in Berlin — sectional players and ensembles seeking concert projects.",
+      "Orchester- und Orchester-Musiker-Anzeigen in Berlin — Stimmen-Spieler und Ensembles auf der Suche nach Konzertprojekten.",
   },
   {
     slug: "choir",
-    name: "Choir",
+    name: "Chor",
     keywords: ["choir", "chor"],
     intro:
-      "Choir and choral listings in Berlin — vocal ensembles and singers looking for classical and contemporary choral work.",
+      "Chor-Anzeigen in Berlin — Vokalensembles und Sänger auf der Suche nach klassischer und zeitgenössischer Chorarbeit.",
   },
   {
     slug: "classical",
-    name: "Classical",
+    name: "Klassik",
     keywords: ["classical", "klassik"],
     intro:
-      "Classical and Klassik listings in Berlin — trained musicians seeking chamber groups, pits, concerts, and formal projects.",
+      "Klassik-Anzeigen in Berlin — ausgebildete Musiker auf der Suche nach Kammergruppen, Pits, Konzerten und formellen Projekten.",
   },
 ];
 
@@ -492,21 +492,21 @@ const REGGAE_SUBGENRES: SubgenreSeed[] = [
     name: "Reggae",
     keywords: ["reggae"],
     intro:
-      "Reggae musicians and bands in Berlin — roots, dancehall-leaning, and live reggae projects seeking players.",
+      "Reggae-Musiker und Bands in Berlin — Roots-, Dancehall-orientierte und Live-Reggae-Projekte auf der Suche nach Spielern.",
   },
   {
     slug: "ska",
     name: "Ska",
     keywords: ["ska"],
     intro:
-      "Ska bands and musicians in Berlin looking for horns, upstroke guitar, and energetic live lineups.",
+      "Ska-Bands und Musiker in Berlin auf der Suche nach Bläsern, Upstroke-Gitarre und energiegeladenen Live-Line-ups.",
   },
   {
     slug: "dub",
     name: "Dub",
     keywords: ["dub"],
     intro:
-      "Dub and reggae-adjacent listings in Berlin — bass-heavy, studio-leaning, and live dub projects.",
+      "Dub- und Reggae-nahe Anzeigen in Berlin — basslastige, studioorientierte und Live-Dub-Projekte.",
   },
 ];
 
@@ -516,14 +516,14 @@ const LATIN_SUBGENRES: SubgenreSeed[] = [
     name: "Latin",
     keywords: ["latin"],
     intro:
-      "Latin music listings in Berlin — bilingual bands and musicians seeking percussion, piano, brass, and vocal collaborators.",
+      "Latin-Musik-Anzeigen in Berlin — zweisprachige Bands und Musiker auf der Suche nach Percussion, Klavier, Bläsern und Gesangskollaborateuren.",
   },
   {
     slug: "cumbia",
     name: "Cumbia",
     keywords: ["cumbia"],
     intro:
-      "Cumbia musicians and bands in Berlin looking for percussion-heavy, danceable Latin lineups.",
+      "Cumbia-Musiker und Bands in Berlin auf der Suche nach percussionlastigen, tanzbaren Latin-Line-ups.",
   },
 ];
 
@@ -533,7 +533,7 @@ const BLUES_SUBGENRES: SubgenreSeed[] = [
     name: "Blues",
     keywords: ["blues"],
     intro:
-      "Blues-focused listings in Berlin — guitarists, harp players, vocalists, and bands dedicated to blues and blues-rock.",
+      "Blues-orientierte Anzeigen in Berlin — Gitarristen, Harpspieler, Sänger und Bands mit Fokus auf Blues und Blues-Rock.",
   },
 ];
 

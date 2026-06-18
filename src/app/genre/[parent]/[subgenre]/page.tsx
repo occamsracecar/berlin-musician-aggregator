@@ -45,7 +45,7 @@ export async function generateMetadata({
   const page = getSubgenreBySlug(parent, subgenre);
 
   if (!page) {
-    return { title: "Genre not found" };
+    return { title: "Genre nicht gefunden" };
   }
 
   return {
@@ -121,15 +121,15 @@ export default async function SubgenrePage({
         {entriesWithAuthors.length === 0 ? (
           <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-10 text-center">
             <p className="text-sm text-zinc-600">
-              No {subgenrePage.name.toLowerCase()} listings matched this filter
-              yet.
+              Noch keine {subgenrePage.name.toLowerCase()}-Inserate für diesen
+              Filter.
             </p>
             <p className="mt-3 text-sm">
               <Link
                 href={getParentGenrePath(parent)}
                 className="font-medium text-violet-600 hover:text-violet-800"
               >
-                Browse all {parentGenre.genreTag.toLowerCase()} listings
+                Alle {parentGenre.genreTag.toLowerCase()}-Inserate durchsuchen
               </Link>
               .
             </p>
@@ -159,11 +159,11 @@ export default async function SubgenrePage({
             href={getParentGenrePath(parent)}
             className="font-medium text-violet-600 hover:text-violet-800"
           >
-            ← All {parentGenre.genreTag.toLowerCase()} listings
+            ← Alle {parentGenre.genreTag.toLowerCase()}-Inserate
           </Link>
           {" · "}
           <Link href="/genres" className="font-medium text-violet-600 hover:text-violet-800">
-            All genres
+            Alle Genres
           </Link>
         </p>
       </main>

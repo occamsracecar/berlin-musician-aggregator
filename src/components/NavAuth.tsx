@@ -64,12 +64,12 @@ export function NavAuth() {
         href={loginHref}
         className="shrink-0 rounded-lg border border-violet-200 bg-violet-50 px-3 py-2 text-sm font-medium text-violet-700 transition hover:bg-violet-100"
       >
-        Sign in
+        Anmelden
       </Link>
     );
   }
 
-  const label = user.email?.split("@")[0] ?? "Account";
+  const label = user.email?.split("@")[0] ?? "Konto";
 
   return (
     <div className="flex shrink-0 items-center gap-1 sm:gap-2">
@@ -77,7 +77,7 @@ export function NavAuth() {
         href="/profile"
         className="rounded-lg px-2 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-100 sm:px-3"
       >
-        Profile
+        Profil
       </Link>
       <span className="hidden max-w-[6rem] truncate text-sm text-zinc-500 md:inline lg:max-w-[8rem]">
         {label}
@@ -87,7 +87,7 @@ export function NavAuth() {
         onClick={handleSignOut}
         className="rounded-lg px-2 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-100 sm:px-3"
       >
-        Sign out
+        Abmelden
       </button>
     </div>
   );

@@ -26,13 +26,13 @@ export async function sendListingMessage(
   const body = String(formData.get("body") ?? "").trim();
 
   if (!entryId) {
-    return { success: false, message: "Listing not found." };
+    return { success: false, message: "Inserat nicht gefunden." };
   }
 
   if (!body || body.length > MAX_MESSAGE_LENGTH) {
     return {
       success: false,
-      message: `Please enter a message up to ${MAX_MESSAGE_LENGTH} characters.`,
+      message: `Bitte gib eine Nachricht mit maximal ${MAX_MESSAGE_LENGTH} Zeichen ein.`,
     };
   }
 
@@ -44,7 +44,7 @@ export async function sendListingMessage(
   if (!user?.email) {
     return {
       success: false,
-      message: "Sign in to send a message to the listing author.",
+      message: "Melde dich an, um dem Inserat-Autor eine Nachricht zu senden.",
     };
   }
 
@@ -57,14 +57,15 @@ export async function sendListingMessage(
   if (entryError || !entry || !canReceiveListingMessages(entry)) {
     return {
       success: false,
-      message: "Only community listings posted here can receive messages.",
+      message:
+        "Nur Community-Inserate auf dieser Plattform können Nachrichten empfangen.",
     };
   }
 
   if (entry.created_by === user.id) {
     return {
       success: false,
-      message: "You cannot message your own listing.",
+      message: "Du kannst dein eigenes Inserat nicht kontaktieren.",
     };
   }
 
@@ -80,7 +81,7 @@ export async function sendListingMessage(
     return {
       success: false,
       message:
-        "This listing author has no contact email on their profile yet. They can add one under Profile → Contact email.",
+        "Der Autor dieses Inserats hat noch keine Kontakt-E-Mail im Profil hinterlegt. Er kann sie unter Profil → Kontakt-E-Mail hinzufügen.",
     };
   }
 
@@ -97,7 +98,7 @@ export async function sendListingMessage(
   if (insertError || !inserted) {
     return {
       success: false,
-      message: "Could not send your message. Please try again.",
+      message: "Nachricht konnte nicht gesendet werden. Bitte versuche es erneut.",
     };
   }
 
@@ -136,6 +137,6 @@ export async function sendListingMessage(
   return {
     success: true,
     message:
-      "Your message was sent. The listing author will receive it by email and can reply to you directly.",
+      "Deine Nachricht wurde gesendet. Der Inserat-Autor erhält sie per E-Mail und kann dir direkt antworten.",
   };
 }

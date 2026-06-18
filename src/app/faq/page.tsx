@@ -6,238 +6,247 @@ import { getLegalContactEmail, LEGAL_SERVICE_NAME } from "@/lib/legal-config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ",
+  title: "Häufige Fragen",
   description:
-    "How Berlin Musician Listings works: search musicians and bands in Berlin, post community listings, contact authors, and more.",
+    "So funktioniert Berlin Bandhub: Musiker und Bands in Berlin finden, Community-Inserate schalten, Autorinnen und Autoren kontaktieren und mehr.",
 };
 
 /**
- * Frequently asked questions about using Berlin Musician Listings.
+ * Häufig gestellte Fragen zur Nutzung von Berlin Bandhub.
  */
 export default function FaqPage() {
   const contactEmail = getLegalContactEmail();
 
   return (
-    <LegalPageShell title="Frequently asked questions">
+    <LegalPageShell title="Häufige Fragen">
       <p className="text-zinc-600">
         {LEGAL_SERVICE_NAME} ({" "}
         <Link href="/" className="font-medium text-violet-600 hover:text-violet-800">
           berlinbandhub.de
         </Link>
-        ) helps you find musicians, bands, and collaborators in Berlin. Below
-        are answers to common questions about browsing, posting, and contacting
-        people.
+        ) hilft dir, Musikerinnen, Musiker, Bands und Mitspieler in Berlin zu
+        finden. Unten findest du Antworten auf häufige Fragen zum Stöbern,
+        Veröffentlichen und Kontaktieren.
       </p>
 
-      <LegalSection title="About the site">
-        <FaqItem question="What is Berlin Musician Listings?">
+      <LegalSection title="Über die Seite">
+        <FaqItem question="Was ist Berlin Bandhub?">
           <p>
-            It is a search directory for musician and band listings in Berlin.
-            We aggregate public posts from boards such as Noisy Rooms, Backstage
-            PRO, Berlin Musiker, Musiker-sucht, Bandmix, and mukken, and we also host{" "}
-            <strong>community listings</strong> posted directly on this site.
+            Es ist ein Suchverzeichnis für Musiker- und Band-Inserate in Berlin.
+            Wir sammeln öffentliche Beiträge von Plattformen wie Noisy Rooms,
+            Backstage PRO, Berlin Musiker, Musiker-sucht, Bandmix und mukken und
+            hosten außerdem <strong>Community-Inserate</strong>, die direkt auf
+            dieser Seite veröffentlicht werden.
           </p>
         </FaqItem>
 
-        <FaqItem question="Is it free to use?">
+        <FaqItem question="Ist die Nutzung kostenlos?">
           <p>
-            Yes. Browsing and searching listings is free. Creating an account
-            and posting a community listing is also free.
+            Ja. Das Durchsuchen und Stöbern in Inseraten ist kostenlos. Ein
+            Konto anzulegen und ein Community-Inserat zu veröffentlichen ist
+            ebenfalls kostenlos.
           </p>
         </FaqItem>
 
-        <FaqItem question="What is the difference between aggregated and community listings?">
+        <FaqItem question="Was ist der Unterschied zwischen aggregierten und Community-Inseraten?">
           <p>
-            <strong>Aggregated listings</strong> are imported from external
-            musician boards. They link back to the original post so you can
-            contact the author on that site.
+            <strong>Aggregierte Inserate</strong> werden von externen
+            Musiker-Boards importiert. Sie verlinken zum Originalbeitrag, damit
+            du die Autorin oder den Autor dort kontaktieren kannst.
           </p>
           <p>
-            <strong>Community listings</strong> are posted here by signed-in
-            members. They appear with a community badge and can be contacted
-            through the in-app <strong>Email author</strong> feature.
+            <strong>Community-Inserate</strong> werden hier von angemeldeten
+            Mitgliedern veröffentlicht. Sie erscheinen mit einem
+            Community-Badge und können über die Funktion{" "}
+            <strong>Autor per E-Mail kontaktieren</strong> angeschrieben werden.
           </p>
         </FaqItem>
 
-        <FaqItem question="How often are listings updated?">
+        <FaqItem question="Wie oft werden Inserate aktualisiert?">
           <p>
-            External boards are refreshed regularly by an automated scraper.
-            Community listings appear as soon as they are published. Use the{" "}
-            <strong>Newest first</strong> sort and time filters to see recent
-            posts.
+            Externe Boards werden regelmäßig von einem automatisierten Scraper
+            aktualisiert. Community-Inserate erscheinen sofort nach der
+            Veröffentlichung. Nutze die Sortierung{" "}
+            <strong>Neueste zuerst</strong> und die Zeiträume, um aktuelle
+            Beiträge zu sehen.
           </p>
         </FaqItem>
       </LegalSection>
 
-      <LegalSection title="Searching and browsing">
-        <FaqItem question="How do I find musicians or bands in Berlin?">
+      <LegalSection title="Suchen und Stöbern">
+        <FaqItem question="Wie finde ich Musiker oder Bands in Berlin?">
           <p>
-            Use the search bar and filters on the{" "}
+            Nutze die Suchleiste und Filter auf der{" "}
             <Link href="/" className="font-medium text-violet-600 hover:text-violet-800">
-              browse page
+              Startseite
             </Link>
-            . You can filter by board, genre, listing type (band seeking musician
-            or musician seeking band), and date range.
+            . Du kannst nach Board, Genre, Inseratstyp (Band sucht Musiker oder
+            Musiker sucht Band) und Zeitraum filtern.
           </p>
         </FaqItem>
 
-        <FaqItem question="Can I search in any order?">
+        <FaqItem question="Kann ich in beliebiger Reihenfolge suchen?">
           <p>
-            Yes. Search matches words in any order, so queries like{" "}
-            <em>drummer metal berlin</em> and <em>berlin metal drummer</em> both
-            work.
+            Ja. Die Suche findet Wörter in beliebiger Reihenfolge – Anfragen wie{" "}
+            <em>drummer metal berlin</em> und <em>berlin metal drummer</em>
+            funktionieren beide.
           </p>
         </FaqItem>
 
-        <FaqItem question="What do the listing types mean?">
+        <FaqItem question="Was bedeuten die Inseratstypen?">
           <p>
-            <strong>Band looking for musician</strong> — a band or project
-            searching for a member (e.g. vocalist, drummer).
+            <strong>Band sucht Musiker</strong> — eine Band oder ein Projekt
+            sucht ein Mitglied (z. B. Sängerin, Schlagzeuger).
           </p>
           <p>
-            <strong>Musician looking for band</strong> — an individual searching
-            for a band or collaboration.
+            <strong>Musiker sucht Band</strong> — eine Einzelperson sucht eine
+            Band oder eine Zusammenarbeit.
           </p>
         </FaqItem>
       </LegalSection>
 
-      <LegalSection title="Posting a listing">
-        <FaqItem question="How do I post my own listing?">
+      <LegalSection title="Inserat veröffentlichen">
+        <FaqItem question="Wie veröffentliche ich mein eigenes Inserat?">
           <p>
             <Link
               href="/login"
               className="font-medium text-violet-600 hover:text-violet-800"
             >
-              Sign in
+              Melde dich an
             </Link>{" "}
-            with email or Google, then go to{" "}
+            per E-Mail oder Google an und gehe dann zu{" "}
             <Link
               href="/submit"
               className="font-medium text-violet-600 hover:text-violet-800"
             >
-              Submit a listing
+              Inserat veröffentlichen
             </Link>
-            . Add a title, description, genres, and optional contact link.
+            . Füge Titel, Beschreibung, Genres und optional einen Kontaktlink
+            hinzu.
           </p>
         </FaqItem>
 
-        <FaqItem question="Do I need an account to post?">
+        <FaqItem question="Brauche ich ein Konto zum Veröffentlichen?">
           <p>
-            Yes. Community listings are tied to your account so other members
-            can message you and you can manage your posts under{" "}
+            Ja. Community-Inserate sind mit deinem Konto verknüpft, damit andere
+            Mitglieder dir schreiben können und du deine Beiträge unter{" "}
             <Link
               href="/profile"
               className="font-medium text-violet-600 hover:text-violet-800"
             >
-              Profile
+              Profil
+            </Link>{" "}
+            verwalten kannst.
+          </p>
+        </FaqItem>
+
+        <FaqItem question="Kann ich mein Inserat später bearbeiten oder löschen?">
+          <p>
+            Ja. Öffne{" "}
+            <Link
+              href="/profile"
+              className="font-medium text-violet-600 hover:text-violet-800"
+            >
+              Profil
+            </Link>
+            , um von dir veröffentlichte Inserate zu bearbeiten oder zu
+            entfernen.
+          </p>
+        </FaqItem>
+      </LegalSection>
+
+      <LegalSection title="Kontakt aufnehmen">
+        <FaqItem question="Wie kontaktiere ich jemanden zu einem Inserat?">
+          <p>
+            Bei <strong>aggregierten Inseraten</strong> klicke auf{" "}
+            <strong>Original-Inserat ansehen</strong>, um das Quell-Board zu
+            öffnen und die Autorin oder den Autor dort zu kontaktieren.
+          </p>
+          <p>
+            Bei <strong>Community-Inseraten</strong> melde dich an und klicke
+            auf <strong>Autor per E-Mail kontaktieren</strong>. Deine Nachricht
+            wird per E-Mail versendet; die Autorin oder der Autor kann direkt
+            auf deine Konto-E-Mail antworten.
+          </p>
+        </FaqItem>
+
+        <FaqItem question='Warum gibt es bei manchen Inseraten keinen Button „Autor per E-Mail kontaktieren"?'>
+          <p>
+            Nur Community-Inserate auf dieser Seite unterstützen Nachrichten
+            über die App. Gescrapte Inserate von externen Boards müssen auf der
+            Originalseite kontaktiert werden. Manche Community-Inserate haben
+            auch keinen Kontakt-Button, wenn die Autorin oder der Autor keine
+            Kontakt-E-Mail im Profil hinterlegt hat.
+          </p>
+        </FaqItem>
+
+        <FaqItem question="Wohin gehen Antworten, wenn mir jemand schreibt?">
+          <p>
+            Antworten gehen an die <strong>Kontakt-E-Mail</strong> in deinem
+            Profil (standardmäßig deine Anmelde-E-Mail). Du kannst sie unter{" "}
+            <Link
+              href="/profile"
+              className="font-medium text-violet-600 hover:text-violet-800"
+            >
+              Profil → Kontakt-E-Mail
+            </Link>{" "}
+            ändern. Eingehende Nachrichten erscheinen auch unter{" "}
+            <strong>Profil → Nachrichten</strong>.
+          </p>
+        </FaqItem>
+      </LegalSection>
+
+      <LegalSection title="Konto und Profil">
+        <FaqItem question="Was kann ich in meinem Profil angeben?">
+          <p>
+            Anzeigename, Profilfoto, Kontakt-E-Mail und Links zu SoundCloud,
+            YouTube, Bandcamp oder Spotify. Dein Profil wird bei Inseraten
+            angezeigt, die du veröffentlichst.
+          </p>
+        </FaqItem>
+
+        <FaqItem question="Wie lösche ich mein Konto?">
+          <p>
+            Gehe zu{" "}
+            <Link
+              href="/profile"
+              className="font-medium text-violet-600 hover:text-violet-800"
+            >
+              Profil
+            </Link>{" "}
+            und nutze die Kontolöschung im Gefahrenbereich. Dadurch werden dein
+            Konto, deine Inserate und deine Profildaten dauerhaft entfernt.
+          </p>
+        </FaqItem>
+      </LegalSection>
+
+      <LegalSection title="Datenschutz und Rechtliches">
+        <FaqItem question="Welche Daten werden erhoben?">
+          <p>
+            Details zu Kontodaten, Cookies und der Verarbeitung von Inseraten
+            findest du in unserer{" "}
+            <Link
+              href="/datenschutz"
+              className="font-medium text-violet-600 hover:text-violet-800"
+            >
+              Datenschutzerklärung
             </Link>
             .
           </p>
         </FaqItem>
 
-        <FaqItem question="Can I edit or delete my listing later?">
-          <p>
-            Yes. Open{" "}
-            <Link
-              href="/profile"
-              className="font-medium text-violet-600 hover:text-violet-800"
-            >
-              Profile
-            </Link>{" "}
-            to edit or remove listings you have posted.
-          </p>
-        </FaqItem>
-      </LegalSection>
-
-      <LegalSection title="Contacting people">
-        <FaqItem question="How do I contact someone about a listing?">
-          <p>
-            For <strong>aggregated listings</strong>, click{" "}
-            <strong>View original listing</strong> to open the source board and
-            contact the author there.
-          </p>
-          <p>
-            For <strong>community listings</strong>, sign in and click{" "}
-            <strong>Email author</strong>. Your message is sent by email; the
-            author can reply directly to your account email.
-          </p>
-        </FaqItem>
-
-        <FaqItem question="Why is there no Email author button on some listings?">
-          <p>
-            Only community listings posted on this site support in-app messaging.
-            Scraped listings from external boards must be contacted on the
-            original site. Some community listings may also lack a contact email
-            if the author has not set one on their profile.
-          </p>
-        </FaqItem>
-
-        <FaqItem question="Where do replies go when someone emails me?">
-          <p>
-            Replies go to the <strong>contact email</strong> on your profile
-            (defaults to your sign-in email). You can change it under{" "}
-            <Link
-              href="/profile"
-              className="font-medium text-violet-600 hover:text-violet-800"
-            >
-              Profile → Contact email
-            </Link>
-            . Incoming messages also appear under{" "}
-            <strong>Profile → Messages</strong>.
-          </p>
-        </FaqItem>
-      </LegalSection>
-
-      <LegalSection title="Account and profile">
-        <FaqItem question="What can I add to my profile?">
-          <p>
-            A display name, profile photo, contact email, and links to SoundCloud,
-            YouTube, Bandcamp, or Spotify. Your profile appears on listings you
-            post.
-          </p>
-        </FaqItem>
-
-        <FaqItem question="How do I delete my account?">
-          <p>
-            Go to{" "}
-            <Link
-              href="/profile"
-              className="font-medium text-violet-600 hover:text-violet-800"
-            >
-              Profile
-            </Link>{" "}
-            and use the account deletion option in the danger zone. This
-            permanently removes your account, listings, and profile data.
-          </p>
-        </FaqItem>
-      </LegalSection>
-
-      <LegalSection title="Privacy and legal">
-        <FaqItem question="What data do you collect?">
-          <p>
-            See our{" "}
-            <Link
-              href="/datenschutz"
-              className="font-medium text-violet-600 hover:text-violet-800"
-            >
-              Privacy policy
-            </Link>{" "}
-            for details on account data, cookies, and how listings are processed.
-          </p>
-        </FaqItem>
-
-        <FaqItem question="How do I report a problem or ask a legal question?">
+        <FaqItem question="Wie melde ich ein Problem oder stelle eine rechtliche Frage?">
           <p>
             {contactEmail ? (
               <>
-                Email us at{" "}
+                Schreib uns an{" "}
                 <a
                   href={`mailto:${contactEmail}`}
                   className="font-medium text-violet-600 hover:text-violet-800"
                 >
                   {contactEmail}
                 </a>
-                . For operator details, see{" "}
+                . Angaben zum Betreiber findest du im{" "}
                 <Link
                   href="/impressum"
                   className="font-medium text-violet-600 hover:text-violet-800"
@@ -248,14 +257,14 @@ export default function FaqPage() {
               </>
             ) : (
               <>
-                Use the contact options on our{" "}
+                Nutze die Kontaktmöglichkeiten im{" "}
                 <Link
                   href="/impressum"
                   className="font-medium text-violet-600 hover:text-violet-800"
                 >
                   Impressum
-                </Link>{" "}
-                page when available.
+                </Link>
+                , sobald sie verfügbar sind.
               </>
             )}
           </p>

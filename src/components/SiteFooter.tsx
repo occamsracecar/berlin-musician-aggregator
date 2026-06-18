@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCopyrightYear, LEGAL_PAGE_LINKS } from "@/lib/legal-config";
+import { SITE_NAME } from "@/lib/site-branding";
 
 /**
  * Site-wide footer with links to legal pages.
@@ -11,12 +12,12 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-zinc-200 bg-white">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <p className="text-sm text-zinc-500">
-          © {year} Berlin Musician Listings. Aggregated listings from public
-          musician boards.
+          © {year} {SITE_NAME}. Aggregierte Anzeigen von öffentlichen
+          Musikerbörsen.
         </p>
 
         <nav
-          aria-label="Legal"
+          aria-label="Rechtliches"
           className="flex flex-wrap gap-x-5 gap-y-2 text-sm"
         >
           {LEGAL_PAGE_LINKS.map((link) => (

@@ -23,7 +23,7 @@ export function GenreSubgenreNav({
   return (
     <section className="mb-8 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
       <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
-        Browse by style
+        Nach Stil stöbern
       </h2>
       <ul className="mt-3 flex flex-wrap gap-2">
         {visible.map((subgenre) => (

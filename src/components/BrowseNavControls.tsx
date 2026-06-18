@@ -149,7 +149,7 @@ export function BrowseNavControls() {
         id={filtersMenuId}
         ref={panelRef}
         role="dialog"
-        aria-label="Listing filters"
+        aria-label="Inserat-Filter"
         className="fixed z-[100] max-h-[min(70vh,24rem)] overflow-y-auto rounded-xl border border-zinc-200 bg-white p-4 shadow-xl"
         style={{
           top: panelPosition.top,
@@ -165,7 +165,7 @@ export function BrowseNavControls() {
               onChange={(event) => applyFilters({ board: event.target.value })}
               className={selectClassName}
             >
-              <option value="">All boards</option>
+              <option value="">Alle Boards</option>
               {BOARDS.map((boardOption) => (
                 <option key={boardOption.value} value={boardOption.value}>
                   {boardOption.label}
@@ -181,7 +181,7 @@ export function BrowseNavControls() {
               onChange={(event) => applyFilters({ genre: event.target.value })}
               className={selectClassName}
             >
-              <option value="">All genres</option>
+              <option value="">Alle Genres</option>
               {GENRES.map((genreOption) => (
                 <option key={genreOption} value={genreOption}>
                   {genreOption}
@@ -191,13 +191,13 @@ export function BrowseNavControls() {
           </label>
 
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-medium text-zinc-700">Listing type</span>
+            <span className="font-medium text-zinc-700">Inserattyp</span>
             <select
               value={type}
               onChange={(event) => applyFilters({ type: event.target.value })}
               className={selectClassName}
             >
-              <option value="">All listings</option>
+              <option value="">Alle Inserate</option>
               {LISTING_TYPES.map((typeOption) => (
                 <option key={typeOption.value} value={typeOption.value}>
                   {typeOption.label}
@@ -207,7 +207,7 @@ export function BrowseNavControls() {
           </label>
 
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-medium text-zinc-700">Posted</span>
+            <span className="font-medium text-zinc-700">Veröffentlicht</span>
             <select
               value={when}
               onChange={(event) => applyFilters({ when: event.target.value })}
@@ -222,7 +222,7 @@ export function BrowseNavControls() {
           </label>
 
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-medium text-zinc-700">Sort by date</span>
+            <span className="font-medium text-zinc-700">Nach Datum sortieren</span>
             <select
               value={sort}
               onChange={(event) => applyFilters({ sort: event.target.value })}
@@ -250,14 +250,14 @@ export function BrowseNavControls() {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search listings..."
+            placeholder="Inserate suchen…"
             className="min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none ring-violet-500 placeholder:text-zinc-400 focus:ring-2"
           />
           <button
             type="submit"
             className="shrink-0 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700"
           >
-            Search
+            Suchen
           </button>
         </form>
 
@@ -269,7 +269,7 @@ export function BrowseNavControls() {
           onClick={() => setFiltersOpen((open) => !open)}
           className={`${filtersButtonClassName} sm:shrink-0`}
         >
-          Filters
+          Filter
           {activeFilterCount > 0 ? (
             <span className="rounded-full bg-violet-600 px-1.5 py-0.5 text-xs font-semibold text-white">
               {activeFilterCount}

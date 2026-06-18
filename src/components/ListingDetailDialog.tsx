@@ -60,7 +60,7 @@ export function ListingDetailDialog({
         month: "2-digit",
         year: "numeric",
       })
-    : "Unknown date";
+    : "Unbekanntes Datum";
 
   const listingTypeLabel = getListingTypeLabel(entry.listing_type);
   const isNew = isRecentListing(entry.published_at);
@@ -106,7 +106,7 @@ export function ListingDetailDialog({
             type="button"
             onClick={onClose}
             className="shrink-0 rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800"
-            aria-label="Close details"
+            aria-label="Details schließen"
           >
             <span aria-hidden="true" className="text-xl leading-none">
               ×
@@ -133,7 +133,7 @@ export function ListingDetailDialog({
               {entry.description}
             </div>
           ) : (
-            <p className="text-sm text-zinc-500">No description available.</p>
+            <p className="text-sm text-zinc-500">Keine Beschreibung verfügbar.</p>
           )}
 
           <div className="mt-4 px-5 sm:px-6">
@@ -150,7 +150,7 @@ export function ListingDetailDialog({
             onClick={onClose}
             className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
           >
-            Close
+            Schließen
           </button>
         </div>
       </div>

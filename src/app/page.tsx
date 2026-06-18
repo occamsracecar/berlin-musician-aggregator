@@ -95,13 +95,13 @@ function formatResultRange(
   visibleCount: number,
 ): string {
   if (total === 0) {
-    return "No listings matched your filters.";
+    return "Keine Anzeigen entsprechen deinen Filtern.";
   }
 
   const start = (page - 1) * ENTRIES_PER_PAGE + 1;
   const end = start + visibleCount - 1;
 
-  return `Showing ${start.toLocaleString("de-DE")}–${end.toLocaleString("de-DE")} of ${total.toLocaleString("de-DE")} listing${total === 1 ? "" : "s"}`;
+  return `${start.toLocaleString("de-DE")}–${end.toLocaleString("de-DE")} von ${total.toLocaleString("de-DE")} Anzeige${total === 1 ? "" : "n"}`;
 }
 
 type HomeSearchParams = ListingFiltersState & {
@@ -179,14 +179,14 @@ export default async function Home({
       <header className="border-b border-zinc-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
           <p className="text-sm font-medium uppercase tracking-wide text-violet-600">
-            Berlin Musician Listings
+            Berlin Bandhub
           </p>
           <h1 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900">
-            Find musicians or join a band in Berlin
+            Musiker finden oder einer Band in Berlin beitreten
           </h1>
           <p className="mt-2 text-sm text-zinc-600">
-            Search all listings from Noisy Rooms, Backstage-Pro, Berlin Musiker
-            and more.
+            Durchsuche Anzeigen von Noisy Rooms, Backstage PRO, Berlin Musiker
+            und mehr.
           </p>
         </div>
       </header>
@@ -199,7 +199,7 @@ export default async function Home({
         {entriesWithAuthors.length === 0 ? (
           <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-10 text-center">
             <p className="text-sm text-zinc-600">
-              No listings matched your filters.
+              Keine Anzeigen entsprechen deinen Filtern.
             </p>
           </div>
         ) : (

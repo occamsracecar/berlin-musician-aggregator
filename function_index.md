@@ -107,7 +107,8 @@
 | `src/lib/legal-config.ts` | `getLegalContactEmail()` | Optional legal contact email from env |
 | `src/lib/legal-config.ts` | `LEGAL_SERVICE_NAME` | Site name on legal pages (no personal details) |
 | `src/lib/legal-config.ts` | `LEGAL_PAGE_LINKS` | Footer links to legal routes |
-| `src/lib/site-branding.ts` | `SITE_LOGO_SOURCES` | Public logo paths and alt text |
+| `src/lib/site-branding.ts` | `SITE_NAME` | Public site name (Berlin Bandhub) |
+| `src/lib/site-branding.ts` | `SITE_LOGO_ALT` | Alt text for site logo |
 | `src/components/AuthPageBrand.tsx` | `AuthPageBrand()` | Logo and heading on login page |
 | `src/components/AppNav.tsx` | `AppNav()` | Browse / Submit navigation tabs |
 | `src/hooks/use-listing-filters.ts` | `useListingFilters()` | Syncs browse filters with URL search params |

@@ -57,13 +57,13 @@ export function formatGenreResultRange(
   visibleCount: number,
 ): string {
   if (total === 0) {
-    return "No listings in this genre yet.";
+    return "Keine Anzeigen in diesem Genre.";
   }
 
   const start = (page - 1) * ENTRIES_PER_PAGE + 1;
   const end = start + visibleCount - 1;
 
-  return `Showing ${start.toLocaleString("de-DE")}–${end.toLocaleString("de-DE")} of ${total.toLocaleString("de-DE")} listing${total === 1 ? "" : "s"}`;
+  return `${start.toLocaleString("de-DE")}–${end.toLocaleString("de-DE")} von ${total.toLocaleString("de-DE")} Anzeige${total === 1 ? "" : "n"}`;
 }
 
 /**

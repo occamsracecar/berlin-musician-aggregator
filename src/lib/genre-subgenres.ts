@@ -13,6 +13,7 @@ export type SubgenrePage = {
   title: string;
   metaDescription: string;
   intro: string;
+  seoParagraph: string;
 };
 
 type SubgenreSeed = {
@@ -21,7 +22,18 @@ type SubgenreSeed = {
   keywords: string[];
   intro: string;
   metaDescription?: string;
+  seoParagraph?: string;
 };
+
+/**
+ * Builds a bottom-of-page SEO paragraph for a subgenre category.
+ */
+function buildSubgenreSeoParagraph(
+  name: string,
+  parentGenreTag: string,
+): string {
+  return `Diese Seite bündelt Musiker- und Band-Inserate für ${name} in Berlin. Im ${parentGenreTag}-Spektrum der Hauptstadt suchen Projekte und Einzelmusiker laufend nach Verstärkung — ob fester Bandplatz, Session-Gig oder neue Kollaboration. Berlin Bandhub sammelt passende Anzeigen aus Musikerbörsen wie Berlin Musiker, Backstage PRO und Noisy Rooms sowie aus der Community und stellt sie hier übersichtlich dar. So findest du schneller Kontakte für dein ${name}-Projekt, ohne jedes Portal einzeln durchsuchen zu müssen.`;
+}
 
 /**
  * Builds SEO fields for a subgenre page from its display name.
@@ -54,6 +66,9 @@ function createSubgenre(parentSlug: string, seed: SubgenreSeed): SubgenrePage {
     name: seed.name,
     keywords: seed.keywords,
     ...seo,
+    seoParagraph:
+      seed.seoParagraph ??
+      buildSubgenreSeoParagraph(seed.name, parent.genreTag),
   };
 }
 

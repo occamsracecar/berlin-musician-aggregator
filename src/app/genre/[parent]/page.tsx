@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AppNav } from "@/components/AppNav";
 import { GenrePagination } from "@/components/GenrePagination";
+import { GenreSeoParagraph } from "@/components/GenreSeoParagraph";
 import { GenreSubgenreNav } from "@/components/GenreSubgenreNav";
 import { ListingCard } from "@/components/ListingCard";
 import { ENTRIES_PER_PAGE } from "@/lib/constants";
@@ -153,6 +154,11 @@ export default async function GenrePage({
             />
           </>
         )}
+
+        <GenreSeoParagraph
+          heading={`${genre.genreTag} in Berlin — Musiker & Bands finden`}
+          text={genre.seoParagraph}
+        />
 
         <p className="mt-8 text-sm text-zinc-500">
           <Link href="/genres" className="font-medium text-violet-600 hover:text-violet-800">

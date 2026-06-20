@@ -78,6 +78,7 @@
 | `src/lib/genre-listings.ts` | `fetchSubgenreCountsForParent()` | Listing counts for subgenres on a parent page |
 | `src/lib/genre-listings.ts` | `buildSubgenreSearchFilter()` | PostgREST OR filter for subgenre keywords |
 | `src/components/GenrePagination.tsx` | `GenrePagination()` | Previous/next links on genre pages |
+| `src/components/GenreSeoParagraph.tsx` | `GenreSeoParagraph()` | Bottom SEO text block on genre category pages |
 | `src/components/GenreSubgenreNav.tsx` | `GenreSubgenreNav()` | Subgenre pill links on parent genre pages |
 | `src/app/genres/page.tsx` | `GenresHubPage()` | Hub linking to all parent genre pages |
 | `src/app/genre/[parent]/page.tsx` | `GenrePage()` | Parent genre category page with listings |

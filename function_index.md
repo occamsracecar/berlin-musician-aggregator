@@ -97,7 +97,7 @@
 | `src/components/ListingNewBadge.tsx` | `ListingNewBadge()` | Shiny badge for listings from the last 7 days |
 | `src/components/ListingPagination.tsx` | `ListingPagination()` | Previous/next page navigation for browse results |
 | `src/components/SiteLogo.tsx` | `SiteLogo()` | Site logo in nav and auth (`public/logo.png`) |
-| `src/components/SiteFooter.tsx` | `SiteFooter()` | Site-wide footer with legal page links |
+| `src/components/SiteFooter.tsx` | `SiteFooter()` | Site-wide footer with parent genre and legal page links |
 | `src/components/LegalPageShell.tsx` | `LegalPageShell()` | Shared layout for legal pages |
 | `src/components/LegalSection.tsx` | `LegalSection()` | Section heading block on legal pages |
 | `src/components/FaqItem.tsx` | `FaqItem()` | Single FAQ question-and-answer block |
@@ -107,7 +107,7 @@
 | `src/app/nutzungsbedingungen/page.tsx` | `TermsPage()` | Terms of use page |
 | `src/lib/legal-config.ts` | `getLegalContactEmail()` | Optional legal contact email from env |
 | `src/lib/legal-config.ts` | `LEGAL_SERVICE_NAME` | Site name on legal pages (no personal details) |
-| `src/lib/legal-config.ts` | `LEGAL_PAGE_LINKS` | Footer links to legal routes |
+| `src/lib/legal-config.ts` | `LEGAL_PAGE_LINKS` | Footer links to FAQ and legal routes |
 | `src/lib/site-branding.ts` | `SITE_NAME` | Public site name (Berlin Bandhub) |
 | `src/lib/site-branding.ts` | `SITE_LOGO_ALT` | Alt text for site logo |
 | `src/components/AuthPageBrand.tsx` | `AuthPageBrand()` | Logo and heading on login page |

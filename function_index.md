@@ -48,7 +48,7 @@
 | `src/components/ProfileMessagesSection.tsx` | `ProfileMessagesSection()` | Inbox of messages on user's listings |
 | `src/components/ProfileMessagesSection.tsx` | `buildProfileListingMessages()` | Joins messages with titles and senders |
 | `middleware.ts` | `middleware()` | Session refresh; protects `/submit` |
-| `src/components/AuthForm.tsx` | `AuthForm()` | Email/password and Google auth form |
+| `src/components/AuthForm.tsx` | `AuthForm()` | Email/password and Google auth form; optional signup mode |
 | `src/components/NavAuth.tsx` | `NavAuth()` | Sign in / sign out in nav |
 | `src/components/ContactListingDialog.tsx` | `ContactListingDialog()` | Message modal for listing authors |
 | `src/components/ListingContactActions.tsx` | `ListingContactActions()` | Send message and outbound links |
@@ -87,7 +87,7 @@
 | `src/lib/search.ts` | `buildSearchOrFilter()` | PostgREST OR filter for compact phrase or all words in any order |
 | `src/lib/constants.ts` | `getBoardLabel()` | Maps board slug to friendly label |
 | `src/lib/constants.ts` | `getBoardFaviconHost()` | Hostname for board favicon lookup |
-| `src/lib/constants.ts` | `getBoardFaviconUrl()` | Favicon URL for a board slug |
+| `src/lib/constants.ts` | `getBoardFaviconUrl()` | Same-origin path for a locally hosted board icon |
 | `src/components/BoardTag.tsx` | `BoardTag()` | Board pill with favicon and label |
 | `src/components/BoardTag.tsx` | `CommunityBoardIcon()` | Inline icon for community listings |
 | `src/lib/constants.ts` | `getListingTypeLabel()` | Maps listing type to friendly label |
@@ -98,15 +98,19 @@
 | `src/components/ListingPagination.tsx` | `ListingPagination()` | Previous/next page navigation for browse results |
 | `src/components/SiteLogo.tsx` | `SiteLogo()` | Site logo in nav and auth (`public/logo.png`) |
 | `src/components/SiteFooter.tsx` | `SiteFooter()` | Site-wide footer with parent genre and legal page links |
+| `src/components/LegalNoticeLinks.tsx` | `LegalNoticeLinks()` | Datenschutz and terms links at signup and submit |
 | `src/components/LegalPageShell.tsx` | `LegalPageShell()` | Shared layout for legal pages |
 | `src/components/LegalSection.tsx` | `LegalSection()` | Section heading block on legal pages |
 | `src/components/FaqItem.tsx` | `FaqItem()` | Single FAQ question-and-answer block |
 | `src/app/faq/page.tsx` | `FaqPage()` | Frequently asked questions page |
-| `src/app/impressum/page.tsx` | `ImpressumPage()` | Impressum (legal notice) page |
+| `src/app/impressum/page.tsx` | `ImpressumPage()` | Impressum with operator name and email (no postal address) |
 | `src/app/datenschutz/page.tsx` | `PrivacyPage()` | Privacy policy (GDPR) page |
 | `src/app/nutzungsbedingungen/page.tsx` | `TermsPage()` | Terms of use page |
-| `src/lib/legal-config.ts` | `getLegalContactEmail()` | Optional legal contact email from env |
-| `src/lib/legal-config.ts` | `LEGAL_SERVICE_NAME` | Site name on legal pages (no personal details) |
+| `src/lib/legal-config.ts` | `getLegalContactEmail()` | Public legal contact email (env override) |
+| `src/lib/legal-config.ts` | `LEGAL_OPERATOR_NAME` | Natural-person operator name for legal pages |
+| `src/lib/legal-config.ts` | `LEGAL_CONTACT_EMAIL` | Default public legal inbox |
+| `src/lib/legal-config.ts` | `LEGAL_PRIVACY_STAND` | Datenschutz “Stand” month |
+| `src/lib/legal-config.ts` | `LEGAL_SERVICE_NAME` | Site name on legal pages |
 | `src/lib/legal-config.ts` | `LEGAL_PAGE_LINKS` | Footer links to FAQ and legal routes |
 | `src/lib/site-branding.ts` | `SITE_NAME` | Public site name (Berlin Bandhub) |
 | `src/lib/site-branding.ts` | `SITE_LOGO_ALT` | Alt text for site logo |
@@ -116,6 +120,7 @@
 | `src/components/BrowseNavControls.tsx` | `BrowseNavControls()` | Nav search bar and filters dropdown |
 | `src/components/AppNav.tsx` | `AppNav()` | Top nav tabs; optional sticky bar and children |
 | `src/components/SubmitListingForm.tsx` | `SubmitListingForm()` | Client form for posting community listings |
+| `src/components/SubmitListingForm.tsx` | `SubmitAuthLinks()` | Sign-in and register links back to /submit |
 | `src/components/ListingCard.tsx` | `ListingCard()` | Renders listing card with preview, Details modal, and outbound link |
 | `src/components/ListingDetailDialog.tsx` | `ListingDetailDialog()` | Modal showing full listing description and metadata |
 | `src/types/entry.ts` | `Entry` | TypeScript type for database rows |
@@ -136,7 +141,13 @@
 | `scripts/lib/page-utils.js` | `dismissConsentDialogs()` | Closes cookie banners before scraping |
 | `scripts/lib/page-utils.js` | `blockHeavyAssets()` | Skips images/fonts on CI for faster loads |
 | `scripts/lib/page-utils.js` | `isBotChallengePage()` | Detects Cloudflare interstitial pages |
+| `scripts/lib/listing-dedupe.js` | `listingContentKey()` | Board + normalized body fingerprint for duplicate ads |
+| `scripts/lib/listing-dedupe.js` | `preferEntry()` | Chooses which duplicate listing URL to keep |
+| `scripts/lib/listing-dedupe.js` | `dedupeEntriesByContent()` | Collapses scraped rows that share a listing body |
+| `scripts/lib/listing-dedupe.js` | `rejectKnownContentDuplicates()` | Drops new URLs whose body is already stored |
+| `scripts/dedupe-entries.js` | `dedupeStoredEntries()` | Deletes duplicate scraped listings, keeping one URL per body |
 | `scripts/lib/scrape-context.js` | `loadKnownUrlsByBoard()` | Loads existing URLs per board for incremental scrapes |
+| `scripts/lib/scrape-context.js` | `loadKnownContentKeys()` | Loads stored listing-body fingerprints |
 | `scripts/scrape.js` | `scrapeBoard()` | Runs one board scraper; logs errors without stopping others |
 | `scripts/lib/supabase.js` | `createScraperSupabaseClient()` | Admin Supabase client for scraper |
 | `scripts/lib/supabase.js` | `upsertEntries()` | Batched upserts on `original_url` conflict |

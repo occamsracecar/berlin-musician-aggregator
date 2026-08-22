@@ -17,7 +17,7 @@ export function BoardTag({ boardName }: BoardTagProps) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-violet-50 px-2.5 py-1 font-medium text-violet-700">
       {faviconUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element -- external favicon, tiny size
+        // eslint-disable-next-line @next/next/no-img-element -- local ico/svg/png board icon
         <img
           src={faviconUrl}
           alt=""

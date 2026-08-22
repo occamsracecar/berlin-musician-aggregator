@@ -1,17 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { LegalNoticeLinks } from "@/components/LegalNoticeLinks";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 type AuthFormProps = {
   nextPath?: string;
+  initialMode?: "signin" | "signup";
 };
 
 /**
  * Email/password and Google sign-in form for Supabase Auth.
  */
-export function AuthForm({ nextPath = "/" }: AuthFormProps) {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+export function AuthForm({
+  nextPath = "/",
+  initialMode = "signin",
+}: AuthFormProps) {
+  const [mode, setMode] = useState<"signin" | "signup">(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -95,6 +100,8 @@ export function AuthForm({ nextPath = "/" }: AuthFormProps) {
 
   return (
     <div className="flex flex-col gap-5">
+      <LegalNoticeLinks context="auth" />
+
       <button
         type="button"
         disabled={pending}

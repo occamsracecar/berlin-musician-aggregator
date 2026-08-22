@@ -4,7 +4,7 @@ import { AuthForm } from "@/components/AuthForm";
 import { AuthPageBrand } from "@/components/AuthPageBrand";
 
 type LoginPageProps = {
-  searchParams: Promise<{ next?: string; error?: string }>;
+  searchParams: Promise<{ next?: string; error?: string; mode?: string }>;
 };
 
 const ERROR_MESSAGES: Record<string, string> = {
@@ -19,6 +19,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
   const nextPath = params.next ?? "/submit";
+  const initialMode = params.mode === "signup" ? "signup" : "signin";
   const errorMessage = params.error
     ? (ERROR_MESSAGES[params.error] ?? "Etwas ist schiefgelaufen.")
     : null;
@@ -53,7 +54,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           ) : null}
 
           <div className="mt-6">
-            <AuthForm nextPath={nextPath} />
+            <AuthForm nextPath={nextPath} initialMode={initialMode} />
           </div>
         </div>
       </main>

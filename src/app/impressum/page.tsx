@@ -1,6 +1,10 @@
 import { LegalPageShell } from "@/components/LegalPageShell";
 import { LegalSection } from "@/components/LegalSection";
-import { getLegalContactEmail, LEGAL_SERVICE_NAME } from "@/lib/legal-config";
+import {
+  getLegalContactEmail,
+  LEGAL_OPERATOR_NAME,
+  LEGAL_SERVICE_NAME,
+} from "@/lib/legal-config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * Impressum — nur Seitenname, keine persönlichen Betreiberangaben.
+ * Impressum with operator name and email. No postal street address is published.
  */
 export default function ImpressumPage() {
   const contactEmail = getLegalContactEmail();
@@ -17,40 +21,34 @@ export default function ImpressumPage() {
   return (
     <LegalPageShell title="Impressum">
       <p className="text-zinc-600">
-        Angaben gemäß § 5 TMG (Telemediengesetz) und § 18 MStV.
+        Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz) und § 18 MStV.
       </p>
 
       <LegalSection title="Diensteanbieter">
+        <p>{LEGAL_OPERATOR_NAME}</p>
         <p>{LEGAL_SERVICE_NAME}</p>
         <p className="text-zinc-600">
-          Ein Aggregator für Musiker-Inserate in Berlin. Community-Inserate
-          werden von registrierten Nutzerinnen und Nutzern veröffentlicht;
-          aggregierte Inserate stammen von öffentlichen Drittanbieter-Boards.
+          Privates, nicht-kommerzielles Angebot: ein Aggregator für
+          Musiker-Inserate in Berlin. Community-Inserate werden von
+          registrierten Nutzerinnen und Nutzern veröffentlicht; aggregierte
+          Inserate stammen von öffentlichen Drittanbieter-Boards.
         </p>
       </LegalSection>
 
       <LegalSection title="Kontakt">
-        {contactEmail ? (
-          <p>
-            E-Mail:{" "}
-            <a
-              href={`mailto:${contactEmail}`}
-              className="font-medium text-violet-600 hover:text-violet-800"
-            >
-              {contactEmail}
-            </a>
-          </p>
-        ) : (
-          <p>
-            Für Community-Inserate nutze die Nachrichtenfunktion direkt beim
-            Inserat. Für rechtliche Anfragen zu dieser Website verwende die
-            Kontaktmöglichkeiten, sobald sie auf der Seite veröffentlicht sind.
-          </p>
-        )}
+        <p>
+          E-Mail:{" "}
+          <a
+            href={`mailto:${contactEmail}`}
+            className="font-medium text-violet-600 hover:text-violet-800"
+          >
+            {contactEmail}
+          </a>
+        </p>
       </LegalSection>
 
       <LegalSection title="Verantwortlich für den Inhalt (§ 18 Abs. 2 MStV)">
-        <p>{LEGAL_SERVICE_NAME}</p>
+        <p>{LEGAL_OPERATOR_NAME}</p>
       </LegalSection>
 
       <LegalSection title="Haftung für Inhalte">

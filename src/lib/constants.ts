@@ -84,8 +84,18 @@ export function getBoardFaviconHost(boardName: string): string | null {
   return boardName;
 }
 
+/** Local board icons in `public/board-icons/` — never fetched from Google. */
+const BOARD_ICON_FILES: Record<string, string> = {
+  "berlinmusiker.de": "/board-icons/berlinmusiker.de.png",
+  "musiker-sucht.de": "/board-icons/musiker-sucht.de.ico",
+  "noisy-rooms.com": "/board-icons/noisy-rooms.com.ico",
+  "backstagepro.de": "/board-icons/backstagepro.de.ico",
+  "bandmix.de": "/board-icons/bandmix.de.ico",
+  "mukken.com": "/board-icons/mukken.com.svg",
+};
+
 /**
- * Returns a favicon URL for a board slug, or null when no external site applies.
+ * Returns a same-origin favicon path for a board slug, or null when none exists.
  */
 export function getBoardFaviconUrl(boardName: string): string | null {
   const host = getBoardFaviconHost(boardName);
@@ -94,7 +104,7 @@ export function getBoardFaviconUrl(boardName: string): string | null {
     return null;
   }
 
-  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=32`;
+  return BOARD_ICON_FILES[host] ?? null;
 }
 
 /**

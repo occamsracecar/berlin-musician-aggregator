@@ -9,11 +9,16 @@ const { classifyEntry } = require("./lib/classify");
 const {
   isIncrementalScrape,
   loadKnownUrlsByBoard,
+  loadKnownContentKeys,
 } = require("./lib/scrape-context");
 const {
   createScraperSupabaseClient,
   upsertEntries,
 } = require("./lib/supabase");
+const {
+  dedupeEntriesByContent,
+  rejectKnownContentDuplicates,
+} = require("./lib/listing-dedupe");
 const { blockHeavyAssets, isCiEnvironment } = require("./lib/page-utils");
 
 /** Boards scraped on each full run, in priority order. */
@@ -61,14 +66,13 @@ async function runScrape() {
     );
   }
 
-  let knownUrlsByBoard = new Map();
+  const knownUrlsByBoard = await loadKnownUrlsByBoard(supabase);
+  const totalKnown = [...knownUrlsByBoard.values()].reduce(
+    (sum, urls) => sum + urls.size,
+    0,
+  );
 
   if (incremental) {
-    knownUrlsByBoard = await loadKnownUrlsByBoard(supabase);
-    const totalKnown = [...knownUrlsByBoard.values()].reduce(
-      (sum, urls) => sum + urls.size,
-      0,
-    );
     console.log(
       `Incremental scrape: ${totalKnown} known URLs loaded from database`,
     );
@@ -99,7 +103,9 @@ async function runScrape() {
       const boardPage = await context.newPage();
       const scrapeOptions = {
         incremental,
-        knownUrls: knownUrlsByBoard.get(board.id) ?? new Set(),
+        knownUrls: incremental
+          ? (knownUrlsByBoard.get(board.id) ?? new Set())
+          : new Set(),
       };
 
       try {
@@ -152,8 +158,19 @@ async function runScrape() {
       uniqueByUrl.set(entry.original_url, entry);
     }
 
-    const entries = [...uniqueByUrl.values()];
-    console.log(`\nUpserting ${entries.length} unique listings...`);
+    const knownUrls = new Set(
+      [...knownUrlsByBoard.values()].flatMap((urls) => [...urls]),
+    );
+    const knownContentKeys = await loadKnownContentKeys(supabase);
+    const withoutKnownBodies = rejectKnownContentDuplicates(
+      [...uniqueByUrl.values()],
+      knownContentKeys,
+      knownUrls,
+    );
+    const entries = dedupeEntriesByContent(withoutKnownBodies);
+    console.log(
+      `\nUpserting ${entries.length} unique listings (from ${uniqueByUrl.size} URLs)...`,
+    );
 
     const { count, error } = await upsertEntries(supabase, entries);
 

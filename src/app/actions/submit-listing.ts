@@ -8,6 +8,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 export type SubmitListingState = {
   success: boolean;
   message: string;
+  code?: "unauthenticated";
 };
 
 const COMMUNITY_BOARD = "community";
@@ -27,6 +28,7 @@ export async function submitListing(
   if (!user) {
     return {
       success: false,
+      code: "unauthenticated",
       message: "Melde dich an, um ein Inserat zu veröffentlichen.",
     };
   }

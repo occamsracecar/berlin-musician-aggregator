@@ -12,18 +12,21 @@ function buildListingUrl(pageIndex) {
 }
 
 /**
- * Normalizes a noisy-rooms listing URL to an absolute canonical form.
+ * Normalizes a noisy-rooms listing URL (drops /index.php aliases).
  */
 function normalizeListingUrl(href) {
   if (!href) {
     return null;
   }
 
-  if (href.startsWith("http")) {
-    return href;
-  }
+  const absolute = href.startsWith("http")
+    ? href
+    : `https://noisy-rooms.com${href.startsWith("/") ? href : `/${href}`}`;
 
-  return `https://noisy-rooms.com${href.startsWith("/") ? href : `/${href}`}`;
+  return absolute.replace(
+    /^https:\/\/noisy-rooms\.com\/index\.php(?=\/|$)/i,
+    "https://noisy-rooms.com",
+  );
 }
 
 /**

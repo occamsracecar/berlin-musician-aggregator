@@ -1,11 +1,13 @@
 import { AppNav } from "@/components/AppNav";
 import { DeleteAccountSection } from "@/components/DeleteAccountSection";
+import { FirstListingProfileBanner } from "@/components/FirstListingProfileBanner";
 import {
   buildProfileListingMessages,
   ProfileMessagesSection,
 } from "@/components/ProfileMessagesSection";
 import { ProfileForm } from "@/components/ProfileForm";
 import { UserListingsSection } from "@/components/UserListingsSection";
+import { isFirstListingProfileSetup } from "@/lib/first-listing-setup";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Entry } from "@/types/entry";
 import type { Profile } from "@/types/profile";
@@ -13,10 +15,14 @@ import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
+type ProfilePageProps = {
+  searchParams: Promise<{ from?: string }>;
+};
+
 /**
  * Signed-in user's profile settings and editable listings.
  */
-export default async function ProfilePage() {
+export default async function ProfilePage({ searchParams }: ProfilePageProps) {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -25,6 +31,10 @@ export default async function ProfilePage() {
   if (!user) {
     redirect("/login?next=/profile");
   }
+
+  const fromFirstListing = isFirstListingProfileSetup(
+    (await searchParams).from,
+  );
 
   const [{ data: profile }, { data: listings }] = await Promise.all([
     supabase
@@ -97,11 +107,14 @@ export default async function ProfilePage() {
           </p>
         </div>
 
+        {fromFirstListing ? <FirstListingProfileBanner /> : null}
+
         <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
           <ProfileForm
             userId={user.id}
             profile={(profile as Profile | null) ?? null}
             email={user.email ?? ""}
+            showContinueToSubmit={fromFirstListing}
           />
         </div>
 

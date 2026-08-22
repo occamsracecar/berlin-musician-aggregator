@@ -199,7 +199,13 @@ export default function PrivacyPage() {
           ), damit du eingeloggt bleibst. Rechtsgrundlage ist § 25 Abs. 2 TDDDG
           (unbedingt erforderlich) zusammen mit Art. 6 Abs. 1 lit. b DSGVO.
           Ohne diese Cookies funktioniert das Konto nicht. Es gibt deshalb
-          kein Einwilligungs-Banner.
+          kein Einwilligungs-Banner. Vor dem ersten Community-Inserat speichern
+          wir außerdem ein Cookie (
+          <code className="rounded bg-zinc-100 px-1">
+            bbh_first_profile_seen
+          </code>
+          ), wenn du den Profil-Hinweis überspringst oder aufrufst, damit er
+          nicht erneut erscheint.
         </p>
       </LegalSection>
 

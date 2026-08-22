@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import {
   updateProfile,
@@ -24,12 +25,18 @@ type ProfileFormProps = {
   userId: string;
   profile: Profile | null;
   email: string;
+  showContinueToSubmit?: boolean;
 };
 
 /**
  * Editable profile form with avatar upload and music platform links.
  */
-export function ProfileForm({ userId, profile, email }: ProfileFormProps) {
+export function ProfileForm({
+  userId,
+  profile,
+  email,
+  showContinueToSubmit = false,
+}: ProfileFormProps) {
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? null);
   const [state, formAction, isPending] = useActionState(
     updateProfile,
@@ -118,13 +125,23 @@ export function ProfileForm({ userId, profile, email }: ProfileFormProps) {
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={isPending}
-        className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
-      >
-        {isPending ? "Wird gespeichert…" : "Profil speichern"}
-      </button>
+      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end">
+        {showContinueToSubmit ? (
+          <Link
+            href="/submit"
+            className="rounded-lg border border-zinc-200 px-4 py-2.5 text-center text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+          >
+            Weiter zum Inserat
+          </Link>
+        ) : null}
+        <button
+          type="submit"
+          disabled={isPending}
+          className="rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-700 disabled:opacity-60"
+        >
+          {isPending ? "Wird gespeichert…" : "Profil speichern"}
+        </button>
+      </div>
     </form>
   );
 }

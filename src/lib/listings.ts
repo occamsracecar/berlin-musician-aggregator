@@ -1,3 +1,4 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Entry } from "@/types/entry";
 
 const COMMUNITY_BOARD = "community";
@@ -25,4 +26,24 @@ export function canReceiveListingMessages(
   entry: Pick<Entry, "board_name" | "created_by">,
 ): boolean {
   return isCommunityListing(entry);
+}
+
+/**
+ * Counts community listings authored by this user, or null if the query fails.
+ */
+export async function countUserCommunityListings(
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<number | null> {
+  const { count, error } = await supabase
+    .from("entries")
+    .select("id", { count: "exact", head: true })
+    .eq("created_by", userId)
+    .eq("board_name", COMMUNITY_BOARD);
+
+  if (error) {
+    return null;
+  }
+
+  return count ?? 0;
 }

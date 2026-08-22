@@ -1,14 +1,33 @@
+import { cookies } from "next/headers";
 import { AppNav } from "@/components/AppNav";
+import { FirstListingProfileDialog } from "@/components/FirstListingProfileDialog";
 import { SubmitListingForm } from "@/components/SubmitListingForm";
+import {
+  FIRST_LISTING_PROFILE_COOKIE,
+  shouldPromptFirstListingProfileSetup,
+} from "@/lib/first-listing-setup";
+import { countUserCommunityListings } from "@/lib/listings";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Community listing submission page, with a one-time first-listing profile prompt.
+ */
 export default async function SubmitPage() {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const cookieStore = await cookies();
+  const communityListingCount = user
+    ? await countUserCommunityListings(supabase, user.id)
+    : null;
+  const promptFirstProfile = shouldPromptFirstListingProfileSetup({
+    isSignedIn: Boolean(user),
+    communityListingCount,
+    cookieValue: cookieStore.get(FIRST_LISTING_PROFILE_COOKIE)?.value,
+  });
 
   return (
     <div className="min-h-full bg-zinc-50">
@@ -41,6 +60,8 @@ export default async function SubmitPage() {
           <SubmitListingForm />
         </div>
       </main>
+
+      <FirstListingProfileDialog initiallyOpen={promptFirstProfile} />
     </div>
   );
 }

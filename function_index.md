@@ -7,7 +7,7 @@
 | `src/app/page.tsx` | `fetchEntries()` | Fetches paginated entries with search, filters, and sort |
 | `src/app/page.tsx` | `formatResultRange()` | Formats the visible listing range summary |
 | `src/app/page.tsx` | `Home()` | Server page rendering filters and listing grid |
-| `src/app/submit/page.tsx` | `SubmitPage()` | Community listing submission page (signed-in) |
+| `src/app/submit/page.tsx` | `SubmitPage()` | Community listing submission page with first-listing profile prompt |
 | `src/app/login/page.tsx` | `LoginPage()` | Email and Google sign-in / sign-up |
 | `src/app/auth/callback/route.ts` | `GET` | OAuth and email confirmation callback |
 | `src/app/actions/submit-listing.ts` | `submitListing()` | Inserts community listing for authenticated user |
@@ -44,6 +44,13 @@
 | `src/lib/listings.ts` | `isCommunityListing()` | Community board listing with author |
 | `src/lib/listings.ts` | `canReceiveListingMessages()` | Whether listing supports email contact |
 | `src/lib/listings.ts` | `isUserSubmittedListing()` | Whether listing has a `created_by` author |
+| `src/lib/listings.ts` | `countUserCommunityListings()` | Counts a user's community listings, or null on error |
+| `src/lib/first-listing-setup.ts` | `isFirstListingProfileSeen()` | Whether the first-listing profile cookie is set |
+| `src/lib/first-listing-setup.ts` | `isFirstListingProfileSetup()` | Whether profile was opened from the first-listing prompt |
+| `src/lib/first-listing-setup.ts` | `shouldPromptFirstListingProfileSetup()` | Whether to show the one-time first-listing profile prompt |
+| `src/app/actions/mark-first-listing-profile-seen.ts` | `markFirstListingProfileSeen()` | Stores skip/seen cookie for the first-listing profile prompt |
+| `src/components/FirstListingProfileDialog.tsx` | `FirstListingProfileDialog()` | Skippable modal before a user's first community listing |
+| `src/components/FirstListingProfileBanner.tsx` | `FirstListingProfileBanner()` | Profile callout with continue link after the first-listing prompt |
 | `src/components/ListingDeepLink.tsx` | `ListingDeepLink()` | Opens detail modal from `?listing=` URL |
 | `src/components/ProfileMessagesSection.tsx` | `ProfileMessagesSection()` | Inbox of messages on user's listings |
 | `src/components/ProfileMessagesSection.tsx` | `buildProfileListingMessages()` | Joins messages with titles and senders |
@@ -56,7 +63,7 @@
 | `src/app/actions/update-profile.ts` | `updateProfile()` | Saves profile and social URLs |
 | `src/lib/profiles.ts` | `attachAuthorProfiles()` | Joins author profiles onto listings |
 | `src/lib/profile-urls.ts` | `validateSocialUrl()` | Validates music platform URLs |
-| `src/components/ProfileForm.tsx` | `ProfileForm()` | Profile edit form |
+| `src/components/ProfileForm.tsx` | `ProfileForm()` | Profile edit form; optional continue-to-submit after first-listing prompt |
 | `src/components/ProfileAvatarUpload.tsx` | `ProfileAvatarUpload()` | Drag-and-drop avatar upload |
 | `src/components/ProfileSocialIcons.tsx` | `ProfileSocialIcons()` | Platform icon links on listings |
 | `src/components/ProfileAuthorStrip.tsx` | `ProfileAuthorStrip()` | Avatar + social row on listing cards |
